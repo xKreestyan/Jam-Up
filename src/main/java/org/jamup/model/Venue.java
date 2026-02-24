@@ -5,17 +5,17 @@ import java.util.List;
 
 public class Venue {
 
-    private int id;
+    private String id;
     private String name;
     private List<MusicGenre> genres;
     private String location;
     private AvailabilityCalendar calendar;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -51,7 +51,7 @@ public class Venue {
         this.calendar = calendar;
     }
 
-    public Venue(int id, String name, List<MusicGenre> genres, String location) {
+    public Venue(String id, String name, List<MusicGenre> genres, String location) {
         this.id = id;
         this.name = name;
         this.genres = genres;

@@ -10,7 +10,13 @@ public class AvailabilityCalendar {
     private List<TimeSlot> slots;
 
     public List<LocalTime> availableTimesForDate(LocalDate date) {
-        return new ArrayList<>();
+        List<LocalTime> result = new ArrayList<>();
+        for (TimeSlot slot : slots) {
+            if (slot.getDate().equals(date)) {
+                result.add(slot.getTime());
+            }
+        }
+        return result;
     }
 
     public void addSlot(LocalDate date, LocalTime time) {

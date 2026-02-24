@@ -11,7 +11,7 @@ public class Reservation {
     private Venue venue;
     private TimeSlot reservedSlot;
 
-    private void updateStatus(ReservationStatus status) {
+    public void updateStatus(ReservationStatus status) {
         this.status = status;
     }
 
