@@ -7,9 +7,11 @@ public class Venue {
 
     private String id;
     private String name;
+    private String description;
     private List<MusicGenre> genres;
     private String location;
     private AvailabilityCalendar calendar;
+    private String managerId;
 
     public String getId() {
         return id;
@@ -25,6 +27,14 @@ public class Venue {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public List<MusicGenre> getGenres() {
@@ -51,12 +61,22 @@ public class Venue {
         this.calendar = calendar;
     }
 
-    public Venue(String id, String name, List<MusicGenre> genres, String location) {
+    public String getManagerId() {
+        return managerId;
+    }
+
+    public void setManagerId(String managerId) {
+        this.managerId = managerId;
+    }
+
+    public Venue(String id, String name, String description, List<MusicGenre> genres, String location, String managerId) {
         this.id = id;
         this.name = name;
+        this.description = description;
         this.genres = genres;
         this.location = location;
         calendar = new AvailabilityCalendar();
+        this.managerId = managerId;
     }
 
 }

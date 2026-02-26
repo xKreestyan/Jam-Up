@@ -5,20 +5,11 @@ import org.jamup.model.enums.MusicGenre;
 
 import java.util.List;
 
-public class Artist {
+public class Artist extends User {
 
-    private String id;
     private String name;
     private List<Instrument> instruments;
     private List<MusicGenre> genres;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -44,8 +35,9 @@ public class Artist {
         this.genres = genres;
     }
 
-    public Artist(String id, String name, List<Instrument> instruments, List<MusicGenre> genres) {
-        this.id = id;
+    public Artist(String id, String email, String password, String name,
+                  List<Instrument> instruments, List<MusicGenre> genres) {
+        super(id, email, password);
         this.name = name;
         this.instruments = instruments;
         this.genres = genres;

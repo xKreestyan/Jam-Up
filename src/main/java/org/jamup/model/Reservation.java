@@ -63,9 +63,10 @@ public class Reservation {
         this.reservedSlot = reservedSlot;
     }
 
-    public Reservation(String id, String notes, Venue venue, TimeSlot reservedSlot) {
+    public Reservation(String id, String notes, Artist artist, Venue venue, TimeSlot reservedSlot) {
         this.id = id;
         this.notes = notes;
+        this.artist = artist;
         this.status = ReservationStatus.PENDING;
         this.venue = venue;
         this.reservedSlot = reservedSlot;

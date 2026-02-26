@@ -1,14 +1,15 @@
 package org.jamup.model.enums;
 
 public enum Instrument {
-    GUITAR,
     BASS,
     DRUMS,
-    PIANO,
+    GUITAR,
     KEYBOARD,
-    VIOLIN,
+    PIANO,
     SAXOPHONE,
     TRUMPET,
-    VOCALS,
-    UKULELE
+    UKULELE,
+    VIOLIN,
+    VOCALS
+
 }

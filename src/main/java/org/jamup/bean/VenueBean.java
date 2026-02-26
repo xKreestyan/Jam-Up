@@ -11,10 +11,12 @@ public class VenueBean {
 
     private String id;
     private String name;
+    private String description;
     private List<MusicGenre> genres;
     private String location;
     private LocalDate searchDate;
     private List<TimeSlot> availableSlots;
+    private String managerId;
 
     public String getId() {
         return id;
@@ -34,6 +36,14 @@ public class VenueBean {
             throw new InvalidFieldException("name", "must be at least 2 characters long");
         }
         this.name = name.trim();
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public List<MusicGenre> getGenres() {
@@ -68,6 +78,14 @@ public class VenueBean {
         this.availableSlots = availableSlots;
     }
 
+    public String getManagerId() {
+        return managerId;
+    }
+
+    public void setManagerId(String managerId) {
+        this.managerId = managerId;
+    }
+
     //search query bean constructor (View -> Controller)
     public VenueBean(String name, String location, LocalDate searchDate, List<MusicGenre> genres) throws InvalidFieldException {
         checkAndSetName(name);
@@ -77,11 +95,13 @@ public class VenueBean {
     }
 
     //search results bean constructor (Controller -> View)
-    public VenueBean(String id, String name, String location, List<MusicGenre> genres, List<TimeSlot> availableSlots) {
+    public VenueBean(String id, String name, String description, String location, List<MusicGenre> genres, List<TimeSlot> availableSlots, String managerId) {
         this.id = id;
         this.name = name;
+        this.description = description;
         this.location = location;
         this.genres = genres;
         this.availableSlots = availableSlots;
+        this.managerId = managerId;
     }
 }
