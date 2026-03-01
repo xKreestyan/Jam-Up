@@ -1,10 +1,5 @@
 package org.jamup.util;
 
-import org.jamup.dao.interfaces.UserDAO;
-import org.jamup.exception.InvalidCredentialsException;
-import org.jamup.model.Artist;
-import org.jamup.model.VenueManager;
-
 public class SessionManager {
 
     private static SessionManager instance;
@@ -22,25 +17,14 @@ public class SessionManager {
         return instance;
     }
 
-    public void login(String email, String password, UserDAO userDAO) throws InvalidCredentialsException {
-        String hashedPassword = Encryptor.hash(password);
+    public void setCurrentArtistId(String artistId) {
+        this.currentArtistId = artistId;
+        this.currentManagerId = null;
+    }
 
-        //search among artists
-        Artist artist = userDAO.findArtistByEmail(email);
-        if (artist != null && artist.getPassword().equals(hashedPassword)) {
-            this.currentArtistId = artist.getId();
-            return;
-        }
-
-        //search among managers
-        VenueManager manager = userDAO.findManagerByEmail(email);
-        if (manager != null && manager.getPassword().equals(hashedPassword)) {
-            this.currentManagerId = manager.getId();
-            return;
-        }
-
-        //no match found
-        throw new InvalidCredentialsException();
+    public void setCurrentManagerId(String managerId) {
+        this.currentManagerId = managerId;
+        this.currentArtistId = null;
     }
 
     public void logout() {
