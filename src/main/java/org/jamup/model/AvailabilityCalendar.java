@@ -23,8 +23,13 @@ public class AvailabilityCalendar {
         slots.add(new TimeSlot(date, time));
     }
 
-    public void removeSlot(LocalDate date, LocalTime time) {
-        slots.removeIf(slot -> slot.getDate().equals(date) && slot.getTime().equals(time));
+    public List<TimeSlot> getSlots() {
+        return slots;
+    }
+
+    public void removeSlot(TimeSlot slotToRemove) {
+        slots.removeIf(slot -> slot.getDate().equals(slotToRemove.getDate())
+                && slot.getTime().equals(slotToRemove.getTime()));
     }
 
     public AvailabilityCalendar() {

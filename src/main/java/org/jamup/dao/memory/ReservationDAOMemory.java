@@ -11,11 +11,10 @@ import java.util.UUID;
 public class ReservationDAOMemory implements ReservationDAO {
 
     @Override
-    public String save(Reservation newReservation) {
+    public void save(Reservation newReservation) {
         String id = UUID.randomUUID().toString();
         newReservation.setId(id);
         InMemoryStorage.getReservations().add(newReservation);
-        return id;
     }
 
     @Override

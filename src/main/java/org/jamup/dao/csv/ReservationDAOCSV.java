@@ -12,9 +12,8 @@ public class ReservationDAOCSV implements ReservationDAO {
     }
 
     @Override
-    public String save(Reservation reservation) {
+    public void save(Reservation reservation) {
         /* TODO */
-        return "";
     }
 
     @Override

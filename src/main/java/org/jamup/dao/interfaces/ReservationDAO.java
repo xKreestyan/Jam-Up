@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ReservationDAO {
 
-    String save(Reservation reservation);
+    void save(Reservation reservation);
     Reservation findById(String id);
     List<Reservation> findPendingByVenue(String venueId);
     void update(Reservation reservation);

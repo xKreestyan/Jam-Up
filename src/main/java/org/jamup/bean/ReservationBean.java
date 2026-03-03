@@ -128,7 +128,7 @@ public class ReservationBean {
                            List<Instrument> artistInstruments, List<MusicGenre> artistGenres,
                            String notes, ReservationStatus status, TimeSlot reservedSlot) {
 
-        this .reservationId = reservationId;
+        this.reservationId = reservationId;
         this.venueId = venueId;
         this.venueName = venueName;
         this.artistId = artistId;
