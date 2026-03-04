@@ -1,8 +1,8 @@
 package org.jamup.exception;
 
-public class NoResultsFoundException extends Exception {
+public class NoVenuesFoundException extends Exception {
 
-    public NoResultsFoundException() {
+    public NoVenuesFoundException() {
         super("No venues found matching the search criteria");
     }
 

@@ -2,6 +2,7 @@ package org.jamup.dao.db;
 
 import org.jamup.dao.interfaces.ReservationDAO;
 import org.jamup.model.Reservation;
+import org.jamup.model.enums.ReservationStatus;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class ReservationDAODB implements ReservationDAO {
     }
 
     @Override
-    public List<Reservation> findPendingByVenue(String venueId) {
+    public List<Reservation> findByVenues(List<String> venueIds, ReservationStatus status) {
         /* TODO */
         return List.of();
     }

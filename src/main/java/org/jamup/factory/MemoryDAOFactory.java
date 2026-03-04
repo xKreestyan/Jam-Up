@@ -11,11 +11,6 @@ public class MemoryDAOFactory extends DAOFactory {
     }
 
     @Override
-    public ArtistDAO createArtistDAO() {
-        return new ArtistDAOMemory();
-    }
-
-    @Override
     public ReservationDAO createReservationDAO() {
         return new ReservationDAOMemory();
     }

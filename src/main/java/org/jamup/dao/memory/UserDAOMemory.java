@@ -25,4 +25,25 @@ public class UserDAOMemory implements UserDAO {
         }
         return null;
     }
+
+    @Override
+    public Artist findArtistById(String id) {
+        for (Artist artist : InMemoryStorage.getArtists()) {
+            if (artist.getId().equals(id)) {
+                return artist;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public VenueManager findManagerById(String id) {
+        for (VenueManager manager : InMemoryStorage.getManagers()) {
+            if (manager.getId().equals(id)) {
+                return manager;
+            }
+        }
+        return null;
+    }
+
 }

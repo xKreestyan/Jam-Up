@@ -28,15 +28,18 @@ public class ReservationDAOMemory implements ReservationDAO {
     }
 
     @Override
-    public List<Reservation> findPendingByVenue(String venueId) {
-        List<Reservation> pendingReservations = new ArrayList<>();
+    public List<Reservation> findByVenues(List<String> venueIds, ReservationStatus status) {
+        List<Reservation> results = new ArrayList<>();
         for (Reservation reservation : InMemoryStorage.getReservations()) {
-            if (reservation.getVenue().getId().equals(venueId) &&
-                    reservation.getStatus() == ReservationStatus.PENDING) {
-                pendingReservations.add(reservation);
+            if (venueIds.contains(reservation.getVenue().getId())) {
+                //if status is not specified, it takes all reservations
+                //otherwise it only takes those with the specific status
+                if (status == null || reservation.getStatus() == status) {
+                    results.add(reservation);
+                }
             }
         }
-        return pendingReservations;
+        return results;
     }
 
     //update of the i-th reservation following a status change

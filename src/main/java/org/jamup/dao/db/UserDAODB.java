@@ -18,4 +18,16 @@ public class UserDAODB implements UserDAO {
         return null;
     }
 
+    @Override
+    public Artist findArtistById(String id) {
+        /* TODO */
+        return null;
+    }
+
+    @Override
+    public VenueManager findManagerById(String id) {
+        /* TODO */
+        return null;
+    }
+
 }

@@ -9,7 +9,6 @@ public abstract class DAOFactory {
 
     //abstract methods (factory method pattern)
     public abstract VenueDAO createVenueDAO();
-    public abstract ArtistDAO createArtistDAO();
     public abstract ReservationDAO createReservationDAO();
     public abstract UserDAO createUserDAO();
     public abstract NotificationDAO createNotificationDAO();

@@ -11,11 +11,6 @@ public class DBDAOFactory extends DAOFactory {
     }
 
     @Override
-    public ArtistDAO createArtistDAO() {
-        return new ArtistDAODB();
-    }
-
-    @Override
     public ReservationDAO createReservationDAO() {
         return new ReservationDAODB();
     }

@@ -11,6 +11,12 @@ import org.jamup.util.SessionManager;
 
 public class LoginController {
 
+    /**
+     * Authenticates a user based on the provided credentials.
+     *
+     * @param bean the bean containing the user's email and password
+     * @throws InvalidCredentialsException if no matching user is found or the password is incorrect
+     */
     public void login(LoginUserBean bean) throws InvalidCredentialsException {
         UserDAO userDAO = DAOFactory.getInstance().createUserDAO();
         String hashedPassword = Encryptor.hash(bean.getPassword());

@@ -11,11 +11,6 @@ public class CSVDAOFactory extends DAOFactory {
     }
 
     @Override
-    public ArtistDAO createArtistDAO() {
-        return new ArtistDAOCSV();
-    }
-
-    @Override
     public ReservationDAO createReservationDAO() {
         return new ReservationDAOCSV();
     }

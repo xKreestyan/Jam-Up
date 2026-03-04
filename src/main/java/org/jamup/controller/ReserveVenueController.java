@@ -2,10 +2,11 @@ package org.jamup.controller;
 
 import org.jamup.bean.ReservationBean;
 import org.jamup.bean.VenueBean;
-import org.jamup.dao.interfaces.ArtistDAO;
+import org.jamup.dao.interfaces.NotificationDAO;
 import org.jamup.dao.interfaces.ReservationDAO;
+import org.jamup.dao.interfaces.UserDAO;
 import org.jamup.dao.interfaces.VenueDAO;
-import org.jamup.exception.NoResultsFoundException;
+import org.jamup.exception.NoVenuesFoundException;
 import org.jamup.factory.DAOFactory;
 import org.jamup.model.Artist;
 import org.jamup.model.Notification;
@@ -19,9 +20,13 @@ import java.util.List;
 public class ReserveVenueController {
 
     /**
-     * Search for venues using a {@link VenueBean} containing (optionally) values: name, genres, location, availability date
+     * Searches for venues based on the criteria provided in a {@link VenueBean}.
+     *
+     * @param searchBean a bean containing optional search filters such as name, genres, location, and date.
+     * @return a list of {@link VenueBean} objects matching the search criteria.
+     * @throws NoVenuesFoundException if no venues match the specified criteria.
      */
-    public List<VenueBean> search(VenueBean searchBean) throws NoResultsFoundException {
+    public List<VenueBean> search(VenueBean searchBean) throws NoVenuesFoundException {
         VenueDAO venueDAO = DAOFactory.getInstance().createVenueDAO();
 
         //execute query (get list of venues)
@@ -40,27 +45,34 @@ public class ReserveVenueController {
             output.add(venueBean);
         }
         if (output.isEmpty()) {
-            throw new NoResultsFoundException();
+            throw new NoVenuesFoundException();
         }
         return output;
     }
 
     /**
-     * Returns all venues
+     * Retrieves all available venues in the system.
+     *
+     * @return a list of all {@link VenueBean} objects.
+     * @throws NoVenuesFoundException if no venues are present in the system.
      */
-    public List<VenueBean> getAllVenues() throws NoResultsFoundException {
+    public List<VenueBean> getAllVenues() throws NoVenuesFoundException {
         return search(null);
     }
 
     /**
-     * Creation of the reservation using the {@link ReservationBean} containing the venue id and the selected slot, and any added notes
+     * Confirms and persists a new reservation.
+     * This method retrieves the current artist from the session, updates the venue's availability,
+     * saves the reservation, and generates a notification for the venue manager.
+     *
+     * @param bean a {@link ReservationBean} containing the venue ID, selected time slot, and optional notes.
      */
     public void confirmReservation(ReservationBean bean) {
         //retrieval of the id of the artist who booked
         String reservationArtist = SessionManager.getInstance().getCurrentArtistId();
-        ArtistDAO artistDAO = DAOFactory.getInstance().createArtistDAO();
+        UserDAO artistDAO = DAOFactory.getInstance().createUserDAO();
         //retrieval of the artist with the previously retrieved id
-        Artist artist = artistDAO.findById(reservationArtist);
+        Artist artist = artistDAO.findArtistById(reservationArtist);
         VenueDAO venueDAO = DAOFactory.getInstance().createVenueDAO();
         //retrieval of the venue with the id contained in the bean
         Venue venue = venueDAO.findById(bean.getVenueId());
@@ -82,6 +94,8 @@ public class ReserveVenueController {
                 " at " + bean.getReservedSlot().getTime();
 
         Notification newReservationNotification = new Notification(venue.getManagerId(), message);
+        NotificationDAO notificationDAO = DAOFactory.getInstance().createNotificationDAO();
+        notificationDAO.save(newReservationNotification);
     }
 
 }
