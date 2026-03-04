@@ -25,4 +25,9 @@ public class CSVDAOFactory extends DAOFactory {
         return new UserDAOCSV();
     }
 
+    @Override
+    public NotificationDAO createNotificationDAO() {
+        return new NotificationDAOCSV();
+    }
+
 }

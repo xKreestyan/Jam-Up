@@ -25,4 +25,9 @@ public class MemoryDAOFactory extends DAOFactory {
         return new UserDAOMemory();
     }
 
+    @Override
+    public NotificationDAO createNotificationDAO() {
+        return new NotificationDAOMemory();
+    }
+
 }

@@ -12,6 +12,7 @@ public abstract class DAOFactory {
     public abstract ArtistDAO createArtistDAO();
     public abstract ReservationDAO createReservationDAO();
     public abstract UserDAO createUserDAO();
+    public abstract NotificationDAO createNotificationDAO();
 
     //get singleton instance (concrete factory)
     public static DAOFactory getInstance(String mode) {

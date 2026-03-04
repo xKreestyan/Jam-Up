@@ -25,4 +25,9 @@ public class DBDAOFactory extends DAOFactory {
         return new UserDAODB();
     }
 
+    @Override
+    public NotificationDAO createNotificationDAO() {
+        return new NotificationDAODB();
+    }
+
 }

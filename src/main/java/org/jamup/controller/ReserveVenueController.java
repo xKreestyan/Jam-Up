@@ -8,6 +8,7 @@ import org.jamup.dao.interfaces.VenueDAO;
 import org.jamup.exception.NoResultsFoundException;
 import org.jamup.factory.DAOFactory;
 import org.jamup.model.Artist;
+import org.jamup.model.Notification;
 import org.jamup.model.Reservation;
 import org.jamup.model.Venue;
 import org.jamup.util.SessionManager;
@@ -65,7 +66,7 @@ public class ReserveVenueController {
         Venue venue = venueDAO.findById(bean.getVenueId());
 
         //for now with null id, it will be set by the DAO
-        Reservation newReservation = new Reservation(null, bean.getNotes(), artist, venue, bean.getReservedSlot());
+        Reservation newReservation = new Reservation(bean.getNotes(), artist, venue, bean.getReservedSlot());
 
         ReservationDAO reservationDAO = DAOFactory.getInstance().createReservationDAO();
         reservationDAO.save(newReservation);
@@ -73,6 +74,14 @@ public class ReserveVenueController {
         //removal of the booked time slot from the venue calendar, and update in persistence
         venue.getCalendar().removeSlot(bean.getReservedSlot());
         venueDAO.update(venue);
+
+        //creation of the notification for the venue manager
+        String message = "New reservation request from " + artist.getName() +
+                " at " + venue.getName() +
+                " on " + bean.getReservedSlot().getDate() +
+                " at " + bean.getReservedSlot().getTime();
+
+        Notification newReservationNotification = new Notification(venue.getManagerId(), message);
     }
 
 }
