@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="780.0" prefWidth="960.0" style="-fx-background-color: #0d0d14;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.jamup.view.managerview.ManagerHomeViewController">
+
+    <!-- TOP NAVBAR -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="0.0" style="-fx-background-color: #12121c; -fx-border-color: #1e1e2e;                      -fx-border-width: 0 0 1 0;">
+            <padding>
+                <Insets bottom="14.0" left="24.0" right="24.0" top="14.0" />
+            </padding>
+
+            <!-- Logo -->
+            <StackPane maxWidth="38.0" prefHeight="38.0" prefWidth="38.0" style="-fx-background-color: #a855f7; -fx-background-radius: 10;">
+                <Label style="-fx-font-size: 18px; -fx-text-fill: white;" text="♪" />
+            </StackPane>
+            <Label style="-fx-font-size: 20px; -fx-font-weight: bold;                                          -fx-text-fill: white; -fx-font-family: 'Georgia';" text=" Jam Up" />
+            <Label style="-fx-font-size: 20px; -fx-font-weight: bold;                                    -fx-text-fill: #a855f7; -fx-font-family: 'Georgia';" text="!" />
+
+            <Region HBox.hgrow="ALWAYS" />
+
+            <!-- Notifications button -->
+            <Button fx:id="notificationsButton" onAction="#onNotificationsClick" style="-fx-background-color: #1e1e2e; -fx-text-fill: white;                            -fx-background-radius: 20; -fx-font-size: 16px;                            -fx-cursor: hand; -fx-padding: 8 12 8 12;" text="🔔" />
+
+            <Region prefWidth="10.0" />
+
+            <!-- User menu -->
+            <MenuButton fx:id="userMenuButton" style="-fx-background-color: #1e1e2e; -fx-text-fill: white;                                -fx-background-radius: 20; -fx-font-size: 16px;                                -fx-cursor: hand;" text="👤">
+                <items>
+                    <MenuItem onAction="#onLogoutClick" text="Logout" />
+                </items>
+            </MenuButton>
+        </HBox>
+    </top>
+
+    <!-- CENTER CONTENT -->
+    <center>
+        <VBox spacing="0.0">
+            <padding>
+                <Insets bottom="28.0" left="32.0" right="32.0" top="28.0" />
+            </padding>
+
+            <!-- Title -->
+            <Label style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: white;" text="Reservation Management" />
+
+            <!-- Tabs -->
+            <HBox fx:id="tabBar" alignment="CENTER_LEFT" spacing="0.0">
+                <VBox.margin>
+                    <Insets bottom="20.0" top="20.0" />
+                </VBox.margin>
+                <Button fx:id="tabPending" onAction="#onTabPendingClick" style="-fx-background-color: #a855f7; -fx-text-fill: white;                                -fx-font-size: 13px; -fx-font-weight: bold;                                -fx-background-radius: 20 0 0 20;                                -fx-border-color: #a855f7; -fx-border-radius: 20 0 0 20;                                -fx-padding: 8 20 8 20; -fx-cursor: hand;" text="Pending" />
+                <Button fx:id="tabAccepted" onAction="#onTabAcceptedClick" style="-fx-background-color: transparent; -fx-text-fill: #888888;                                -fx-font-size: 13px;                                -fx-background-radius: 0;                                -fx-border-color: #2a2a3e; -fx-border-radius: 0;                                -fx-padding: 8 20 8 20; -fx-cursor: hand;" text="Accepted" />
+                <Button fx:id="tabRejected" onAction="#onTabRejectedClick" style="-fx-background-color: transparent; -fx-text-fill: #888888;                                -fx-font-size: 13px;                                -fx-background-radius: 0 20 20 0;                                -fx-border-color: #2a2a3e; -fx-border-radius: 0 20 20 0;                                -fx-padding: 8 20 8 20; -fx-cursor: hand;" text="Rejected" />
+            </HBox>
+
+            <!-- No results label -->
+            <Label fx:id="noReservationsLabel" style="-fx-text-fill: #666677; -fx-font-size: 13px;" text="Nessuna prenotazione trovata" visible="false" />
+
+            <!-- Reservations list -->
+            <ScrollPane fitToWidth="true" style="-fx-background: transparent;                                -fx-background-color: transparent;                                -fx-border-color: transparent;" VBox.vgrow="ALWAYS">
+                <VBox fx:id="reservationListContainer" spacing="10.0">
+                    <padding>
+                        <Insets bottom="16.0" />
+                    </padding>
+                </VBox>
+            </ScrollPane>
+
+            <VBox.margin>
+                <Insets bottom="24.0" />
+            </VBox.margin>
+
+        </VBox>
+    </center>
+
+</BorderPane>

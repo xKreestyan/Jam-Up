@@ -13,6 +13,12 @@ public class NotificationDAOCSV implements NotificationDAO {
     }
 
     @Override
+    public Notification findById(String id) {
+        /* TODO */
+        return null;
+    }
+
+    @Override
     public List<Notification> findByRecipient(String recipientId) {
         /* TODO */
         return null;

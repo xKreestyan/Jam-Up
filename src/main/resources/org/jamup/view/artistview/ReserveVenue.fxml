@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.CustomMenuItem?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.control.Button?>
+<BorderPane prefHeight="780.0" prefWidth="960.0" style="-fx-background-color: #0d0d14;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.jamup.view.artistview.ReserveVenueViewController">
+
+    <!-- TOP NAVBAR -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="0.0" style="-fx-background-color: #12121c; -fx-border-color: #1e1e2e;                      -fx-border-width: 0 0 1 0;">
+            <padding>
+                <Insets bottom="14.0" left="24.0" right="24.0" top="14.0" />
+            </padding>
+
+            <!-- Logo -->
+            <StackPane maxWidth="38.0" prefHeight="38.0" prefWidth="38.0" style="-fx-background-color: #a855f7; -fx-background-radius: 10;">
+                <Label style="-fx-font-size: 18px; -fx-text-fill: white;" text="♪" />
+            </StackPane>
+
+            <Label style="-fx-font-size: 20px; -fx-font-weight: bold;                                          -fx-text-fill: white; -fx-font-family: 'Georgia';" text=" Jam Up" />
+            <Label style="-fx-font-size: 20px; -fx-font-weight: bold;                                    -fx-text-fill: #a855f7; -fx-font-family: 'Georgia';" text="!" />
+
+            <Region HBox.hgrow="ALWAYS" />
+
+            <!-- Notifications button -->
+            <Button fx:id="notificationsButton" text="🔔"
+                    onAction="#onNotificationsClick"
+                    style="-fx-background-color: #1e1e2e; -fx-text-fill: white;
+               -fx-background-radius: 20; -fx-font-size: 16px;
+               -fx-cursor: hand; -fx-padding: 8 12 8 12;"/>
+
+            <Region prefWidth="10.0"/>
+            <!-- User menu -->
+            <MenuButton fx:id="userMenuButton" style="-fx-background-color: #1e1e2e; -fx-text-fill: white;                                -fx-background-radius: 20; -fx-font-size: 16px;                                -fx-cursor: hand;" text="👤">
+                <items>
+                    <MenuItem onAction="#onLogoutClick" text="Logout" />
+                </items>
+            </MenuButton>
+        </HBox>
+    </top>
+
+    <!-- CENTER CONTENT -->
+    <center>
+        <VBox spacing="0.0">
+            <padding>
+                <Insets bottom="28.0" left="32.0" right="32.0" top="28.0" />
+            </padding>
+
+            <!-- Search bar -->
+            <TextField fx:id="searchField" maxWidth="Infinity" onAction="#onSearchAction" promptText="🔍  Cerca per nome" style="-fx-background-color: #1a1a28;                               -fx-text-fill: white;                               -fx-prompt-text-fill: #44445a;                               -fx-border-color: #2a2a3e;                               -fx-border-radius: 12;                               -fx-background-radius: 12;                               -fx-padding: 13 16 13 16;                               -fx-font-size: 14px;" />
+
+            <!-- Filter buttons -->
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+                <VBox.margin>
+                    <Insets bottom="24.0" top="20.0" />
+                </VBox.margin>
+
+                <!-- Genre filter — popup con checkbox aperto dal controller -->
+                <MenuButton fx:id="genreFilterButton" style="-fx-background-color: #1a1a28; -fx-text-fill: #cccccc;                                    -fx-border-color: #2a2a3e; -fx-border-radius: 20;                                    -fx-background-radius: 20; -fx-padding: 8 16 8 16;                                    -fx-font-size: 13px; -fx-cursor: hand;" text="♫  Genere">
+                    <items>
+                        <CustomMenuItem fx:id="menuItemBlues" hideOnClick="false">
+                            <content><CheckBox fx:id="checkBlues" text="Blues" /></content>
+                        </CustomMenuItem>
+                        <CustomMenuItem fx:id="menuItemClassical" hideOnClick="false">
+                            <content><CheckBox fx:id="checkClassical" text="Classical" /></content>
+                        </CustomMenuItem>
+                        <CustomMenuItem fx:id="menuItemElectronic" hideOnClick="false">
+                            <content><CheckBox fx:id="checkElectronic" text="Electronic" /></content>
+                        </CustomMenuItem>
+                        <CustomMenuItem fx:id="menuItemFolk" hideOnClick="false">
+                            <content><CheckBox fx:id="checkFolk" text="Folk" /></content>
+                        </CustomMenuItem>
+                        <CustomMenuItem fx:id="menuItemFunk" hideOnClick="false">
+                            <content><CheckBox fx:id="checkFunk" text="Funk" /></content>
+                        </CustomMenuItem>
+                        <CustomMenuItem fx:id="menuItemHouse" hideOnClick="false">
+                            <content><CheckBox fx:id="checkHouse" text="House" /></content>
+                        </CustomMenuItem>
+                        <CustomMenuItem fx:id="menuItemIndie" hideOnClick="false">
+                            <content><CheckBox fx:id="checkIndie" text="Indie" /></content>
+                        </CustomMenuItem>
+                        <CustomMenuItem fx:id="menuItemJazz" hideOnClick="false">
+                            <content><CheckBox fx:id="checkJazz" text="Jazz" /></content>
+                        </CustomMenuItem>
+                        <CustomMenuItem fx:id="menuItemMetal" hideOnClick="false">
+                            <content><CheckBox fx:id="checkMetal" text="Metal" /></content>
+                        </CustomMenuItem>
+                        <CustomMenuItem fx:id="menuItemPop" hideOnClick="false">
+                            <content><CheckBox fx:id="checkPop" text="Pop" /></content>
+                        </CustomMenuItem>
+                        <CustomMenuItem fx:id="menuItemReggae" hideOnClick="false">
+                            <content><CheckBox fx:id="checkReggae" text="Reggae" /></content>
+                        </CustomMenuItem>
+                        <CustomMenuItem fx:id="menuItemRock" hideOnClick="false">
+                            <content><CheckBox fx:id="checkRock" text="Rock" /></content>
+                        </CustomMenuItem>
+                    </items>
+                </MenuButton>
+
+                <!-- Date filter — DatePicker nativo -->
+                <DatePicker fx:id="datePicker" onAction="#onDateFilterClick" promptText="📅  Data" style="-fx-background-color: #1a1a28; -fx-text-fill: #cccccc;                                    -fx-border-color: #2a2a3e; -fx-border-radius: 20;                                    -fx-background-radius: 20; -fx-font-size: 13px;                                    -fx-cursor: hand;" />
+            </HBox>
+
+            <!-- Section header -->
+            <HBox alignment="CENTER_LEFT">
+                <VBox.margin>
+                    <Insets bottom="14.0" />
+                </VBox.margin>
+                <Label style="-fx-font-size: 18px; -fx-font-weight: bold;                               -fx-text-fill: white;" text="Locali Disponibili" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Label fx:id="noResultsLabel" style="-fx-text-fill: #666677; -fx-font-size: 13px;" text="Nessun locale trovato" visible="false" />
+            </HBox>
+
+            <!-- Venue list -->
+            <ScrollPane fitToWidth="true" style="-fx-background: transparent;                                -fx-background-color: transparent;                                -fx-border-color: transparent;" VBox.vgrow="ALWAYS">
+                <VBox fx:id="venueListContainer" spacing="10.0">
+                    <padding>
+                        <Insets bottom="16.0" />
+                    </padding>
+                </VBox>
+            </ScrollPane>
+
+            <VBox.margin>
+                <Insets bottom="20.0" />
+            </VBox.margin>
+
+        </VBox>
+    </center>
+
+</BorderPane>

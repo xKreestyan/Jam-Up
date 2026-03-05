@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="org.jamup.view.LoginViewController"
+           prefHeight="620.0" prefWidth="480.0"
+           style="-fx-background-color: #0a0a0f;">
+
+    <VBox alignment="CENTER" spacing="0.0">
+
+        <padding>
+            <Insets top="50.0" right="60.0" bottom="50.0" left="60.0"/>
+        </padding>
+
+        <!-- Icon -->
+        <StackPane prefWidth="72.0" prefHeight="72.0"
+                   maxWidth="72.0"
+                   style="-fx-background-color: #a855f7;
+                          -fx-background-radius: 18;
+                          -fx-effect: dropshadow(gaussian, #a855f766, 20, 0.4, 0, 4);">
+            <Label text="♪"
+                   style="-fx-font-size: 32px; -fx-text-fill: white;"/>
+        </StackPane>
+
+        <Region prefHeight="20.0"/>
+
+        <!-- Title -->
+        <HBox alignment="CENTER" spacing="0.0">
+            <Label text="Jam Up"
+                   style="-fx-font-size: 30px; -fx-font-weight: bold;
+                          -fx-text-fill: white; -fx-font-family: 'Georgia';"/>
+            <Label text="!"
+                   style="-fx-font-size: 30px; -fx-font-weight: bold;
+                          -fx-text-fill: #a855f7; -fx-font-family: 'Georgia';"/>
+        </HBox>
+
+        <Region prefHeight="8.0"/>
+
+        <!-- Subtitle -->
+        <Label text="Find your stage, make your sound"
+               style="-fx-font-size: 13px; -fx-text-fill: #666677;"/>
+
+        <Region prefHeight="40.0"/>
+
+        <!-- Email label -->
+        <Label text="Email"
+               style="-fx-font-size: 12px; -fx-text-fill: #999999;
+                      -fx-font-weight: bold;"
+               maxWidth="Infinity"/>
+
+        <Region prefHeight="6.0"/>
+
+        <!-- Email field -->
+        <TextField fx:id="emailField"
+                   promptText="your@email.com"
+                   style="-fx-background-color: #14141f;
+                          -fx-text-fill: white;
+                          -fx-prompt-text-fill: #444455;
+                          -fx-border-color: #2a2a3a;
+                          -fx-border-radius: 10;
+                          -fx-background-radius: 10;
+                          -fx-padding: 13 16 13 16;
+                          -fx-font-size: 14px;"
+                   maxWidth="Infinity"/>
+
+        <Region prefHeight="16.0"/>
+
+        <!-- Password label -->
+        <Label text="Password"
+               style="-fx-font-size: 12px; -fx-text-fill: #999999;
+                      -fx-font-weight: bold;"
+               maxWidth="Infinity"/>
+
+        <Region prefHeight="6.0"/>
+
+        <!-- Password field -->
+        <PasswordField fx:id="passwordField"
+                       promptText="••••••••"
+                       style="-fx-background-color: #14141f;
+                              -fx-text-fill: white;
+                              -fx-prompt-text-fill: #444455;
+                              -fx-border-color: #2a2a3a;
+                              -fx-border-radius: 10;
+                              -fx-background-radius: 10;
+                              -fx-padding: 13 16 13 16;
+                              -fx-font-size: 14px;"
+                       maxWidth="Infinity"/>
+
+        <Region prefHeight="8.0"/>
+
+        <!-- Error label -->
+        <Label fx:id="errorLabel"
+               text=""
+               style="-fx-text-fill: #ef4444; -fx-font-size: 12px;"
+               maxWidth="Infinity"
+               visible="false"/>
+
+        <Region prefHeight="24.0"/>
+
+        <!-- Login button -->
+        <Button text="Log In"
+                onAction="#onLoginButtonClick"
+                maxWidth="Infinity"
+                style="-fx-background-color: #a855f7;
+                       -fx-text-fill: white;
+                       -fx-font-size: 15px;
+                       -fx-font-weight: bold;
+                       -fx-background-radius: 10;
+                       -fx-padding: 14 0 14 0;
+                       -fx-cursor: hand;
+                       -fx-effect: dropshadow(gaussian, #a855f755, 16, 0.3, 0, 4);"/>
+
+    </VBox>
+
+</StackPane>

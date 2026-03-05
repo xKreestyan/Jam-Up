@@ -40,6 +40,12 @@ public class SessionManager {
         return currentManagerId;
     }
 
+    public String getCurrentUserId() {
+        if (currentArtistId != null) return currentArtistId;
+        if (currentManagerId != null) return currentManagerId;
+        return null;
+    }
+
     public boolean isArtistLoggedIn() {
         return currentArtistId != null;
     }

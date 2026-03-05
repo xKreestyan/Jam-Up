@@ -14,6 +14,16 @@ public class NotificationDAOMemory implements NotificationDAO {
     }
 
     @Override
+    public Notification findById(String id) {
+        for (Notification notification : InMemoryStorage.getNotifications()) {
+            if (notification.getId().equals(id)) {
+                return notification;
+            }
+        }
+        return null;
+    }
+
+    @Override
     public List<Notification> findByRecipient(String recipientId) {
         List<Notification> notifications = new ArrayList<>();
         for(Notification notification : InMemoryStorage.getNotifications()) {

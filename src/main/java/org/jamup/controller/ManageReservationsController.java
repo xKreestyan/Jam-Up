@@ -1,10 +1,12 @@
 package org.jamup.controller;
 
 import org.jamup.bean.ReservationBean;
+import org.jamup.dao.interfaces.NotificationDAO;
 import org.jamup.dao.interfaces.ReservationDAO;
 import org.jamup.dao.interfaces.UserDAO;
 import org.jamup.exception.NoReservationsFoundException;
 import org.jamup.factory.DAOFactory;
+import org.jamup.model.Notification;
 import org.jamup.model.Reservation;
 import org.jamup.model.VenueManager;
 import org.jamup.model.enums.ReservationStatus;
@@ -49,7 +51,7 @@ public class ManageReservationsController {
     }
 
     /**
-     * Updates the status of a specific reservation to ACCEPTED.
+     * Updates the status of a specific reservation to ACCEPTED and sends a notification to the artist.
      *
      * @param reservationID the unique identifier of the reservation to accept.
      */
@@ -58,10 +60,20 @@ public class ManageReservationsController {
         Reservation res = reservationDAO.findById(reservationID);
         res.updateStatus(ReservationStatus.ACCEPTED);
         reservationDAO.update(res);
+
+        //creation of the notification for the artist
+        String message = "Your reservation at " + res.getVenue().getName() +
+                " on " + res.getReservedSlot().getDate() +
+                " at " + res.getReservedSlot().getTime() +
+                " has been accepted";
+
+        Notification newReservationNotification = new Notification(res.getArtist().getId(), message);
+        NotificationDAO notificationDAO = DAOFactory.getInstance().createNotificationDAO();
+        notificationDAO.save(newReservationNotification);
     }
 
     /**
-     * Updates the status of a specific reservation to REJECTED.
+     * Updates the status of a specific reservation to REJECTED and sends a notification to the artist.
      *
      * @param reservationID the unique identifier of the reservation to reject.
      */
@@ -70,6 +82,16 @@ public class ManageReservationsController {
         Reservation res = reservationDAO.findById(reservationID);
         res.updateStatus(ReservationStatus.REJECTED);
         reservationDAO.update(res);
+
+        //creation of the notification for the artist
+        String message = "Your reservation at " + res.getVenue().getName() +
+                " on " + res.getReservedSlot().getDate() +
+                " at " + res.getReservedSlot().getTime() +
+                " has been rejected";
+
+        Notification newReservationNotification = new Notification(res.getArtist().getId(), message);
+        NotificationDAO notificationDAO = DAOFactory.getInstance().createNotificationDAO();
+        notificationDAO.save(newReservationNotification);
     }
 
 }

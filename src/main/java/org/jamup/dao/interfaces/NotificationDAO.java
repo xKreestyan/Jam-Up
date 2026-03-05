@@ -14,6 +14,14 @@ public interface NotificationDAO {
     void save(Notification newNotification);
 
     /**
+     * Retrieves a notification by its unique identifier.
+     *
+     * @param id the unique identifier of the notification
+     * @return the notification object if found, or null otherwise
+     */
+    Notification findById(String id);
+
+    /**
      * Retrieves all notifications associated with a specific recipient.
      *
      * @param recipientId the unique identifier of the recipient
