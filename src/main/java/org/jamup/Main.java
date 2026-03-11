@@ -1,18 +1,23 @@
 package org.jamup;
 
-import org.jamup.dao.interfaces.UserDAO;
-import org.jamup.dao.interfaces.VenueDAO;
-import org.jamup.exception.InvalidCredentialsException;
+import javafx.application.Application;
+import javafx.stage.Stage;
+
 import org.jamup.factory.DAOFactory;
-import org.jamup.model.Venue;
-import org.jamup.model.enums.MusicGenre;
-import org.jamup.util.SessionManager;
+import org.jamup.util.SceneManager;
 
-import java.time.LocalDate;
-import java.util.List;
+public class Main extends Application {
 
-public class Main {
-    public static void main(String[] args) {
-
+    @Override
+    public void start(Stage primaryStage) {
+        DAOFactory.getInstance("DEMO");
+        SceneManager.getInstance().setStage(primaryStage);
+        SceneManager.getInstance().navigateTo(SceneManager.SceneName.LOGIN);
+        primaryStage.show();
     }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
 }

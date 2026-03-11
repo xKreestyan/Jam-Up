@@ -32,7 +32,11 @@ public class VenueBean {
 
     //smart setter
     public void checkAndSetName(String name) throws InvalidFieldException {
-        if (name == null || name.trim().length() < 2) {
+        if (name == null) {
+            this.name = null;
+            return;
+        }
+        if (name.trim().length() < 2) {
             throw new InvalidFieldException("name", "must be at least 2 characters long");
         }
         this.name = name.trim();
@@ -87,9 +91,8 @@ public class VenueBean {
     }
 
     //search query bean constructor (View -> Controller)
-    public VenueBean(String name, String location, LocalDate searchDate, List<MusicGenre> genres) throws InvalidFieldException {
+    public VenueBean(String name, LocalDate searchDate, List<MusicGenre> genres) throws InvalidFieldException {
         checkAndSetName(name);
-        this.location = location;
         this.searchDate = searchDate;
         this.genres = genres;
     }

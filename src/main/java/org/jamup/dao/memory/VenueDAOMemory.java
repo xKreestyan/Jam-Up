@@ -6,12 +6,13 @@ import org.jamup.model.enums.MusicGenre;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class VenueDAOMemory implements VenueDAO {
 
     @Override
-    public List<Venue> findByCriteria(String searchName, List<MusicGenre> searchGenres, String searchLocation, LocalDate searchDate) {
+    public List<Venue> findByCriteria(String searchName, List<MusicGenre> searchGenres, LocalDate searchDate) {
         List<Venue> searchResults = new ArrayList<>();
         for (Venue venue : InMemoryStorage.getVenues()) {
 
@@ -22,19 +23,7 @@ public class VenueDAOMemory implements VenueDAO {
             }
             //if music genres have been specified, and NONE of them matches the venue, next iteration
             if (searchGenres != null && !searchGenres.isEmpty()) {
-                boolean hasGenre = false;
-                for (MusicGenre genre : searchGenres) {
-                    if (venue.getGenres().contains(genre)) {
-                        hasGenre = true;
-                        break;
-                    }
-                }
-                if (!hasGenre) continue;
-            }
-            //if the entered location is NOT null and NOT empty and is NOT contained in the actual venue location, next iteration
-            if (searchLocation != null && !searchLocation.isEmpty() &&
-                    !venue.getLocation().toLowerCase().contains(searchLocation.toLowerCase())) {
-                continue;
+                if (!new HashSet<>(venue.getGenres()).containsAll(searchGenres)) continue;
             }
             //if a date has been specified and the venue is NOT available on that date, next iteration
             if (searchDate != null && venue.getCalendar().availableTimesForDate(searchDate).isEmpty()) {

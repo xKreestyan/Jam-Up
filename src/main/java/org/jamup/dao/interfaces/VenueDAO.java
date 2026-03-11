@@ -13,11 +13,10 @@ public interface VenueDAO {
      *
      * @param searchName     the name or partial name of the venue
      * @param searchGenres   a list of music genres associated with the venue
-     * @param searchLocation the location or city of the venue
      * @param searchDate     a specific date for availability
      * @return a list of venues matching the criteria
      */
-    List<Venue> findByCriteria(String searchName, List<MusicGenre> searchGenres, String searchLocation, LocalDate searchDate);
+    List<Venue> findByCriteria(String searchName, List<MusicGenre> searchGenres, LocalDate searchDate);
 
     /**
      * Retrieves a venue by its unique identifier.

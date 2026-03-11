@@ -19,12 +19,10 @@ public class SessionManager {
 
     public void setCurrentArtistId(String artistId) {
         this.currentArtistId = artistId;
-        this.currentManagerId = null;
     }
 
     public void setCurrentManagerId(String managerId) {
         this.currentManagerId = managerId;
-        this.currentArtistId = null;
     }
 
     public void logout() {

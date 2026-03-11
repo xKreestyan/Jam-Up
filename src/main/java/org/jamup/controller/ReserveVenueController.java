@@ -33,7 +33,6 @@ public class ReserveVenueController {
         List<Venue> results = venueDAO.findByCriteria(
                 searchBean == null ? null : searchBean.getName(),
                 searchBean == null ? null : searchBean.getGenres(),
-                searchBean == null ? null : searchBean.getLocation(),
                 searchBean == null ? null : searchBean.getSearchDate());
         List<VenueBean> output = new ArrayList<>();
 

@@ -110,6 +110,7 @@
         <!-- Login button -->
         <Button text="Log In"
                 onAction="#onLoginButtonClick"
+                defaultButton="true"
                 maxWidth="Infinity"
                 style="-fx-background-color: #a855f7;
                        -fx-text-fill: white;

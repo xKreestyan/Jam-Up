@@ -14,7 +14,7 @@ public class VenueDAOCSV implements VenueDAO {
     }
 
     @Override
-    public List<Venue> findByCriteria(String searchName, List<MusicGenre> searchGenres, String searchLocation, LocalDate searchDate) {
+    public List<Venue> findByCriteria(String searchName, List<MusicGenre> searchGenres, LocalDate searchDate) {
         /* TODO */
         return List.of();
     }

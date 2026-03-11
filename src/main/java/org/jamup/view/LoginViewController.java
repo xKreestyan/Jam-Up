@@ -8,6 +8,7 @@ import org.jamup.bean.LoginUserBean;
 import org.jamup.controller.LoginController;
 import org.jamup.exception.InvalidCredentialsException;
 import org.jamup.exception.InvalidFieldException;
+import org.jamup.util.SceneManager;
 import org.jamup.util.SessionManager;
 
 public class LoginViewController {
@@ -26,8 +27,10 @@ public class LoginViewController {
 
             if (SessionManager.getInstance().isArtistLoggedIn()) {
                 //go to reserve venue screen
+                SceneManager.getInstance().navigateTo(SceneManager.SceneName.RESERVE_VENUE);
             } else if (SessionManager.getInstance().isManagerLoggedIn()) {
                 //go to manager home screen
+                SceneManager.getInstance().navigateTo(SceneManager.SceneName.MANAGER_HOME);
             }
         } catch (InvalidFieldException e) {
             errorLabel.setText("Please enter a valid email and password");
