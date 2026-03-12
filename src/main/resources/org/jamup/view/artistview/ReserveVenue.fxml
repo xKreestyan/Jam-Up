@@ -129,7 +129,6 @@
                 </VBox.margin>
                 <Label style="-fx-font-size: 18px; -fx-font-weight: bold;                               -fx-text-fill: white;" text="Locali Disponibili" />
                 <Region HBox.hgrow="ALWAYS" />
-                <Label fx:id="noResultsLabel" style="-fx-text-fill: #666677; -fx-font-size: 13px;" text="Nessun locale trovato" visible="false" />
             </HBox>
 
             <!-- Venue list -->
@@ -138,6 +137,7 @@
                     <padding>
                         <Insets bottom="16.0" />
                     </padding>
+                    <Label fx:id="noResultsLabel" style="-fx-text-fill: #ef4444; -fx-font-size: 13px;" text="Nessun locale trovato" visible="false" />
                 </VBox>
             </ScrollPane>
 

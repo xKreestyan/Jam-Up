@@ -57,6 +57,10 @@ public class ReserveVenueViewController {
 
     @FXML
     public void onSearchAction() {
+        venueListContainer.getChildren().clear();
+        venueListContainer.getChildren().add(noResultsLabel);
+        noResultsLabel.setVisible(false);
+
         try {
             String venueName= searchField.getText().trim().isEmpty() ? null : searchField.getText().trim();
             VenueBean bean = new VenueBean(venueName, datePicker.getValue(), getSelectedGenres());
@@ -120,8 +124,8 @@ public class ReserveVenueViewController {
     }
 
     private void onVenueCardClick(VenueBean venue) {
-        // naviga al dettaglio del locale passando la bean
-        // per ora placeholder
+        SceneManager.getInstance().setTransferData(venue);
+        SceneManager.getInstance().openPopup(SceneManager.SceneName.VENUE_DETAIL);
     }
 
 }

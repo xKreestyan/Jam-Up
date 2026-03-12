@@ -1,14 +1,140 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.jamup.view.artistview.VenueDetailViewController"
-            prefHeight="400.0" prefWidth="600.0">
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.jamup.view.artistview.VenueDetailViewController"
+      prefWidth="620.0"
+      maxWidth="620.0"
+      maxHeight="740.0"
+      spacing="0.0"
+      style="-fx-background-color: #13131f; -fx-background-radius: 16;">
 
-</AnchorPane>
+    <!-- Header con X -->
+    <StackPane style="-fx-background-color: #1e1e30; -fx-background-radius: 16 16 0 0;
+                      -fx-min-height: 56; -fx-pref-height: 56;">
+        <Button text="✕"
+                onAction="#onCloseClick"
+                style="-fx-background-color: #2a2a3e; -fx-text-fill: white;
+                       -fx-background-radius: 20; -fx-font-size: 13px;
+                       -fx-cursor: hand; -fx-padding: 4 9 4 9;"
+                StackPane.alignment="TOP_RIGHT">
+            <StackPane.margin>
+                <Insets top="12.0" right="12.0"/>
+            </StackPane.margin>
+        </Button>
+    </StackPane>
+
+    <!-- Body in ScrollPane per sicurezza -->
+    <ScrollPane fitToWidth="true" vbarPolicy="AS_NEEDED" hbarPolicy="NEVER"
+                style="-fx-background: transparent; -fx-background-color: transparent;
+                       -fx-border-color: transparent;"
+                VBox.vgrow="ALWAYS">
+
+        <VBox spacing="0.0">
+            <padding>
+                <Insets top="24.0" right="28.0" bottom="28.0" left="28.0"/>
+            </padding>
+
+            <!-- Nome e generi -->
+            <HBox alignment="CENTER_LEFT">
+                <VBox.margin><Insets bottom="8.0"/></VBox.margin>
+                <Label fx:id="nameLabel"
+                       text=""
+                       style="-fx-font-size: 22px; -fx-font-weight: bold;
+                              -fx-text-fill: white; -fx-font-family: 'Georgia';"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="genresLabel"
+                       text=""
+                       style="-fx-font-size: 13px; -fx-text-fill: #888888;"/>
+            </HBox>
+
+            <!-- Location -->
+            <Label fx:id="locationLabel" text=""
+                   style="-fx-font-size: 13px; -fx-text-fill: #666677;">
+                <VBox.margin><Insets bottom="6.0"/></VBox.margin>
+            </Label>
+
+            <!-- Description -->
+            <Label fx:id="descriptionLabel" text="" wrapText="true"
+                   style="-fx-font-size: 12px; -fx-text-fill: #555566;">
+                <VBox.margin><Insets bottom="24.0"/></VBox.margin>
+            </Label>
+
+            <!-- Separatore -->
+            <Separator style="-fx-background-color: #2a2a3e;">
+                <VBox.margin><Insets bottom="24.0"/></VBox.margin>
+            </Separator>
+
+            <!-- Seleziona Data -->
+            <Label text="Select Date"
+                   style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: white;">
+                <VBox.margin><Insets bottom="12.0"/></VBox.margin>
+            </Label>
+
+            <ScrollPane prefHeight="90.0" minHeight="90.0"
+                        fitToHeight="false"
+                        hbarPolicy="AS_NEEDED"
+                        vbarPolicy="NEVER"
+                        style="-fx-background: transparent; -fx-background-color: transparent;
+                               -fx-border-color: transparent;">
+                <VBox.margin><Insets bottom="24.0"/></VBox.margin>
+                <HBox fx:id="dateButtonContainer" spacing="8.0">
+                    <padding><Insets bottom="4.0"/></padding>
+                </HBox>
+            </ScrollPane>
+
+            <!-- Seleziona Orario -->
+            <Label text="Select Time"
+                   style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: white;">
+                <VBox.margin><Insets bottom="12.0"/></VBox.margin>
+            </Label>
+
+            <FlowPane fx:id="timeButtonContainer" hgap="8.0" vgap="8.0">
+                <VBox.margin><Insets bottom="28.0"/></VBox.margin>
+            </FlowPane>
+
+            <!-- Note -->
+            <Label text="Notes (optional)"
+                   style="-fx-font-size: 13px; -fx-text-fill: #999999; -fx-font-weight: bold;">
+                <VBox.margin><Insets bottom="8.0"/></VBox.margin>
+            </Label>
+
+            <TextArea fx:id="notesArea"
+                      promptText="Add a note for the venue manager..."
+                      prefRowCount="3"
+                      wrapText="true"
+                      style="-fx-control-inner-background: #1a1a28;
+                             -fx-text-fill: white;
+                             -fx-prompt-text-fill: #44445a;
+                             -fx-border-color: #2a2a3e;
+                             -fx-border-radius: 10;
+                             -fx-background-radius: 10;
+                             -fx-font-size: 13px;">
+                <VBox.margin><Insets bottom="24.0"/></VBox.margin>
+            </TextArea>
+
+            <!-- Book Now button -->
+            <Button text="Book Now"
+                    onAction="#onBookNowClick"
+                    maxWidth="Infinity"
+                    style="-fx-background-color: #a855f7; -fx-text-fill: white;
+                           -fx-font-size: 15px; -fx-font-weight: bold;
+                           -fx-background-radius: 10; -fx-padding: 14 0 14 0;
+                           -fx-cursor: hand;
+                           -fx-effect: dropshadow(gaussian, #a855f755, 16, 0.3, 0, 4);">
+                <VBox.margin><Insets bottom="10.0"/></VBox.margin>
+            </Button>
+
+            <!-- Error label -->
+            <Label fx:id="errorLabel" text=""
+                   style="-fx-text-fill: #ef4444; -fx-font-size: 12px;"
+                   visible="false"/>
+
+        </VBox>
+    </ScrollPane>
+
+</VBox>
