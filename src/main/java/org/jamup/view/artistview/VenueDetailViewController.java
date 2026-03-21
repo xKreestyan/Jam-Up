@@ -1,6 +1,7 @@
 package org.jamup.view.artistview;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -153,6 +154,13 @@ public class VenueDetailViewController {
             TimeSlot slot = new TimeSlot(selectedDate, selectedTime);
             ReservationBean bean = new ReservationBean(currentVenue.getId(), slot, notesArea.getText());
             reserveVenueController.confirmReservation(bean);
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Booking Confirmed");
+            alert.setHeaderText(null);
+            alert.setContentText("Your reservation request has been sent to the venue manager.");
+            alert.showAndWait();
+
             SceneManager.getInstance().closePopup();
         } catch (InvalidFieldException e) {
             errorLabel.setText(e.getMessage());

@@ -2,7 +2,6 @@ package org.jamup.controller;
 
 import org.jamup.bean.NotificationBean;
 import org.jamup.dao.interfaces.NotificationDAO;
-import org.jamup.exception.NoReservationsFoundException;
 import org.jamup.factory.DAOFactory;
 import org.jamup.model.Notification;
 import org.jamup.util.SessionManager;
@@ -12,13 +11,14 @@ import java.util.List;
 
 public class NotificationController {
 
+    private final NotificationDAO notificationDAO = DAOFactory.getInstance().createNotificationDAO();
+
     /**
      * Fetches all notifications for the currently logged-in user.
      *
      * @return a list of NotificationBean objects containing notification details.
      */
     public List<NotificationBean> fetchNotifications() {
-        NotificationDAO notificationDAO = DAOFactory.getInstance().createNotificationDAO();
         String recipientId = SessionManager.getInstance().getCurrentUserId();
         List<Notification> fetchedNotifications = notificationDAO.findByRecipient(recipientId);
 
@@ -38,11 +38,20 @@ public class NotificationController {
      * @param bean the NotificationBean representing the notification to be updated.
      */
     public void markAsRead(NotificationBean bean) {
-        NotificationDAO notificationDAO = DAOFactory.getInstance().createNotificationDAO();
         Notification notification = notificationDAO.findById(bean.getId());
 
         notification.markAsRead();
         notificationDAO.update(notification);
+    }
+
+    /**
+     * Creates and saves a new notification for a specific recipient.
+     *
+     * @param recipientId the unique identifier of the notification recipient.
+     * @param message     the content of the notification message.
+     */
+    public void createNotification(String recipientId, String message) {
+        notificationDAO.save(new Notification(recipientId, message));
     }
 
 }

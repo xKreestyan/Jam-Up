@@ -48,10 +48,14 @@ public class InMemoryStorage {
 
     //population
     static {
+        //managers ids
+        String m1Id = UUID.randomUUID().toString();
+        String m2Id = UUID.randomUUID().toString();
+
         //venues
         Venue v1 = new Venue(UUID.randomUUID().toString(), "Jazz Club Milano",
                 "Historic jazz club in the heart of Milan, featuring live performances every weekend.",
-                List.of(MusicGenre.JAZZ, MusicGenre.BLUES), "Via Garibaldi 23, Milano", "1");
+                List.of(MusicGenre.JAZZ, MusicGenre.BLUES), "Via Garibaldi 23, Milano", m1Id);
         addSlots(v1, LocalDate.of(2026, 3, 15), LocalTime.of(20, 0), LocalTime.of(22, 0));
         addSlots(v1, LocalDate.of(2026, 3, 20), LocalTime.of(21, 0));
         addSlots(v1, LocalDate.of(2026, 3, 22), LocalTime.of(20, 0), LocalTime.of(22, 0));
@@ -63,7 +67,7 @@ public class InMemoryStorage {
 
         Venue v2 = new Venue(UUID.randomUUID().toString(), "Rock Arena",
                 "The loudest stage in Milan, home of rock and metal nights.",
-                List.of(MusicGenre.ROCK, MusicGenre.METAL), "Corso Buenos Aires 45, Milano", "2");
+                List.of(MusicGenre.ROCK, MusicGenre.METAL), "Corso Buenos Aires 45, Milano", m1Id);
         addSlots(v2, LocalDate.of(2026, 3, 16), LocalTime.of(21, 0), LocalTime.of(23, 0));
         addSlots(v2, LocalDate.of(2026, 3, 21), LocalTime.of(22, 0));
         addSlots(v2, LocalDate.of(2026, 3, 28), LocalTime.of(21, 0), LocalTime.of(23, 0));
@@ -75,7 +79,7 @@ public class InMemoryStorage {
 
         Venue v3 = new Venue(UUID.randomUUID().toString(), "Groove Bar",
                 "Underground electronic venue with state-of-the-art sound system.",
-                List.of(MusicGenre.ELECTRONIC, MusicGenre.HOUSE), "Via Torino 12, Milano", "3");
+                List.of(MusicGenre.ELECTRONIC, MusicGenre.HOUSE), "Via Torino 12, Milano", m2Id);
         addSlots(v3, LocalDate.of(2026, 3, 17), LocalTime.of(22, 0), LocalTime.of(23, 30));
         addSlots(v3, LocalDate.of(2026, 3, 19), LocalTime.of(23, 0));
         addSlots(v3, LocalDate.of(2026, 3, 24), LocalTime.of(22, 0), LocalTime.of(23, 30));
@@ -87,7 +91,7 @@ public class InMemoryStorage {
 
         Venue v4 = new Venue(UUID.randomUUID().toString(), "Live Stage Milano",
                 "Versatile venue in the city center, open to all genres and emerging artists.",
-                List.of(MusicGenre.POP, MusicGenre.INDIE), "Piazza Duomo 8, Milano", "4");
+                List.of(MusicGenre.POP, MusicGenre.INDIE), "Piazza Duomo 8, Milano", m2Id);
         addSlots(v4, LocalDate.of(2026, 3, 18), LocalTime.of(19, 0), LocalTime.of(20, 30), LocalTime.of(22, 30));
         addSlots(v4, LocalDate.of(2026, 3, 25), LocalTime.of(19, 0), LocalTime.of(21, 0));
         addSlots(v4, LocalDate.of(2026, 4, 1),  LocalTime.of(19, 0), LocalTime.of(20, 30), LocalTime.of(22, 30));
@@ -102,10 +106,10 @@ public class InMemoryStorage {
         artists.add(a1);
 
         //managers
-        VenueManager m1 = new VenueManager(UUID.randomUUID().toString(), "Giuseppe Verdi", "manager1@email.com", Encryptor.hash("manager123"), List.of(v1.getId(), v2.getId()));
+        VenueManager m1 = new VenueManager(m1Id, "Giuseppe Verdi", "manager1@email.com", Encryptor.hash("manager123"), List.of(v1.getId(), v2.getId()));
         managers.add(m1);
 
-        VenueManager m2 = new VenueManager(UUID.randomUUID().toString(), "Antonio Vivaldi", "manager2@email.com", Encryptor.hash("manager456"), List.of(v3.getId(), v4.getId()));
+        VenueManager m2 = new VenueManager(m2Id, "Antonio Vivaldi", "manager2@email.com", Encryptor.hash("manager456"), List.of(v3.getId(), v4.getId()));
         managers.add(m2);
     }
 

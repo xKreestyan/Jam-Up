@@ -37,6 +37,11 @@ public class ReserveVenueViewController {
     private final ReserveVenueController reserveVenueController = new ReserveVenueController();
 
     @FXML
+    public void initialize() {
+        onSearchAction();
+    }
+
+    @FXML
     public void onNotificationsClick() {
         SceneManager.getInstance().navigateTo(SceneManager.SceneName.NOTIFICATIONS);
     }

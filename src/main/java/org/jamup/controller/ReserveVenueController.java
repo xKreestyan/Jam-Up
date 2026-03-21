@@ -92,9 +92,8 @@ public class ReserveVenueController {
                 " on " + bean.getReservedSlot().getDate() +
                 " at " + bean.getReservedSlot().getTime();
 
-        Notification newReservationNotification = new Notification(venue.getManagerId(), message);
-        NotificationDAO notificationDAO = DAOFactory.getInstance().createNotificationDAO();
-        notificationDAO.save(newReservationNotification);
+        NotificationController notificationController = new NotificationController();
+        notificationController.createNotification(venue.getManagerId(), message);
     }
 
 }

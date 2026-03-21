@@ -1,8 +1,9 @@
 package org.jamup.model;
 
 import org.jamup.model.enums.ReservationStatus;
+import org.jamup.observer.Subject;
 
-public class Reservation {
+public class Reservation extends Subject {
 
     private String id;
     private String notes;
@@ -13,6 +14,7 @@ public class Reservation {
 
     public void updateStatus(ReservationStatus status) {
         this.status = status;
+        notifyObservers();
     }
 
     public String getId() {

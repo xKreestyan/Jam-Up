@@ -5,11 +5,14 @@ import org.jamup.model.Notification;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class NotificationDAOMemory implements NotificationDAO {
 
     @Override
     public void save(Notification newNotification) {
+        String id = UUID.randomUUID().toString();
+        newNotification.setId(id);
         InMemoryStorage.getNotifications().add(newNotification);
     }
 

@@ -65,7 +65,7 @@
             </HBox>
 
             <!-- No results label -->
-            <Label fx:id="noReservationsLabel" style="-fx-text-fill: #666677; -fx-font-size: 13px;" text="Nessuna prenotazione trovata" visible="false" />
+            <Label fx:id="noReservationsLabel" style="-fx-text-fill: #666677; -fx-font-size: 13px;" text="No reservation found" visible="false" />
 
             <!-- Reservations list -->
             <ScrollPane fitToWidth="true" style="-fx-background: transparent;                                -fx-background-color: transparent;                                -fx-border-color: transparent;" VBox.vgrow="ALWAYS">

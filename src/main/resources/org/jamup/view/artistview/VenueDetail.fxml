@@ -108,12 +108,15 @@
                       prefRowCount="3"
                       wrapText="true"
                       style="-fx-control-inner-background: #1a1a28;
-                             -fx-text-fill: white;
-                             -fx-prompt-text-fill: #44445a;
-                             -fx-border-color: #2a2a3e;
-                             -fx-border-radius: 10;
-                             -fx-background-radius: 10;
-                             -fx-font-size: 13px;">
+                            -fx-text-fill: white;
+                            -fx-prompt-text-fill: #44445a;
+                            -fx-border-color: #2a2a3e;
+                            -fx-border-radius: 10;
+                            -fx-background-radius: 10;
+                            -fx-font-size: 13px;
+                            -fx-background-color: #1a1a28;
+                            -fx-focus-color: transparent;
+                            -fx-faint-focus-color: transparent;">
                 <VBox.margin><Insets bottom="24.0"/></VBox.margin>
             </TextArea>
 

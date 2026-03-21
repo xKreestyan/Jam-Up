@@ -10,6 +10,7 @@ import org.jamup.model.enums.ReservationStatus;
 import org.jamup.util.SceneManager;
 import org.jamup.util.SessionManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ManagerHomeViewController {
@@ -22,6 +23,7 @@ public class ManagerHomeViewController {
 
     private final ManageReservationsController manageReservationsController = new ManageReservationsController();
     private ReservationStatus currentTab = ReservationStatus.PENDING;
+    private List<ReservationBean> allReservations = new ArrayList<>();
 
     private static final String STYLE_ACTIVE_LEFT   = "-fx-background-color: #a855f7; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 20 0 0 20; -fx-border-color: #a855f7; -fx-border-radius: 20 0 0 20; -fx-padding: 8 20 8 20; -fx-cursor: hand;";
     private static final String STYLE_ACTIVE_MID    = "-fx-background-color: #a855f7; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-background-radius: 0; -fx-border-color: #a855f7; -fx-border-radius: 0; -fx-padding: 8 20 8 20; -fx-cursor: hand;";
@@ -32,7 +34,12 @@ public class ManagerHomeViewController {
 
     @FXML
     public void initialize() {
-        loadReservations(ReservationStatus.PENDING);
+        try {
+            allReservations = manageReservationsController.fetchReservations(null); //null: every reservation
+        } catch (NoReservationsFoundException e) {
+            allReservations = new ArrayList<>();
+        }
+        showReservations(ReservationStatus.PENDING);
     }
 
     @FXML
@@ -41,7 +48,7 @@ public class ManagerHomeViewController {
         tabAccepted.setStyle(STYLE_INACTIVE_MID);
         tabRejected.setStyle(STYLE_INACTIVE_RIGHT);
         currentTab = ReservationStatus.PENDING;
-        loadReservations(currentTab);
+        showReservations(currentTab);
     }
 
     @FXML
@@ -50,7 +57,7 @@ public class ManagerHomeViewController {
         tabAccepted.setStyle(STYLE_ACTIVE_MID);
         tabRejected.setStyle(STYLE_INACTIVE_RIGHT);
         currentTab = ReservationStatus.ACCEPTED;
-        loadReservations(currentTab);
+        showReservations(currentTab);
     }
 
     @FXML
@@ -59,7 +66,7 @@ public class ManagerHomeViewController {
         tabAccepted.setStyle(STYLE_INACTIVE_MID);
         tabRejected.setStyle(STYLE_ACTIVE_RIGHT);
         currentTab = ReservationStatus.REJECTED;
-        loadReservations(currentTab);
+        showReservations(currentTab);
     }
 
     @FXML
@@ -81,19 +88,21 @@ public class ManagerHomeViewController {
         });
     }
 
-    private void loadReservations(ReservationStatus status) {
+    private void showReservations(ReservationStatus status) {
         reservationListContainer.getChildren().clear();
         reservationListContainer.getChildren().add(noReservationsLabel);
         noReservationsLabel.setVisible(false);
 
-        try {
-            List<ReservationBean> reservations = manageReservationsController.fetchReservations(status);
-            for (ReservationBean reservation : reservations) {
-                reservationListContainer.getChildren().add(createReservationCard(reservation));
-            }
-        } catch (NoReservationsFoundException e) {
-            noReservationsLabel.setText(e.getMessage());
+        List<ReservationBean> filtered = allReservations.stream()
+                .filter(r -> r.getStatus() == status)
+                .toList();
+
+        if (filtered.isEmpty()) {
             noReservationsLabel.setVisible(true);
+        } else {
+            for (ReservationBean r : filtered) {
+                reservationListContainer.getChildren().add(createReservationCard(r));
+            }
         }
     }
 
@@ -151,12 +160,22 @@ public class ManagerHomeViewController {
 
     private void onAccept(ReservationBean reservation) {
         manageReservationsController.accept(reservation.getReservationId());
-        loadReservations(currentTab);
+        reloadAllReservations();
+        showReservations(currentTab);
     }
 
     private void onReject(ReservationBean reservation) {
         manageReservationsController.reject(reservation.getReservationId());
-        loadReservations(currentTab);
+        reloadAllReservations();
+        showReservations(currentTab);
+    }
+
+    private void reloadAllReservations() {
+        try {
+            allReservations = manageReservationsController.fetchReservations(null);
+        } catch (NoReservationsFoundException e) {
+            allReservations = new ArrayList<>();
+        }
     }
 
 }

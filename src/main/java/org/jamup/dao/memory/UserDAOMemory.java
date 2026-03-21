@@ -46,4 +46,8 @@ public class UserDAOMemory implements UserDAO {
         return null;
     }
 
+    public UserDAOMemory() {
+        System.out.println("Creato UserDAO versione DEMO");
+    }
+
 }
