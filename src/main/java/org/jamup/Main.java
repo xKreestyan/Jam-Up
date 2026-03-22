@@ -10,7 +10,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        DAOFactory.getInstance("DEMO");
+        DAOFactory.getInstance("CSV");
         SceneManager.getInstance().setStage(primaryStage);
         SceneManager.getInstance().navigateTo(SceneManager.SceneName.LOGIN);
         primaryStage.show();

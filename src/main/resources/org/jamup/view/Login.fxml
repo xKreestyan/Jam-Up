@@ -38,10 +38,10 @@
         <HBox alignment="CENTER" spacing="0.0">
             <Label text="Jam Up"
                    style="-fx-font-size: 30px; -fx-font-weight: bold;
-                          -fx-text-fill: white; -fx-font-family: 'Georgia';"/>
+                          -fx-text-fill: white;"/>
             <Label text="!"
                    style="-fx-font-size: 30px; -fx-font-weight: bold;
-                          -fx-text-fill: #a855f7; -fx-font-family: 'Georgia';"/>
+                          -fx-text-fill: #a855f7;"/>
         </HBox>
 
         <Region prefHeight="8.0"/>

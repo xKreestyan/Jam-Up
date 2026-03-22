@@ -1,15 +1,14 @@
 package org.jamup.view;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import org.jamup.bean.NotificationBean;
-import org.jamup.controller.NotificationController;
+import org.jamup.util.JamUpFacade;
+import org.jamup.util.LogoutHandler;
 import org.jamup.util.SceneManager;
 import org.jamup.util.SessionManager;
 
@@ -20,7 +19,7 @@ public class NotificationsViewController {
     @FXML private VBox notificationsContainer;
     @FXML private Label noNotificationsLabel;
 
-    private final NotificationController notificationController = new NotificationController();
+    private final JamUpFacade facade = JamUpFacade.getInstance();
 
     @FXML
     public void initialize() {
@@ -38,24 +37,15 @@ public class NotificationsViewController {
 
     @FXML
     public void onLogoutClick() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Logout");
-        alert.setHeaderText(null);
-        alert.setContentText("Are you sure you want to logout?");
-        alert.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.OK) {
-                SessionManager.getInstance().logout();
-                SceneManager.getInstance().navigateTo(SceneManager.SceneName.LOGIN);
-            }
-        });
+        LogoutHandler.handle();
     }
 
     @FXML
     public void onMarkAllReadClick() {
-        List<NotificationBean> notifications = notificationController.fetchNotifications();
+        List<NotificationBean> notifications = facade.fetchNotifications();
         for (NotificationBean notification : notifications) {
             if (!notification.isRead()) {
-                notificationController.markAsRead(notification);
+                facade.markAsRead(notification);
             }
         }
         loadNotifications();
@@ -66,7 +56,7 @@ public class NotificationsViewController {
         notificationsContainer.getChildren().add(noNotificationsLabel);
         noNotificationsLabel.setVisible(false);
 
-        List<NotificationBean> notifications = notificationController.fetchNotifications();
+        List<NotificationBean> notifications = facade.fetchNotifications();
 
         if (notifications.isEmpty()) {
             noNotificationsLabel.setVisible(true);
@@ -117,7 +107,7 @@ public class NotificationsViewController {
         // click → segna come letta
         if (!notification.isRead()) {
             card.setOnMouseClicked(e -> {
-                notificationController.markAsRead(notification);
+                facade.markAsRead(notification);
                 loadNotifications();
             });
         }

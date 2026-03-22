@@ -5,7 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
 import org.jamup.bean.LoginUserBean;
-import org.jamup.controller.LoginController;
+import org.jamup.util.JamUpFacade;
 import org.jamup.exception.InvalidCredentialsException;
 import org.jamup.exception.InvalidFieldException;
 import org.jamup.util.SceneManager;
@@ -17,19 +17,17 @@ public class LoginViewController {
     @FXML private PasswordField passwordField;
     @FXML private Label errorLabel;
 
-    private final LoginController loginController = new LoginController();
+    private final JamUpFacade facade = JamUpFacade.getInstance();
 
     @FXML
     public void onLoginButtonClick() {
         try {
             LoginUserBean bean = new LoginUserBean(emailField.getText(), passwordField.getText());
-            loginController.login(bean);
+            facade.login(bean);
 
             if (SessionManager.getInstance().isArtistLoggedIn()) {
-                //go to reserve venue screen
                 SceneManager.getInstance().navigateTo(SceneManager.SceneName.RESERVE_VENUE);
             } else if (SessionManager.getInstance().isManagerLoggedIn()) {
-                //go to manager home screen
                 SceneManager.getInstance().navigateTo(SceneManager.SceneName.MANAGER_HOME);
             }
         } catch (InvalidFieldException e) {

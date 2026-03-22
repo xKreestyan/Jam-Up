@@ -48,6 +48,7 @@ public class NotificationDAOMemory implements NotificationDAO {
         return notifications;
     }
 
+    //update of the i-th notification following a status change (marked as read)
     @Override
     public void update(Notification updatedNotification) {
         List<Notification> notifications = InMemoryStorage.getNotifications();

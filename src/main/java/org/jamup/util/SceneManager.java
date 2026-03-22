@@ -16,7 +16,6 @@ public class SceneManager {
         NOTIFICATIONS       ("/org/jamup/view/Notifications.fxml"),
         RESERVE_VENUE       ("/org/jamup/view/artistview/ReserveVenue.fxml"),
         VENUE_DETAIL        ("/org/jamup/view/artistview/VenueDetail.fxml"),
-        RESERVATION_SUMMARY ("/org/jamup/view/artistview/ReservationSummary.fxml"),
         MANAGER_HOME        ("/org/jamup/view/managerview/ManagerHome.fxml");
 
         private final String path;

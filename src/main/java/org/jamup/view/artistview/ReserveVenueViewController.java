@@ -5,12 +5,10 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.jamup.bean.VenueBean;
-import org.jamup.controller.ReserveVenueController;
 import org.jamup.exception.InvalidFieldException;
 import org.jamup.exception.NoVenuesFoundException;
 import org.jamup.model.enums.MusicGenre;
-import org.jamup.util.SceneManager;
-import org.jamup.util.SessionManager;
+import org.jamup.util.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +18,7 @@ public class ReserveVenueViewController {
     @FXML private TextField searchField;
     @FXML private DatePicker datePicker;
     @FXML private Label noResultsLabel;
+    @FXML private Label notificationBadge;
     @FXML private VBox venueListContainer;
     @FXML private CheckBox checkBlues;
     @FXML private CheckBox checkClassical;
@@ -34,11 +33,12 @@ public class ReserveVenueViewController {
     @FXML private CheckBox checkReggae;
     @FXML private CheckBox checkRock;
 
-    private final ReserveVenueController reserveVenueController = new ReserveVenueController();
+    private final JamUpFacade facade = JamUpFacade.getInstance();
 
     @FXML
     public void initialize() {
         onSearchAction();
+        BadgeUtils.updateNotificationBadge(notificationBadge, facade.countUnreadNotifications());
     }
 
     @FXML
@@ -48,16 +48,7 @@ public class ReserveVenueViewController {
 
     @FXML
     public void onLogoutClick() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Logout");
-        alert.setHeaderText(null);
-        alert.setContentText("Are you sure you want to logout?");
-        alert.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.OK) {
-                SessionManager.getInstance().logout();
-                SceneManager.getInstance().navigateTo(SceneManager.SceneName.LOGIN);
-            }
-        });
+        LogoutHandler.handle();
     }
 
     @FXML
@@ -69,7 +60,7 @@ public class ReserveVenueViewController {
         try {
             String venueName= searchField.getText().trim().isEmpty() ? null : searchField.getText().trim();
             VenueBean bean = new VenueBean(venueName, datePicker.getValue(), getSelectedGenres());
-            List<VenueBean> results = reserveVenueController.search(bean);
+            List<VenueBean> results = facade.search(bean);
             noResultsLabel.setVisible(false);
             venueListContainer.getChildren().clear(); // pulisci i risultati precedenti
             for (VenueBean venue : results) {

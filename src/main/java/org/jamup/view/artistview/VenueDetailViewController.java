@@ -7,12 +7,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
 import org.jamup.bean.ReservationBean;
 import org.jamup.bean.VenueBean;
-import org.jamup.controller.ReserveVenueController;
 import org.jamup.exception.InvalidFieldException;
 import org.jamup.model.TimeSlot;
+import org.jamup.util.JamUpFacade;
 import org.jamup.util.SceneManager;
 
 import java.time.LocalDate;
@@ -36,7 +35,7 @@ public class VenueDetailViewController {
     private Button selectedDateButton = null;
     private Button selectedTimeButton = null;
 
-    private final ReserveVenueController reserveVenueController = new ReserveVenueController();
+    private final JamUpFacade facade = JamUpFacade.getInstance();
 
     @FXML
     public void initialize() {
@@ -153,7 +152,10 @@ public class VenueDetailViewController {
         try {
             TimeSlot slot = new TimeSlot(selectedDate, selectedTime);
             ReservationBean bean = new ReservationBean(currentVenue.getId(), slot, notesArea.getText());
-            reserveVenueController.confirmReservation(bean);
+            facade.confirmReservation(bean);
+
+            //force reload
+            SceneManager.getInstance().navigateTo(SceneManager.SceneName.RESERVE_VENUE);
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Booking Confirmed");

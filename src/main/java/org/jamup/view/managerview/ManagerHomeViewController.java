@@ -4,11 +4,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import org.jamup.bean.ReservationBean;
-import org.jamup.controller.ManageReservationsController;
 import org.jamup.exception.NoReservationsFoundException;
 import org.jamup.model.enums.ReservationStatus;
-import org.jamup.util.SceneManager;
-import org.jamup.util.SessionManager;
+import org.jamup.util.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +18,9 @@ public class ManagerHomeViewController {
     @FXML private Button tabRejected;
     @FXML private VBox reservationListContainer;
     @FXML private Label noReservationsLabel;
+    @FXML private Label notificationBadge;
 
-    private final ManageReservationsController manageReservationsController = new ManageReservationsController();
+    private final JamUpFacade facade = JamUpFacade.getInstance();
     private ReservationStatus currentTab = ReservationStatus.PENDING;
     private List<ReservationBean> allReservations = new ArrayList<>();
 
@@ -35,11 +34,12 @@ public class ManagerHomeViewController {
     @FXML
     public void initialize() {
         try {
-            allReservations = manageReservationsController.fetchReservations(null); //null: every reservation
+            allReservations = facade.fetchReservations(null); //null: every reservation
         } catch (NoReservationsFoundException e) {
             allReservations = new ArrayList<>();
         }
         showReservations(ReservationStatus.PENDING);
+        BadgeUtils.updateNotificationBadge(notificationBadge, facade.countUnreadNotifications());
     }
 
     @FXML
@@ -76,16 +76,7 @@ public class ManagerHomeViewController {
 
     @FXML
     public void onLogoutClick() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Logout");
-        alert.setHeaderText(null);
-        alert.setContentText("Are you sure you want to logout?");
-        alert.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.OK) {
-                SessionManager.getInstance().logout();
-                SceneManager.getInstance().navigateTo(SceneManager.SceneName.LOGIN);
-            }
-        });
+        LogoutHandler.handle();
     }
 
     private void showReservations(ReservationStatus status) {
@@ -159,20 +150,20 @@ public class ManagerHomeViewController {
     }
 
     private void onAccept(ReservationBean reservation) {
-        manageReservationsController.accept(reservation.getReservationId());
+        facade.accept(reservation.getReservationId());
         reloadAllReservations();
         showReservations(currentTab);
     }
 
     private void onReject(ReservationBean reservation) {
-        manageReservationsController.reject(reservation.getReservationId());
+        facade.reject(reservation.getReservationId());
         reloadAllReservations();
         showReservations(currentTab);
     }
 
     private void reloadAllReservations() {
         try {
-            allReservations = manageReservationsController.fetchReservations(null);
+            allReservations = facade.fetchReservations(null);
         } catch (NoReservationsFoundException e) {
             allReservations = new ArrayList<>();
         }

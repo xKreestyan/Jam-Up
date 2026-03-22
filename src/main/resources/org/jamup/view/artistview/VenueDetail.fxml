@@ -45,7 +45,7 @@
                 <Label fx:id="nameLabel"
                        text=""
                        style="-fx-font-size: 22px; -fx-font-weight: bold;
-                              -fx-text-fill: white; -fx-font-family: 'Georgia';"/>
+                              -fx-text-fill: white;"/>
                 <Region HBox.hgrow="ALWAYS"/>
                 <Label fx:id="genresLabel"
                        text=""

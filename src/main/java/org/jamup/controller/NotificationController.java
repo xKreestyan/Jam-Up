@@ -54,4 +54,14 @@ public class NotificationController {
         notificationDAO.save(new Notification(recipientId, message));
     }
 
+    /**
+     * Counts the number of unread notifications for the currently logged-in user.
+     *
+     * @return the total count of unread notifications.
+     */
+    public int countUnreadNotifications() {
+        String recipientId = SessionManager.getInstance().getCurrentUserId();
+        return notificationDAO.findUnreadByRecipient(recipientId).size();
+    }
+
 }
