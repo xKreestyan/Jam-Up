@@ -3,7 +3,7 @@ package org.jamup.dao.csv;
 import org.jamup.dao.interfaces.ReservationDAO;
 import org.jamup.dao.interfaces.UserDAO;
 import org.jamup.dao.interfaces.VenueDAO;
-import org.jamup.factory.DAOFactory;
+import org.jamup.dao.factory.DAOFactory;
 import org.jamup.model.Artist;
 import org.jamup.model.Reservation;
 import org.jamup.model.TimeSlot;

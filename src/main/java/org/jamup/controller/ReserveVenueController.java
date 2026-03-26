@@ -2,14 +2,12 @@ package org.jamup.controller;
 
 import org.jamup.bean.ReservationBean;
 import org.jamup.bean.VenueBean;
-import org.jamup.dao.interfaces.NotificationDAO;
 import org.jamup.dao.interfaces.ReservationDAO;
 import org.jamup.dao.interfaces.UserDAO;
 import org.jamup.dao.interfaces.VenueDAO;
 import org.jamup.exception.NoVenuesFoundException;
-import org.jamup.factory.DAOFactory;
+import org.jamup.dao.factory.DAOFactory;
 import org.jamup.model.Artist;
-import org.jamup.model.Notification;
 import org.jamup.model.Reservation;
 import org.jamup.model.Venue;
 import org.jamup.util.SessionManager;

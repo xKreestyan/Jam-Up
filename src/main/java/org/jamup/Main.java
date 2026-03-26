@@ -3,7 +3,7 @@ package org.jamup;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-import org.jamup.factory.DAOFactory;
+import org.jamup.dao.factory.DAOFactory;
 import org.jamup.util.SceneManager;
 
 public class Main extends Application {

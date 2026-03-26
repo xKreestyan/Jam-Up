@@ -1,28 +1,28 @@
-package org.jamup.factory;
+package org.jamup.dao.factory;
 
 import org.jamup.dao.interfaces.*;
-import org.jamup.dao.db.*;
+import org.jamup.dao.memory.*;
 
-public class DBDAOFactory extends DAOFactory {
+public class MemoryDAOFactory extends DAOFactory {
 
     @Override
     public VenueDAO createVenueDAO() {
-        return new VenueDAODB();
+        return new VenueDAOMemory();
     }
 
     @Override
     public ReservationDAO createReservationDAO() {
-        return new ReservationDAODB();
+        return new ReservationDAOMemory();
     }
 
     @Override
     public UserDAO createUserDAO() {
-        return new UserDAODB();
+        return new UserDAOMemory();
     }
 
     @Override
     public NotificationDAO createNotificationDAO() {
-        return new NotificationDAODB();
+        return new NotificationDAOMemory();
     }
 
 }

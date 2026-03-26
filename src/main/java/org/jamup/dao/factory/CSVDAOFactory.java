@@ -1,4 +1,4 @@
-package org.jamup.factory;
+package org.jamup.dao.factory;
 
 import org.jamup.dao.interfaces.*;
 import org.jamup.dao.csv.*;

@@ -3,7 +3,7 @@ package org.jamup.controller;
 import org.jamup.bean.LoginUserBean;
 import org.jamup.dao.interfaces.UserDAO;
 import org.jamup.exception.InvalidCredentialsException;
-import org.jamup.factory.DAOFactory;
+import org.jamup.dao.factory.DAOFactory;
 import org.jamup.model.Artist;
 import org.jamup.model.VenueManager;
 import org.jamup.util.Encryptor;

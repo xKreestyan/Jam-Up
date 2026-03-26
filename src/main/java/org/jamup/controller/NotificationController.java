@@ -2,7 +2,7 @@ package org.jamup.controller;
 
 import org.jamup.bean.NotificationBean;
 import org.jamup.dao.interfaces.NotificationDAO;
-import org.jamup.factory.DAOFactory;
+import org.jamup.dao.factory.DAOFactory;
 import org.jamup.model.Notification;
 import org.jamup.util.SessionManager;
 
