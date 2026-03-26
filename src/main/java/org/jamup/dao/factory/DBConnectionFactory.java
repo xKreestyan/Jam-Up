@@ -1,30 +1,37 @@
 package org.jamup.dao.factory;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 public class DBConnectionFactory {
 
-    private static final String URL      = "jdbc:mariadb://localhost:3306/jamup";
-    private static final String USER     = "jamup_user";
-    private static final String PASSWORD = "jamup_password";
+    private static Connection connection;
 
-    private static DBConnectionFactory instance;
-    private Connection connection;
+    private DBConnectionFactory() {}
 
-    private DBConnectionFactory() throws SQLException {
-        this.connection = DriverManager.getConnection(URL, USER, PASSWORD);
-    }
+    static {
+        try (InputStream input = DBConnectionFactory.class.getClassLoader()
+                .getResourceAsStream("org/jamup/dao/db/db.properties")) {
+            Properties properties = new Properties();
+            properties.load(input);
 
-    public static DBConnectionFactory getInstance() throws SQLException {
-        if (instance == null || instance.connection.isClosed()) {
-            instance = new DBConnectionFactory();
+            String url  = properties.getProperty("CONNECTION_URL");
+            String user = properties.getProperty("LOGIN_USER");
+            String pass = properties.getProperty("LOGIN_PASS");
+
+            connection = DriverManager.getConnection(url, user, pass);
+            System.out.println("Database connection established");
+        } catch (IOException | SQLException e) {
+            throw new RuntimeException("Failed to initialize DB connection", e);
         }
-        return instance;
     }
 
-    public Connection getConnection() {
+    public static Connection getConnection() {
         return connection;
     }
+
 }

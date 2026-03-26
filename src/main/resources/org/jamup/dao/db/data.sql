@@ -1,5 +1,18 @@
 USE jamup;
 
+-- reset data
+SET FOREIGN_KEY_CHECKS = 0;
+TRUNCATE TABLE notification;
+TRUNCATE TABLE reservation;
+TRUNCATE TABLE time_slot;
+TRUNCATE TABLE venue_genre;
+TRUNCATE TABLE venue;
+TRUNCATE TABLE venue_manager;
+TRUNCATE TABLE artist_genre;
+TRUNCATE TABLE artist_instrument;
+TRUNCATE TABLE artist;
+SET FOREIGN_KEY_CHECKS = 1;
+
 -- Artists
 INSERT INTO artist (id, email, password, name) VALUES
 ('a7b8c9d0-e1f2-3456-0123-567890123457', 'mario.rossi@email.com', SHA2('artist123', 256), 'Mario Rossi');

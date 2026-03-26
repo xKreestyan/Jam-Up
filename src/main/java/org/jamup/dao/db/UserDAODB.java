@@ -16,6 +16,13 @@ import java.util.List;
 
 public class UserDAODB implements UserDAO {
 
+    /**
+     * Maps a row from a ResultSet to an Artist object.
+     *
+     * @param rs the ResultSet containing artist data
+     * @return an Artist instance populated with data from the current row
+     * @throws SQLException if a database access error occurs or column labels are missing
+     */
     private Artist resultSetToArtist(ResultSet rs) throws SQLException {
         String id       = rs.getString("id");
         String email    = rs.getString("email");
@@ -24,7 +31,7 @@ public class UserDAODB implements UserDAO {
 
         List<Instrument> instruments = new ArrayList<>();
         String instrStr = rs.getString("instruments");
-        if (instrStr != null) {
+        if (instrStr != null && !instrStr.isEmpty()) {
             for (String i : instrStr.split("\\|")) {
                 instruments.add(Instrument.valueOf(i));
             }
@@ -32,7 +39,7 @@ public class UserDAODB implements UserDAO {
 
         List<MusicGenre> genres = new ArrayList<>();
         String genreStr = rs.getString("genres");
-        if (genreStr != null) {
+        if (genreStr != null && !genreStr.isEmpty()) {
             for (String g : genreStr.split("\\|")) {
                 genres.add(MusicGenre.valueOf(g));
             }
@@ -41,6 +48,13 @@ public class UserDAODB implements UserDAO {
         return new Artist(id, email, password, name, instruments, genres);
     }
 
+    /**
+     * Maps a row from a ResultSet to a VenueManager object.
+     *
+     * @param rs the ResultSet containing venue manager data
+     * @return a VenueManager instance populated with data from the current row
+     * @throws SQLException if a database access error occurs or column labels are missing
+     */
     private VenueManager resultSetToManager(ResultSet rs) throws SQLException {
         String id       = rs.getString("id");
         String name     = rs.getString("name");
@@ -49,7 +63,7 @@ public class UserDAODB implements UserDAO {
 
         List<String> venueIds = new ArrayList<>();
         String venueStr = rs.getString("venue_ids");
-        if (venueStr != null) {
+        if (venueStr != null && !venueStr.isEmpty()) {
             for (String v : venueStr.split("\\|")) {
                 venueIds.add(v);
             }
@@ -61,7 +75,7 @@ public class UserDAODB implements UserDAO {
     @Override
     public Artist findArtistByEmail(String email) {
         try {
-            Connection conn = DBConnectionFactory.getInstance().getConnection();
+            Connection conn = DBConnectionFactory.getConnection();
             CallableStatement stmt = conn.prepareCall("{CALL FindArtistByEmail(?)}");
             stmt.setString(1, email);
             ResultSet rs = stmt.executeQuery();
@@ -77,7 +91,7 @@ public class UserDAODB implements UserDAO {
     @Override
     public Artist findArtistById(String id) {
         try {
-            Connection conn = DBConnectionFactory.getInstance().getConnection();
+            Connection conn = DBConnectionFactory.getConnection();
             CallableStatement stmt = conn.prepareCall("{CALL FindArtistById(?)}");
             stmt.setString(1, id);
             ResultSet rs = stmt.executeQuery();
@@ -93,7 +107,7 @@ public class UserDAODB implements UserDAO {
     @Override
     public VenueManager findManagerByEmail(String email) {
         try {
-            Connection conn = DBConnectionFactory.getInstance().getConnection();
+            Connection conn = DBConnectionFactory.getConnection();
             CallableStatement stmt = conn.prepareCall("{CALL FindManagerByEmail(?)}");
             stmt.setString(1, email);
             ResultSet rs = stmt.executeQuery();
@@ -109,7 +123,7 @@ public class UserDAODB implements UserDAO {
     @Override
     public VenueManager findManagerById(String id) {
         try {
-            Connection conn = DBConnectionFactory.getInstance().getConnection();
+            Connection conn = DBConnectionFactory.getConnection();
             CallableStatement stmt = conn.prepareCall("{CALL FindManagerById(?)}");
             stmt.setString(1, id);
             ResultSet rs = stmt.executeQuery();
