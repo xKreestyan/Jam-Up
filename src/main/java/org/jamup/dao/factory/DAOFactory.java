@@ -28,7 +28,7 @@ public abstract class DAOFactory {
                     break;
                 default:
                     throw new IllegalArgumentException("Unknown mode: " + mode);
-            }//considerare la sintassi compatta con le espressioni lambda
+            }
             return instance;
         }
         else throw new IllegalStateException("DAOFactory already initialized");
