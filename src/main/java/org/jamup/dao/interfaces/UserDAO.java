@@ -5,7 +5,9 @@ import org.jamup.model.VenueManager;
 
 public interface UserDAO {
 
-    //login
+    // ============================================================
+    // LOGIN
+    // ============================================================
     /**
      * Finds an Artist by their email address.
      *
@@ -22,7 +24,9 @@ public interface UserDAO {
      */
     VenueManager findManagerByEmail(String email);
 
-    //search by id
+    // ============================================================
+    // SEARCH BY ID
+    // ============================================================
     /**
      * Finds an Artist by their unique identifier.
      *

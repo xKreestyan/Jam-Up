@@ -6,35 +6,17 @@ import org.jamup.dao.factory.DAOFactory;
 import org.jamup.util.SceneManager;
 
 import java.util.Scanner;
-import java.util.logging.*;
 
 public class Main extends Application {
 
-    private static final Logger logger = Logger.getLogger(Main.class.getName());
-
     public static void main(String[] args) {
-        System.setProperty("java.util.logging.SimpleFormatter.format", "%5$s%n");
-        //logger configuration
-        Logger rootLogger = Logger.getLogger("");
-        for (Handler handler : rootLogger.getHandlers()) {
-            rootLogger.removeHandler(handler);
-        }
-        ConsoleHandler consoleHandler = new ConsoleHandler() {
-            {
-                setOutputStream(System.out);
-                setLevel(Level.INFO);
-                setFormatter(new SimpleFormatter());
-            }
-        };
-        rootLogger.addHandler(consoleHandler);
-
         Scanner scanner = new Scanner(System.in);
 
-        logger.info("Welcome to Jam Up!");
-        logger.info("Select persistence mode:");
-        logger.info("1. Demo (in-memory)");
-        logger.info("2. CSV (file system)");
-        logger.info("3. DB (MariaDB)");
+        System.out.println("Welcome to Jam Up!");
+        System.out.println("Select persistence mode:");
+        System.out.println("1. Demo (in-memory)");
+        System.out.println("2. CSV (file system)");
+        System.out.println("3. DB (MariaDB)");
 
         String persistenceMode = readChoice(scanner, 3);
         switch (persistenceMode) {
@@ -44,9 +26,9 @@ public class Main extends Application {
             default -> throw new IllegalStateException("Unexpected value: " + persistenceMode);
         }
 
-        logger.info("Select interface:");
-        logger.info("1. GUI");
-        logger.info("2. CLI");
+        System.out.println("Select interface:");
+        System.out.println("1. GUI");
+        System.out.println("2. CLI");
         String mode = readChoice(scanner, 2);
 
         if (mode.equals("1")) {

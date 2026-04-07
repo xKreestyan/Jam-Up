@@ -16,11 +16,9 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.logging.Logger;
 
 public class CLIApp {
 
-    private static final Logger logger = Logger.getLogger(CLIApp.class.getName());
     private final Scanner scanner;
     private final JamUpFacade facade = JamUpFacade.getInstance();
 
@@ -29,7 +27,7 @@ public class CLIApp {
     }
 
     public void start() {
-        logger.info("=== Jam Up! CLI ===");
+        System.out.println("=== Jam Up! CLI ===");
         boolean running = true;
         while (running) {
             running = showLoginMenu();
@@ -41,14 +39,14 @@ public class CLIApp {
     // ============================================================
 
     private boolean showLoginMenu() {
-        logger.info("1. Login");
-        logger.info("2. Exit");
+        System.out.println("1. Login");
+        System.out.println("2. Exit");
 
         if (readChoice(2).equals("2")) {
             return false;
         }
         while (true) {
-            logger.info("\n--- Login ---");
+            System.out.println("\n--- Login ---");
             System.out.print("Email: ");
             String email = scanner.nextLine().trim();
             System.out.print("Password: ");
@@ -66,9 +64,9 @@ public class CLIApp {
                 return true;
 
             } catch (InvalidFieldException e) {
-                logger.warning("Invalid input: " + e.getMessage());
+                System.out.println("Invalid input: " + e.getMessage());
             } catch (InvalidCredentialsException e) {
-                logger.warning("Invalid email or password.");
+                System.out.println("Invalid email or password.");
             }
         }
     }
@@ -79,10 +77,10 @@ public class CLIApp {
 
     private void showArtistMenu() {
         while (true) {
-            logger.info("\n--- Artist Menu ---");
-            logger.info("1. Search venues");
-            logger.info("2. Notifications");
-            logger.info("3. Logout");
+            System.out.println("\n--- Artist Menu ---");
+            System.out.println("1. Search venues");
+            System.out.println("2. Notifications");
+            System.out.println("3. Logout");
 
             switch (readChoice(3)) {
                 case "1":
@@ -101,7 +99,7 @@ public class CLIApp {
     }
 
     private void searchVenues() {
-        logger.info("\n--- Search Venues ---");
+        System.out.println("\n--- Search Venues ---");
         System.out.print("Name (leave empty to skip): ");
         String name = scanner.nextLine().trim();
         if (name.isEmpty()) name = null;
@@ -111,10 +109,10 @@ public class CLIApp {
         LocalDate date = null;
         if (!dateStr.isEmpty()) {
             try { date = LocalDate.parse(dateStr); }
-            catch (DateTimeParseException e) { logger.warning("Invalid date format, skipping."); }
+            catch (DateTimeParseException e) { System.out.println("Invalid date format, skipping."); }
         }
 
-        logger.info("Select genres (comma separated, leave empty to skip):");
+        System.out.println("Select genres (comma separated, leave empty to skip):");
         int i = 1;
         for (MusicGenre g : MusicGenre.values()) {
             System.out.print(i++ + ". " + g.name() + "  ");
@@ -130,7 +128,7 @@ public class CLIApp {
                     int index = Integer.parseInt(idx.trim()) - 1;
                     genres.add(MusicGenre.values()[index]);
                 } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
-                    logger.warning("Invalid genre index, skipping.");
+                    System.out.println("Invalid genre index, skipping.");
                 }
             }
             if (genres.isEmpty()) genres = null;
@@ -139,10 +137,10 @@ public class CLIApp {
         try {
             VenueBean searchBean = new VenueBean(name, date, genres);
             List<VenueBean> results = facade.search(searchBean);
-            logger.info("\n--- Results ---");
+            System.out.println("\n--- Results ---");
             for (int j = 0; j < results.size(); j++) {
                 VenueBean v = results.get(j);
-                logger.info((j + 1) + ". " + v.getName() + " - " + v.getLocation());
+                System.out.println((j + 1) + ". " + v.getName() + " - " + v.getLocation());
             }
             System.out.print("Select venue (0 to go back): ");
             String choice = scanner.nextLine().trim();
@@ -151,30 +149,30 @@ public class CLIApp {
                 showVenueDetail(results.get(idx - 1));
             }
         } catch (NoVenuesFoundException e) {
-            logger.warning("No venues found.");
+            System.out.println("No venues found.");
         } catch (NumberFormatException e) {
-            logger.warning("Invalid input.");
+            System.out.println("Invalid input.");
         } catch (InvalidFieldException e) {
-            logger.warning("Invalid venue name: " + e.getMessage());
+            System.out.println("Invalid venue name: " + e.getMessage());
         }
     }
 
     private void showVenueDetail(VenueBean venue) {
-        logger.info("\n--- " + venue.getName() + " ---");
-        logger.info("Location: " + venue.getLocation());
-        logger.info("Genres: " + venue.getGenres());
-        logger.info("Description: " + venue.getDescription());
+        System.out.println("\n--- " + venue.getName() + " ---");
+        System.out.println("Location: " + venue.getLocation());
+        System.out.println("Genres: " + venue.getGenres());
+        System.out.println("Description: " + venue.getDescription());
 
         List<TimeSlot> slots = venue.getAvailableSlots();
         if (slots.isEmpty()) {
-            logger.info("No available slots.");
+            System.out.println("No available slots.");
             return;
         }
 
-        logger.info("\nAvailable slots:");
+        System.out.println("\nAvailable slots:");
         for (int i = 0; i < slots.size(); i++) {
             TimeSlot s = slots.get(i);
-            logger.info((i + 1) + ". " + s.getDate() + " at " + s.getTime());
+            System.out.println((i + 1) + ". " + s.getDate() + " at " + s.getTime());
         }
 
         System.out.print("Select slot (0 to go back): ");
@@ -188,13 +186,13 @@ public class CLIApp {
                 try {
                     ReservationBean bean = new ReservationBean(venue.getId(), selected, notes);
                     facade.confirmReservation(bean);
-                    logger.info("Reservation request sent successfully.");
+                    System.out.println("Reservation request sent successfully.");
                 } catch (InvalidFieldException e) {
-                    logger.warning("Invalid notes: " + e.getMessage());
+                    System.out.println("Invalid notes: " + e.getMessage());
                 }
             }
         } catch (NumberFormatException e) {
-            logger.warning("Invalid input.");
+            System.out.println("Invalid input.");
         }
     }
 
@@ -204,12 +202,12 @@ public class CLIApp {
 
     private void showManagerMenu() {
         while (true) {
-            logger.info("\n--- Manager Menu ---");
-            logger.info("1. Pending reservations");
-            logger.info("2. Accepted reservations");
-            logger.info("3. Rejected reservations");
-            logger.info("4. Notifications");
-            logger.info("5. Logout");
+            System.out.println("\n--- Manager Menu ---");
+            System.out.println("1. Pending reservations");
+            System.out.println("2. Accepted reservations");
+            System.out.println("3. Rejected reservations");
+            System.out.println("4. Notifications");
+            System.out.println("5. Logout");
 
             switch (readChoice(5)) {
                 case "1":
@@ -236,10 +234,10 @@ public class CLIApp {
     private void showReservations(ReservationStatus status) {
         try {
             List<ReservationBean> reservations = facade.fetchReservations(status);
-            logger.info("\n--- " + status.name() + " Reservations ---");
+            System.out.println("\n--- " + status.name() + " Reservations ---");
             for (int i = 0; i < reservations.size(); i++) {
                 ReservationBean r = reservations.get(i);
-                logger.info((i + 1) + ". " + r.getArtistName() + " → " + r.getVenueName()
+                System.out.println((i + 1) + ". " + r.getArtistName() + " → " + r.getVenueName()
                         + " | " + r.getReservedSlot().getDate() + " at " + r.getReservedSlot().getTime());
             }
 
@@ -252,32 +250,32 @@ public class CLIApp {
                         manageReservation(reservations.get(idx - 1));
                     }
                 } catch (NumberFormatException e) {
-                    logger.warning("Invalid input.");
+                    System.out.println("Invalid input.");
                 }
             }
         } catch (NoReservationsFoundException e) {
-            logger.info("No reservations found.");
+            System.out.println("No reservations found.");
         }
     }
 
     private void manageReservation(ReservationBean reservation) {
-        logger.info("\n--- Manage Reservation ---");
-        logger.info("Artist: " + reservation.getArtistName());
-        logger.info("Venue: " + reservation.getVenueName());
-        logger.info("Date: " + reservation.getReservedSlot().getDate() + " at " + reservation.getReservedSlot().getTime());
-        logger.info("Notes: " + reservation.getNotes());
-        logger.info("1. Accept");
-        logger.info("2. Reject");
-        logger.info("3. Go back");
+        System.out.println("\n--- Manage Reservation ---");
+        System.out.println("Artist: " + reservation.getArtistName());
+        System.out.println("Venue: " + reservation.getVenueName());
+        System.out.println("Date: " + reservation.getReservedSlot().getDate() + " at " + reservation.getReservedSlot().getTime());
+        System.out.println("Notes: " + reservation.getNotes());
+        System.out.println("1. Accept");
+        System.out.println("2. Reject");
+        System.out.println("3. Go back");
 
         switch (readChoice(3)) {
             case "1":
                 facade.accept(reservation.getReservationId());
-                logger.info("Reservation accepted.");
+                System.out.println("Reservation accepted.");
                 break;
             case "2":
                 facade.reject(reservation.getReservationId());
-                logger.info("Reservation rejected.");
+                System.out.println("Reservation rejected.");
                 break;
             case "3":
                 return;
@@ -292,15 +290,15 @@ public class CLIApp {
 
     private void showNotifications() {
         List<NotificationBean> notifications = facade.fetchNotifications();
-        logger.info("\n--- Notifications ---");
+        System.out.println("\n--- Notifications ---");
         if (notifications.isEmpty()) {
-            logger.info("No notifications.");
+            System.out.println("No notifications.");
             return;
         }
         for (int i = 0; i < notifications.size(); i++) {
             NotificationBean n = notifications.get(i);
             String readStatus = n.isRead() ? "[read]" : "[unread]";
-            logger.info((i + 1) + ". " + readStatus + " " + n.getMessage());
+            System.out.println((i + 1) + ". " + readStatus + " " + n.getMessage());
         }
         System.out.print("Select notification to mark as read (0 to go back): ");
         String choice = scanner.nextLine().trim();
@@ -308,10 +306,10 @@ public class CLIApp {
             int idx = Integer.parseInt(choice);
             if (idx > 0 && idx <= notifications.size()) {
                 facade.markAsRead(notifications.get(idx - 1));
-                logger.info("Notification marked as read.");
+                System.out.println("Notification marked as read.");
             }
         } catch (NumberFormatException e) {
-            logger.warning("Invalid input.");
+            System.out.println("Invalid input.");
         }
     }
 
