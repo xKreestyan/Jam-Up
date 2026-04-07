@@ -89,18 +89,21 @@ public class NotificationsViewController {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        Label timestampLabel = new Label(notification.getTimestamp().toLocalDate().toString()
-                + "  " + notification.getTimestamp().toLocalTime().withSecond(0).withNano(0));
+        Label timestampLabel = new Label(notification.timestamp().toLocalDate().toString()
+                + "  " + notification.timestamp().toLocalTime().withSecond(0).withNano(0));
         timestampLabel.setStyle("-fx-text-fill: #555566; -fx-font-size: 11px;");
 
         topRow.getChildren().addAll(spacer, timestampLabel);
 
         // messaggio
-        Label messageLabel = new Label(notification.getMessage());
+        Label messageLabel = new Label(notification.message());
         messageLabel.setWrapText(true);
-        messageLabel.setStyle(!notification.isRead()
-                ? "-fx-text-fill: white; -fx-font-size: 13px;"
-                : "-fx-text-fill: #888888; -fx-font-size: 13px;");
+        
+        if (!notification.isRead()) {
+            messageLabel.setStyle("-fx-text-fill: white; -fx-font-size: 13px;");
+        } else {
+            messageLabel.setStyle("-fx-text-fill: #888888; -fx-font-size: 13px;");
+        }
 
         card.getChildren().addAll(topRow, messageLabel);
 

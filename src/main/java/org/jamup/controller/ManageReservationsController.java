@@ -40,9 +40,7 @@ public class ManageReservationsController {
         for (Reservation reservation : reservations) {
             reservationBeans.add(
                     new ReservationBean(reservation.getId(), reservation.getVenue().getId(),
-                            reservation.getVenue().getName(), reservation.getArtist().getId(),
-                            reservation.getArtist().getName(), reservation.getArtist().getInstruments(),
-                            reservation.getArtist().getGenres(), reservation.getNotes(),
+                            reservation.getVenue().getName(), reservation.getArtist(), reservation.getNotes(),
                             reservation.getStatus(), reservation.getReservedSlot())
             );
         }

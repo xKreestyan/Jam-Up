@@ -38,7 +38,7 @@ public class ReserveVenueController {
         for (Venue venue : results) {
             VenueBean venueBean = new VenueBean(venue.getId(), venue.getName(), venue.getDescription(),
                     venue.getLocation(), venue.getGenres(),
-                    venue.getCalendar().getSlots(), venue.getManagerId());
+                    venue.getCalendar().getSlots());
             output.add(venueBean);
         }
         if (output.isEmpty()) {

@@ -16,7 +16,6 @@ public class VenueBean {
     private String location;
     private LocalDate searchDate;
     private List<TimeSlot> availableSlots;
-    private String managerId;
 
     public String getId() {
         return id;
@@ -46,10 +45,6 @@ public class VenueBean {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public List<MusicGenre> getGenres() {
         return genres;
     }
@@ -70,24 +65,8 @@ public class VenueBean {
         return searchDate;
     }
 
-    public void setSearchDate(LocalDate searchDate) {
-        this.searchDate = searchDate;
-    }
-
     public List<TimeSlot> getAvailableSlots() {
         return availableSlots;
-    }
-
-    public void setAvailableSlots(List<TimeSlot> availableSlots) {
-        this.availableSlots = availableSlots;
-    }
-
-    public String getManagerId() {
-        return managerId;
-    }
-
-    public void setManagerId(String managerId) {
-        this.managerId = managerId;
     }
 
     //search query bean constructor (View -> Controller)
@@ -98,13 +77,12 @@ public class VenueBean {
     }
 
     //search results bean constructor (Controller -> View)
-    public VenueBean(String id, String name, String description, String location, List<MusicGenre> genres, List<TimeSlot> availableSlots, String managerId) {
+    public VenueBean(String id, String name, String description, String location, List<MusicGenre> genres, List<TimeSlot> availableSlots) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.location = location;
         this.genres = genres;
         this.availableSlots = availableSlots;
-        this.managerId = managerId;
     }
 }

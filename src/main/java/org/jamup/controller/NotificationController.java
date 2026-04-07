@@ -25,7 +25,7 @@ public class NotificationController {
         List<NotificationBean> notificationBeans = new ArrayList<>();
         for (Notification notification : fetchedNotifications) {
             notificationBeans.add(
-                    new NotificationBean(notification.getId(), notification.getRecipientId(),
+                    new NotificationBean(notification.getId(),
                             notification.getMessage(), notification.getTimestamp(), notification.isRead())
             );
         }
@@ -38,7 +38,7 @@ public class NotificationController {
      * @param bean the NotificationBean representing the notification to be updated.
      */
     public void markAsRead(NotificationBean bean) {
-        Notification notification = notificationDAO.findById(bean.getId());
+        Notification notification = notificationDAO.findById(bean.id());
 
         notification.markAsRead();
         notificationDAO.update(notification);
