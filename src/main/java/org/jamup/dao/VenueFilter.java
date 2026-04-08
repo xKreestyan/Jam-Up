@@ -27,17 +27,12 @@ public class VenueFilter {
             return false;
         }
         //if music genres have been specified and the venue does NOT support all of them, exclude venue
-        if (searchGenres != null && !searchGenres.isEmpty()) {
-            if (!new HashSet<>(venue.getGenres()).containsAll(searchGenres)) {
-                return false;
-            }
-        }
-        //if a date has been specified and the venue is NOT available on that date, exclude venue
-        if (searchDate != null && venue.getCalendar().availableTimesForDate(searchDate).isEmpty()) {
+        if (searchGenres != null && !searchGenres.isEmpty() && !new HashSet<>(venue.getGenres()).containsAll(searchGenres)) {
             return false;
         }
+        //if a date has been specified and the venue is NOT available on that date, exclude venue
+        return searchDate == null || !venue.getCalendar().availableTimesForDate(searchDate).isEmpty();
 
-        return true;
     }
 
 }

@@ -6,11 +6,11 @@ import org.jamup.observer.Subject;
 public class Reservation extends Subject {
 
     private String id;
-    private String notes;
+    private final String notes;
     private ReservationStatus status;
     private Artist artist;
     private Venue venue;
-    private TimeSlot reservedSlot;
+    private final TimeSlot reservedSlot;
 
     public void updateStatus(ReservationStatus status) {
         this.status = status;
@@ -27,10 +27,6 @@ public class Reservation extends Subject {
 
     public String getNotes() {
         return notes;
-    }
-
-    public void setNotes(String notes) {
-        this.notes = notes;
     }
 
     public ReservationStatus getStatus() {
@@ -59,10 +55,6 @@ public class Reservation extends Subject {
 
     public TimeSlot getReservedSlot() {
         return reservedSlot;
-    }
-
-    public void setReservedSlot(TimeSlot reservedSlot) {
-        this.reservedSlot = reservedSlot;
     }
 
     public Reservation(String notes, Artist artist, Venue venue, TimeSlot reservedSlot) {

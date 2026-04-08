@@ -18,7 +18,7 @@ public class Encryptor {
             }
             return hex.toString();
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("SHA-256 not available", e);
+            throw new IllegalStateException("SHA-256 algorithm not available in this environment", e);
         }
     }
 

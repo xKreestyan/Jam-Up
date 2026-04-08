@@ -6,10 +6,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+import org.jamup.exception.DAOException;
 
 public class DBConnectionFactory {
 
-    private static Connection connection;
+    private static final Connection connection;
 
     private DBConnectionFactory() {}
 
@@ -26,7 +27,7 @@ public class DBConnectionFactory {
             connection = DriverManager.getConnection(url, user, pass);
             System.out.println("Database connection established");
         } catch (IOException | SQLException e) {
-            throw new RuntimeException("Failed to initialize DB connection", e);
+            throw new DAOException("Failed to initialize DB connection", e);
         }
     }
 

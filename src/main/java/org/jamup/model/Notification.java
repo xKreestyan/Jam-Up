@@ -26,10 +26,6 @@ public class Notification {
         return recipientId;
     }
 
-    public void setRecipientId(String recipientId) {
-        this.recipientId = recipientId;
-    }
-
     public String getMessage() {
         return message;
     }

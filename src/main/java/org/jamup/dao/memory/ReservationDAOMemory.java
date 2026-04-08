@@ -31,13 +31,12 @@ public class ReservationDAOMemory implements ReservationDAO {
     public List<Reservation> findByVenues(List<String> venueIds, ReservationStatus status) {
         List<Reservation> results = new ArrayList<>();
         for (Reservation reservation : InMemoryStorage.getReservations()) {
-            if (venueIds.contains(reservation.getVenue().getId())) {
-                //if status is not specified, it takes all reservations
-                //otherwise it only takes those with the specific status
-                if (status == null || reservation.getStatus() == status) {
+            //if status is not specified, it takes all reservations
+            //otherwise it only takes those with the specific status
+            if (venueIds.contains(reservation.getVenue().getId()) && (status == null || reservation.getStatus() == status)) {
                     results.add(reservation);
                 }
-            }
+
         }
         return results;
     }

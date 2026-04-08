@@ -7,7 +7,7 @@ import java.util.List;
 
 public class AvailabilityCalendar {
 
-    private List<TimeSlot> slots;
+    private final List<TimeSlot> slots;
 
     public List<LocalTime> availableTimesForDate(LocalDate date) {
         List<LocalTime> result = new ArrayList<>();

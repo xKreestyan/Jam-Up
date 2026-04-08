@@ -8,7 +8,9 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import org.jamup.exception.SceneLoadException;
 
+@SuppressWarnings("java:S6548")
 public class SceneManager {
 
     public enum SceneName {
@@ -29,7 +31,7 @@ public class SceneManager {
         }
     }
 
-    public static SceneManager instance;
+    private static SceneManager instance;
     private Stage stage;
     private final StackPane rootPane = new StackPane();
     private Object transferData;
@@ -75,7 +77,7 @@ public class SceneManager {
             }
 
         } catch (IOException e) {
-            throw new RuntimeException("Failed to load scene: " + sceneName.getPath(), e);
+            throw new SceneLoadException("Failed to load scene: " + sceneName.getPath(), e);
         }
     }
 
@@ -92,7 +94,7 @@ public class SceneManager {
 
             rootPane.getChildren().add(overlay);
         } catch (IOException e) {
-            throw new RuntimeException("Failed to load popup: " + sceneName.getPath(), e);
+            throw new SceneLoadException("Failed to load popup: " + sceneName.getPath(), e);
         }
     }
 

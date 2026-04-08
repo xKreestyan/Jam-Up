@@ -3,6 +3,7 @@ package org.jamup.dao.db;
 import org.jamup.dao.VenueFilter;
 import org.jamup.dao.factory.DBConnectionFactory;
 import org.jamup.dao.interfaces.VenueDAO;
+import org.jamup.exception.DAOException;
 import org.jamup.model.Venue;
 import org.jamup.model.enums.MusicGenre;
 
@@ -65,6 +66,9 @@ public class VenueDAODB implements VenueDAO {
      * @throws SQLException if a database access error occurs.
      */
     private void updateSlots(Venue updatedVenue, Venue currentVenue, CallableStatement stmt, String id) throws SQLException {
+        //set the ID once, as it is loop-invariant
+        stmt.setString(1, id);
+
         //iterate through each slot in the source venue
         for (var slot : currentVenue.getCalendar().getSlots()) {
             boolean stillPresent = false;
@@ -79,7 +83,6 @@ public class VenueDAODB implements VenueDAO {
 
             //if the slot is missing from the target, execute the provided database statement
             if (!stillPresent) {
-                stmt.setString(1, id);
                 stmt.setDate(2, java.sql.Date.valueOf(slot.getDate()));
                 stmt.setTime(3, java.sql.Time.valueOf(slot.getTime()));
                 stmt.executeUpdate();
@@ -92,16 +95,18 @@ public class VenueDAODB implements VenueDAO {
         List<Venue> results = new ArrayList<>();
         try {
             Connection conn = DBConnectionFactory.getConnection();
-            CallableStatement stmt = conn.prepareCall("{CALL FindAllVenues()}");
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                Venue venue = resultSetToVenue(rs);
-                if (VenueFilter.matches(venue, searchName, searchGenres, searchDate)) {
-                    results.add(venue);
+            try (CallableStatement stmt = conn.prepareCall("{CALL FindAllVenues()}")) {
+                try (ResultSet rs = stmt.executeQuery()) {
+                    while (rs.next()) {
+                        Venue venue = resultSetToVenue(rs);
+                        if (VenueFilter.matches(venue, searchName, searchGenres, searchDate)) {
+                            results.add(venue);
+                        }
+                    }
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException("DB error in findByCriteria", e);
+            throw new DAOException("DB error in findByCriteria", e);
         }
         return results;
     }
@@ -110,14 +115,16 @@ public class VenueDAODB implements VenueDAO {
     public Venue findById(String id) {
         try {
             Connection conn = DBConnectionFactory.getConnection();
-            CallableStatement stmt = conn.prepareCall("{CALL FindVenueById(?)}");
-            stmt.setString(1, id);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return resultSetToVenue(rs);
+            try (CallableStatement stmt = conn.prepareCall("{CALL FindVenueById(?)}")) {
+                stmt.setString(1, id);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (rs.next()) {
+                        return resultSetToVenue(rs);
+                    }
+                }
             }
         } catch (SQLException e) {
-            throw new RuntimeException("DB error in findVenueById", e);
+            throw new DAOException("DB error in findVenueById", e);
         }
         return null;
     }
@@ -131,15 +138,17 @@ public class VenueDAODB implements VenueDAO {
             Venue currentVenue = findById(updatedVenue.getId());
 
             //find slots to delete (present in DB but not in the updated venue)
-            CallableStatement deleteStmt = conn.prepareCall("{CALL DeleteTimeSlot(?, ?, ?)}");
-            updateSlots(updatedVenue, currentVenue, deleteStmt, updatedVenue.getId());
+            try (CallableStatement deleteStmt = conn.prepareCall("{CALL DeleteTimeSlot(?, ?, ?)}")) {
+                updateSlots(updatedVenue, currentVenue, deleteStmt, updatedVenue.getId());
+            }
 
             //find slots to insert (present in the updated venue but not in the DB)
-            CallableStatement insertStmt = conn.prepareCall("{CALL InsertTimeSlot(?, ?, ?)}");
-            updateSlots(currentVenue, updatedVenue, insertStmt, updatedVenue.getId());
+            try (CallableStatement insertStmt = conn.prepareCall("{CALL InsertTimeSlot(?, ?, ?)}")) {
+                updateSlots(currentVenue, updatedVenue, insertStmt, updatedVenue.getId());
+            }
 
         } catch (SQLException e) {
-            throw new RuntimeException("DB error in updateVenue", e);
+            throw new DAOException("DB error in updateVenue", e);
         }
     }
 

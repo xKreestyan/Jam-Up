@@ -1,5 +1,6 @@
 package org.jamup.util;
 
+@SuppressWarnings("java:S6548")
 public class SessionManager {
 
     private static SessionManager instance;

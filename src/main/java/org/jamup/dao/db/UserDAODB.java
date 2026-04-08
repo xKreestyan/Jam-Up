@@ -2,6 +2,7 @@ package org.jamup.dao.db;
 
 import org.jamup.dao.factory.DBConnectionFactory;
 import org.jamup.dao.interfaces.UserDAO;
+import org.jamup.exception.DAOException;
 import org.jamup.model.Artist;
 import org.jamup.model.VenueManager;
 import org.jamup.model.enums.Instrument;
@@ -58,7 +59,6 @@ public class UserDAODB implements UserDAO {
      */
     private VenueManager resultSetToManager(ResultSet rs) throws SQLException {
         String id       = rs.getString("id");
-        String name     = rs.getString("name");
         String email    = rs.getString("email");
         String password = rs.getString("password");
 
@@ -68,21 +68,23 @@ public class UserDAODB implements UserDAO {
             Collections.addAll(venueIds, venueStr.split("\\|"));
         }
 
-        return new VenueManager(id, name, email, password, venueIds);
+        return new VenueManager(id, email, password, venueIds);
     }
 
     @Override
     public Artist findArtistByEmail(String email) {
         try {
             Connection conn = DBConnectionFactory.getConnection();
-            CallableStatement stmt = conn.prepareCall("{CALL FindArtistByEmail(?)}");
-            stmt.setString(1, email);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return resultSetToArtist(rs);
+            try (CallableStatement stmt = conn.prepareCall("{CALL FindArtistByEmail(?)}")) {
+                stmt.setString(1, email);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (rs.next()) {
+                        return resultSetToArtist(rs);
+                    }
+                }
             }
         } catch (SQLException e) {
-            throw new RuntimeException("DB error in findArtistByEmail", e);
+            throw new DAOException("DB error in findArtistByEmail", e);
         }
         return null;
     }
@@ -91,14 +93,16 @@ public class UserDAODB implements UserDAO {
     public Artist findArtistById(String id) {
         try {
             Connection conn = DBConnectionFactory.getConnection();
-            CallableStatement stmt = conn.prepareCall("{CALL FindArtistById(?)}");
-            stmt.setString(1, id);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return resultSetToArtist(rs);
+            try (CallableStatement stmt = conn.prepareCall("{CALL FindArtistById(?)}")) {
+                stmt.setString(1, id);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (rs.next()) {
+                        return resultSetToArtist(rs);
+                    }
+                }
             }
         } catch (SQLException e) {
-            throw new RuntimeException("DB error in findArtistById", e);
+            throw new DAOException("DB error in findArtistById", e);
         }
         return null;
     }
@@ -107,14 +111,16 @@ public class UserDAODB implements UserDAO {
     public VenueManager findManagerByEmail(String email) {
         try {
             Connection conn = DBConnectionFactory.getConnection();
-            CallableStatement stmt = conn.prepareCall("{CALL FindManagerByEmail(?)}");
-            stmt.setString(1, email);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return resultSetToManager(rs);
+            try (CallableStatement stmt = conn.prepareCall("{CALL FindManagerByEmail(?)}")) {
+                stmt.setString(1, email);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (rs.next()) {
+                        return resultSetToManager(rs);
+                    }
+                }
             }
         } catch (SQLException e) {
-            throw new RuntimeException("DB error in findManagerByEmail", e);
+            throw new DAOException("DB error in findManagerByEmail", e);
         }
         return null;
     }
@@ -123,14 +129,16 @@ public class UserDAODB implements UserDAO {
     public VenueManager findManagerById(String id) {
         try {
             Connection conn = DBConnectionFactory.getConnection();
-            CallableStatement stmt = conn.prepareCall("{CALL FindManagerById(?)}");
-            stmt.setString(1, id);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return resultSetToManager(rs);
+            try (CallableStatement stmt = conn.prepareCall("{CALL FindManagerById(?)}")) {
+                stmt.setString(1, id);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (rs.next()) {
+                        return resultSetToManager(rs);
+                    }
+                }
             }
         } catch (SQLException e) {
-            throw new RuntimeException("DB error in findManagerById", e);
+            throw new DAOException("DB error in findManagerById", e);
         }
         return null;
     }

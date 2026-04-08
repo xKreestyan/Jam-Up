@@ -53,14 +53,15 @@ public class ReservationDAODB implements ReservationDAO {
         try {
             reservation.setId(UUID.randomUUID().toString());
             Connection conn = DBConnectionFactory.getConnection();
-            CallableStatement stmt = conn.prepareCall("{CALL SaveReservation(?, ?, ?, ?, ?, ?)}");
-            stmt.setString(1, reservation.getId());
-            stmt.setString(2, reservation.getNotes());
-            stmt.setString(3, reservation.getArtist().getId());
-            stmt.setString(4, reservation.getVenue().getId());
-            stmt.setDate(5, java.sql.Date.valueOf(reservation.getReservedSlot().getDate()));
-            stmt.setTime(6, java.sql.Time.valueOf(reservation.getReservedSlot().getTime()));
-            stmt.executeUpdate();
+            try (CallableStatement stmt = conn.prepareCall("{CALL SaveReservation(?, ?, ?, ?, ?, ?)}")) {
+                stmt.setString(1, reservation.getId());
+                stmt.setString(2, reservation.getNotes());
+                stmt.setString(3, reservation.getArtist().getId());
+                stmt.setString(4, reservation.getVenue().getId());
+                stmt.setDate(5, java.sql.Date.valueOf(reservation.getReservedSlot().getDate()));
+                stmt.setTime(6, java.sql.Time.valueOf(reservation.getReservedSlot().getTime()));
+                stmt.executeUpdate();
+            }
         } catch (SQLException e) {
             throw new DAOException("DB error in saveReservation", e);
         }
@@ -70,11 +71,13 @@ public class ReservationDAODB implements ReservationDAO {
     public Reservation findById(String id) {
         try {
             Connection conn = DBConnectionFactory.getConnection();
-            CallableStatement stmt = conn.prepareCall("{CALL FindReservationById(?)}");
-            stmt.setString(1, id);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return resultSetToReservation(rs);
+            try (CallableStatement stmt = conn.prepareCall("{CALL FindReservationById(?)}")) {
+                stmt.setString(1, id);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (rs.next()) {
+                        return resultSetToReservation(rs);
+                    }
+                }
             }
         } catch (SQLException e) {
             throw new DAOException("DB error in findReservationById", e);
@@ -87,13 +90,15 @@ public class ReservationDAODB implements ReservationDAO {
         List<Reservation> results = new ArrayList<>();
         try {
             Connection conn = DBConnectionFactory.getConnection();
-            CallableStatement stmt = conn.prepareCall("{CALL FindReservationsByVenueId(?, ?)}");
-            for (String venueId : venueIds) {
-                stmt.setString(1, venueId);
-                stmt.setString(2, status != null ? status.name() : null);
-                ResultSet rs = stmt.executeQuery();
-                while (rs.next()) {
-                    results.add(resultSetToReservation(rs));
+            try (CallableStatement stmt = conn.prepareCall("{CALL FindReservationsByVenueId(?, ?)}")) {
+                for (String venueId : venueIds) {
+                    stmt.setString(1, venueId);
+                    stmt.setString(2, status != null ? status.name() : null);
+                    try (ResultSet rs = stmt.executeQuery()) {
+                        while (rs.next()) {
+                            results.add(resultSetToReservation(rs));
+                        }
+                    }
                 }
             }
         } catch (SQLException e) {
@@ -106,10 +111,11 @@ public class ReservationDAODB implements ReservationDAO {
     public void update(Reservation reservation) {
         try {
             Connection conn = DBConnectionFactory.getConnection();
-            CallableStatement stmt = conn.prepareCall("{CALL UpdateReservationStatus(?, ?)}");
-            stmt.setString(1, reservation.getId());
-            stmt.setString(2, reservation.getStatus().name());
-            stmt.executeUpdate();
+            try (CallableStatement stmt = conn.prepareCall("{CALL UpdateReservationStatus(?, ?)}")) {
+                stmt.setString(1, reservation.getId());
+                stmt.setString(2, reservation.getStatus().name());
+                stmt.executeUpdate();
+            }
         } catch (SQLException e) {
             throw new DAOException("DB error in updateReservation", e);
         }

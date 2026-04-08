@@ -8,7 +8,7 @@ import java.util.List;
 public class Artist extends User {
 
     private String name;
-    private List<Instrument> instruments;
+    private final List<Instrument> instruments;
     private List<MusicGenre> genres;
 
     public String getName() {
@@ -21,10 +21,6 @@ public class Artist extends User {
 
     public List<Instrument> getInstruments() {
         return instruments;
-    }
-
-    public void setInstruments(List<Instrument> instruments) {
-        this.instruments = instruments;
     }
 
     public List<MusicGenre> getGenres() {

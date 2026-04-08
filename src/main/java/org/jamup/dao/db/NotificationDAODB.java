@@ -40,12 +40,13 @@ public class NotificationDAODB implements NotificationDAO {
         try {
             newNotification.setId(UUID.randomUUID().toString());
             Connection conn = DBConnectionFactory.getConnection();
-            CallableStatement stmt = conn.prepareCall("{CALL SaveNotification(?, ?, ?, ?)}");
-            stmt.setString(1, newNotification.getId());
-            stmt.setString(2, newNotification.getRecipientId());
-            stmt.setString(3, newNotification.getMessage());
-            stmt.setObject(4, newNotification.getTimestamp());
-            stmt.executeUpdate();
+            try (CallableStatement stmt = conn.prepareCall("{CALL SaveNotification(?, ?, ?, ?)}")) {
+                stmt.setString(1, newNotification.getId());
+                stmt.setString(2, newNotification.getRecipientId());
+                stmt.setString(3, newNotification.getMessage());
+                stmt.setObject(4, newNotification.getTimestamp());
+                stmt.executeUpdate();
+            }
         } catch (SQLException e) {
             throw new DAOException("DB error in saveNotification", e);
         }
@@ -55,11 +56,13 @@ public class NotificationDAODB implements NotificationDAO {
     public Notification findById(String id) {
         try {
             Connection conn = DBConnectionFactory.getConnection();
-            CallableStatement stmt = conn.prepareCall("{CALL FindNotificationById(?)}");
-            stmt.setString(1, id);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return resultSetToNotification(rs);
+            try (CallableStatement stmt = conn.prepareCall("{CALL FindNotificationById(?)}")) {
+                stmt.setString(1, id);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (rs.next()) {
+                        return resultSetToNotification(rs);
+                    }
+                }
             }
         } catch (SQLException e) {
             throw new DAOException("DB error in findNotificationById", e);
@@ -72,11 +75,13 @@ public class NotificationDAODB implements NotificationDAO {
         List<Notification> results = new ArrayList<>();
         try {
             Connection conn = DBConnectionFactory.getConnection();
-            CallableStatement stmt = conn.prepareCall("{CALL FindNotificationsByRecipient(?)}");
-            stmt.setString(1, recipientId);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                results.add(resultSetToNotification(rs));
+            try (CallableStatement stmt = conn.prepareCall("{CALL FindNotificationsByRecipient(?)}")) {
+                stmt.setString(1, recipientId);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    while (rs.next()) {
+                        results.add(resultSetToNotification(rs));
+                    }
+                }
             }
         } catch (SQLException e) {
             throw new DAOException("DB error in findNotificationsByRecipient", e);
@@ -89,11 +94,13 @@ public class NotificationDAODB implements NotificationDAO {
         List<Notification> results = new ArrayList<>();
         try {
             Connection conn = DBConnectionFactory.getConnection();
-            CallableStatement stmt = conn.prepareCall("{CALL FindUnreadNotificationsByRecipient(?)}");
-            stmt.setString(1, recipientId);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                results.add(resultSetToNotification(rs));
+            try (CallableStatement stmt = conn.prepareCall("{CALL FindUnreadNotificationsByRecipient(?)}")) {
+                stmt.setString(1, recipientId);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    while (rs.next()) {
+                        results.add(resultSetToNotification(rs));
+                    }
+                }
             }
         } catch (SQLException e) {
             throw new DAOException("DB error in findUnreadNotificationsByRecipient", e);
@@ -105,10 +112,11 @@ public class NotificationDAODB implements NotificationDAO {
     public void update(Notification updatedNotification) {
         try {
             Connection conn = DBConnectionFactory.getConnection();
-            CallableStatement stmt = conn.prepareCall("{CALL UpdateNotification(?, ?)}");
-            stmt.setString(1, updatedNotification.getId());
-            stmt.setBoolean(2, updatedNotification.isRead());
-            stmt.executeUpdate();
+            try (CallableStatement stmt = conn.prepareCall("{CALL UpdateNotification(?, ?)}")) {
+                stmt.setString(1, updatedNotification.getId());
+                stmt.setBoolean(2, updatedNotification.isRead());
+                stmt.executeUpdate();
+            }
         } catch (SQLException e) {
             throw new DAOException("DB error in updateNotification", e);
         }

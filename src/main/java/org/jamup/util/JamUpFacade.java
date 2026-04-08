@@ -9,6 +9,7 @@ import org.jamup.model.enums.ReservationStatus;
 
 import java.util.List;
 
+@SuppressWarnings("java:S6548")
 public class JamUpFacade {
 
     //singleton pattern
@@ -37,9 +38,7 @@ public class JamUpFacade {
     public List<VenueBean> search(VenueBean bean) throws NoVenuesFoundException {
         return reserveVenueController.search(bean);
     }
-    public List<VenueBean> getAllVenues() throws NoVenuesFoundException {
-        return reserveVenueController.getAllVenues();
-    }
+
     public void confirmReservation(ReservationBean bean) {
         reserveVenueController.confirmReservation(bean);
     }

@@ -50,14 +50,13 @@ public class UserDAOCSV implements UserDAO {
      */
     private VenueManager rowToManager(String[] row) {
         String id       = row[0];
-        String name     = row[1];
         String email    = row[2];
         String password = row[3];
 
         List<String> venueIds = new ArrayList<>();
         Collections.addAll(venueIds, row[4].split("\\|"));
 
-        return new VenueManager(id, name, email, password, venueIds);
+        return new VenueManager(id, email, password, venueIds);
     }
 
     @Override

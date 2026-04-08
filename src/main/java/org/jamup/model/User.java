@@ -30,7 +30,7 @@ public abstract class User {
         this.password = password;
     }
 
-    public User(String id, String email, String password) {
+    protected User(String id, String email, String password) {
         this.id = id;
         this.email = email;
         this.password = password;

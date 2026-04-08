@@ -106,11 +106,15 @@ public class InMemoryStorage {
         artists.add(a1);
 
         //managers
-        VenueManager m1 = new VenueManager(m1Id, "Giuseppe Verdi", "manager1@email.com", Encryptor.hash("manager123"), List.of(v1.getId(), v2.getId()));
+        VenueManager m1 = new VenueManager(m1Id, "manager1@email.com", Encryptor.hash("manager123"), List.of(v1.getId(), v2.getId()));
         managers.add(m1);
 
-        VenueManager m2 = new VenueManager(m2Id, "Antonio Vivaldi", "manager2@email.com", Encryptor.hash("manager456"), List.of(v3.getId(), v4.getId()));
+        VenueManager m2 = new VenueManager(m2Id, "manager2@email.com", Encryptor.hash("manager456"), List.of(v3.getId(), v4.getId()));
         managers.add(m2);
+    }
+
+    private InMemoryStorage() {
+        /* This utility class should not be instantiated */
     }
 
 }

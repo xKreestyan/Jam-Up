@@ -9,6 +9,7 @@ import java.util.Scanner;
 
 public class Main extends Application {
 
+    @SuppressWarnings("unused")
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
