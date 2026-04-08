@@ -7,6 +7,7 @@ import org.jamup.model.enums.Instrument;
 import org.jamup.model.enums.MusicGenre;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class UserDAOCSV implements UserDAO {
@@ -54,9 +55,7 @@ public class UserDAOCSV implements UserDAO {
         String password = row[3];
 
         List<String> venueIds = new ArrayList<>();
-        for (String v : row[4].split("\\|")) {
-            venueIds.add(v);
-        }
+        Collections.addAll(venueIds, row[4].split("\\|"));
 
         return new VenueManager(id, name, email, password, venueIds);
     }

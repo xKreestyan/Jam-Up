@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class UserDAODB implements UserDAO {
@@ -64,9 +65,7 @@ public class UserDAODB implements UserDAO {
         List<String> venueIds = new ArrayList<>();
         String venueStr = rs.getString("venue_ids");
         if (venueStr != null && !venueStr.isEmpty()) {
-            for (String v : venueStr.split("\\|")) {
-                venueIds.add(v);
-            }
+            Collections.addAll(venueIds, venueStr.split("\\|"));
         }
 
         return new VenueManager(id, name, email, password, venueIds);

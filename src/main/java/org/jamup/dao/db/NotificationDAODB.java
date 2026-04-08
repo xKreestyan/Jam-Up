@@ -2,6 +2,7 @@ package org.jamup.dao.db;
 
 import org.jamup.dao.factory.DBConnectionFactory;
 import org.jamup.dao.interfaces.NotificationDAO;
+import org.jamup.exception.DAOException;
 import org.jamup.model.Notification;
 
 import java.sql.CallableStatement;
@@ -46,7 +47,7 @@ public class NotificationDAODB implements NotificationDAO {
             stmt.setObject(4, newNotification.getTimestamp());
             stmt.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("DB error in saveNotification", e);
+            throw new DAOException("DB error in saveNotification", e);
         }
     }
 
@@ -61,7 +62,7 @@ public class NotificationDAODB implements NotificationDAO {
                 return resultSetToNotification(rs);
             }
         } catch (SQLException e) {
-            throw new RuntimeException("DB error in findNotificationById", e);
+            throw new DAOException("DB error in findNotificationById", e);
         }
         return null;
     }
@@ -78,7 +79,7 @@ public class NotificationDAODB implements NotificationDAO {
                 results.add(resultSetToNotification(rs));
             }
         } catch (SQLException e) {
-            throw new RuntimeException("DB error in findNotificationsByRecipient", e);
+            throw new DAOException("DB error in findNotificationsByRecipient", e);
         }
         return results;
     }
@@ -95,7 +96,7 @@ public class NotificationDAODB implements NotificationDAO {
                 results.add(resultSetToNotification(rs));
             }
         } catch (SQLException e) {
-            throw new RuntimeException("DB error in findUnreadNotificationsByRecipient", e);
+            throw new DAOException("DB error in findUnreadNotificationsByRecipient", e);
         }
         return results;
     }
@@ -109,7 +110,7 @@ public class NotificationDAODB implements NotificationDAO {
             stmt.setBoolean(2, updatedNotification.isRead());
             stmt.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("DB error in updateNotification", e);
+            throw new DAOException("DB error in updateNotification", e);
         }
     }
 

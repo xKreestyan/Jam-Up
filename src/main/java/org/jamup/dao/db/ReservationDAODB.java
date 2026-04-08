@@ -3,6 +3,7 @@ package org.jamup.dao.db;
 import org.jamup.dao.factory.DBConnectionFactory;
 import org.jamup.dao.factory.DAOFactory;
 import org.jamup.dao.interfaces.ReservationDAO;
+import org.jamup.exception.DAOException;
 import org.jamup.model.Artist;
 import org.jamup.model.Reservation;
 import org.jamup.model.TimeSlot;
@@ -61,7 +62,7 @@ public class ReservationDAODB implements ReservationDAO {
             stmt.setTime(6, java.sql.Time.valueOf(reservation.getReservedSlot().getTime()));
             stmt.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("DB error in saveReservation", e);
+            throw new DAOException("DB error in saveReservation", e);
         }
     }
 
@@ -76,7 +77,7 @@ public class ReservationDAODB implements ReservationDAO {
                 return resultSetToReservation(rs);
             }
         } catch (SQLException e) {
-            throw new RuntimeException("DB error in findReservationById", e);
+            throw new DAOException("DB error in findReservationById", e);
         }
         return null;
     }
@@ -96,7 +97,7 @@ public class ReservationDAODB implements ReservationDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException("DB error in findByVenues", e);
+            throw new DAOException("DB error in findByVenues", e);
         }
         return results;
     }
@@ -110,7 +111,7 @@ public class ReservationDAODB implements ReservationDAO {
             stmt.setString(2, reservation.getStatus().name());
             stmt.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("DB error in updateReservation", e);
+            throw new DAOException("DB error in updateReservation", e);
         }
     }
 

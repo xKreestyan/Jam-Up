@@ -88,13 +88,11 @@ public class ReservationDAOCSV implements ReservationDAO {
     public List<Reservation> findByVenues(List<String> venueIds, ReservationStatus status) {
         List<Reservation> results = new ArrayList<>();
         for (String[] row : CSVStorage.read(RESERVATIONS_FILE)) {
-            if (venueIds.contains(row[4])) {
-                //if status is not specified, it takes all reservations
-                //otherwise it only takes those with the specific status
-                if (status == null || ReservationStatus.valueOf(row[2]).equals(status)) {
+            //if status is not specified, it takes all reservations
+            //otherwise it only takes those with the specific status
+            if (venueIds.contains(row[4]) && (status == null || ReservationStatus.valueOf(row[2]).equals(status))) {
                     results.add(rowToReservation(row));
                 }
-            }
         }
         return results;
     }

@@ -2,6 +2,7 @@ package org.jamup.dao.csv;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
+import org.jamup.exception.DAOException;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -20,25 +21,25 @@ public class CSVStorage {
      *
      * @param filename the name of the CSV file to read (must be located in the predefined CSV directory).
      * @return a list of string arrays, where each array represents a row in the CSV file.
-     * @throws RuntimeException if an error occurs while reading the file.
+     * @throws DAOException if an error occurs while reading the file.
      */
     public static List<String[]> read(String filename) {
         List<String[]> rows = new ArrayList<>();
         try {
             File fd = new File(CSV_DIR + filename);
             CSVReader reader = new CSVReader(new BufferedReader(new FileReader(fd)));
-            String[] record;
+            String[] nextLine;
             boolean firstRow = true;
-            while ((record = reader.readNext()) != null) {
+            while ((nextLine = reader.readNext()) != null) {
                 if (firstRow) {
                     firstRow = false;
                     continue;
                 }
-                rows.add(record);
+                rows.add(nextLine);
             }
             reader.close();
         } catch (Exception e) {
-            throw new RuntimeException("Error reading CSV: " + filename, e);
+            throw new DAOException("Error reading CSV: " + filename, e);
         }
         return rows;
     }
@@ -48,7 +49,7 @@ public class CSVStorage {
      *
      * @param filename the name of the CSV file to append to (must be located in the predefined CSV directory).
      * @param row an array of strings representing the data to append.
-     * @throws RuntimeException if an error occurs while appending to the file.
+     * @throws DAOException if an error occurs while appending to the file.
      */
     public static void append(String filename, String[] row) {
         try {
@@ -58,7 +59,7 @@ public class CSVStorage {
             writer.flush();
             writer.close();
         } catch (IOException e) {
-            throw new RuntimeException("Error appending to CSV: " + filename, e);
+            throw new DAOException("Error appending to CSV: " + filename, e);
         }
     }
 
@@ -69,7 +70,7 @@ public class CSVStorage {
      * @param filename the name of the CSV file to rewrite (must be located in the predefined CSV directory).
      * @param header an array of strings representing the header row.
      * @param rows a list of string arrays representing the data rows.
-     * @throws RuntimeException if an error occurs while rewriting the file.
+     * @throws DAOException if an error occurs while rewriting the file.
      */
     public static void rewrite(String filename, String[] header, List<String[]> rows) {
         try {
@@ -83,7 +84,11 @@ public class CSVStorage {
             writer.close();
             Files.move(tmpFD.toPath(), Paths.get(CSV_DIR + filename), REPLACE_EXISTING);
         } catch (IOException e) {
-            throw new RuntimeException("Error rewriting CSV: " + filename, e);
+            throw new DAOException("Error rewriting CSV: " + filename, e);
         }
+    }
+
+    private CSVStorage() {
+        /* This utility class should not be instantiated */
     }
 }
