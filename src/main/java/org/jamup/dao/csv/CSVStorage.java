@@ -25,9 +25,8 @@ public class CSVStorage {
      */
     public static List<String[]> read(String filename) {
         List<String[]> rows = new ArrayList<>();
-        try {
-            File fd = new File(CSV_DIR + filename);
-            CSVReader reader = new CSVReader(new BufferedReader(new FileReader(fd)));
+        File fd = new File(CSV_DIR + filename);
+        try (CSVReader reader = new CSVReader(new BufferedReader(new FileReader(fd)))) {
             String[] nextLine;
             boolean firstRow = true;
             while ((nextLine = reader.readNext()) != null) {
@@ -37,7 +36,6 @@ public class CSVStorage {
                 }
                 rows.add(nextLine);
             }
-            reader.close();
         } catch (Exception e) {
             throw new DAOException("Error reading CSV: " + filename, e);
         }
@@ -52,12 +50,10 @@ public class CSVStorage {
      * @throws DAOException if an error occurs while appending to the file.
      */
     public static void append(String filename, String[] row) {
-        try {
-            File fd = new File(CSV_DIR + filename);
-            CSVWriter writer = new CSVWriter(new BufferedWriter(new FileWriter(fd, true)));
+        File fd = new File(CSV_DIR + filename);
+        try (CSVWriter writer = new CSVWriter(new BufferedWriter(new FileWriter(fd, true)))) {
             writer.writeNext(row);
             writer.flush();
-            writer.close();
         } catch (IOException e) {
             throw new DAOException("Error appending to CSV: " + filename, e);
         }
@@ -74,14 +70,14 @@ public class CSVStorage {
      */
     public static void rewrite(String filename, String[] header, List<String[]> rows) {
         try {
-            File tmpFD = File.createTempFile("dao", "tmp");
-            CSVWriter writer = new CSVWriter(new BufferedWriter(new FileWriter(tmpFD, true)));
-            writer.writeNext(header);
-            for (String[] row : rows) {
-                writer.writeNext(row);
+            File tmpFD = File.createTempFile("dao", "tmp", new File(CSV_DIR));
+            try (CSVWriter writer = new CSVWriter(new BufferedWriter(new FileWriter(tmpFD, true)))) {
+                writer.writeNext(header);
+                for (String[] row : rows) {
+                    writer.writeNext(row);
+                }
+                writer.flush();
             }
-            writer.flush();
-            writer.close();
             Files.move(tmpFD.toPath(), Paths.get(CSV_DIR + filename), REPLACE_EXISTING);
         } catch (IOException e) {
             throw new DAOException("Error rewriting CSV: " + filename, e);
