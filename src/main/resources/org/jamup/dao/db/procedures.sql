@@ -128,14 +128,14 @@ END$$
 
 CREATE PROCEDURE FindReservationById(IN p_id VARCHAR(36))
 BEGIN
-    SELECT *
+    SELECT id, notes, status, artist_id, venue_id, slot_date, slot_time
     FROM reservation
     WHERE id = p_id;
 END$$
 
 CREATE PROCEDURE FindReservationsByVenueId(IN p_venue_id VARCHAR(36), IN p_status VARCHAR(20))
 BEGIN
-    SELECT *
+    SELECT id, notes, status, artist_id, venue_id, slot_date, slot_time
     FROM reservation
     WHERE venue_id = p_venue_id
       AND (p_status IS NULL OR status = p_status);
@@ -165,14 +165,14 @@ END$$
 
 CREATE PROCEDURE FindNotificationById(IN p_id VARCHAR(36))
 BEGIN
-    SELECT *
+    SELECT id, recipient_id, message, timestamp, is_read
     FROM notification
     WHERE id = p_id;
 END$$
 
 CREATE PROCEDURE FindNotificationsByRecipient(IN p_recipient_id VARCHAR(36))
 BEGIN
-    SELECT *
+    SELECT id, recipient_id, message, timestamp, is_read
     FROM notification
     WHERE recipient_id = p_recipient_id
     ORDER BY timestamp DESC;
@@ -180,9 +180,9 @@ END$$
 
 CREATE PROCEDURE FindUnreadNotificationsByRecipient(IN p_recipient_id VARCHAR(36))
 BEGIN
-    SELECT *
+    SELECT id, recipient_id, message, timestamp, is_read
     FROM notification
-    WHERE recipient_id = p_recipient_id AND is_read = FALSE
+    WHERE recipient_id = p_recipient_id AND NOT is_read
     ORDER BY timestamp DESC;
 END$$
 

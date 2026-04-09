@@ -19,7 +19,7 @@
 
     <!-- TOP NAVBAR -->
     <top>
-        <HBox alignment="CENTER_LEFT" spacing="0.0"
+        <HBox alignment="CENTER_LEFT"
               style="-fx-background-color: #12121c; -fx-border-color: #1e1e2e;
                      -fx-border-width: 0 0 1 0;">
             <padding>
@@ -47,7 +47,7 @@
             <Region prefWidth="10.0"/>
 
             <!-- User menu -->
-            <MenuButton fx:id="userMenuButton" text="👤"
+            <MenuButton text="👤"
                         style="-fx-background-color: #1e1e2e; -fx-text-fill: white;
                                -fx-background-radius: 20; -fx-font-size: 16px;
                                -fx-cursor: hand;">
@@ -60,7 +60,7 @@
 
     <!-- CENTER CONTENT -->
     <center>
-        <VBox spacing="0.0">
+        <VBox>
             <padding>
                 <Insets bottom="28.0" left="32.0" right="32.0" top="28.0"/>
             </padding>

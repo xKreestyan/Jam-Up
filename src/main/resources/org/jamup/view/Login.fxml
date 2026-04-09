@@ -16,7 +16,7 @@
            prefHeight="620.0" prefWidth="480.0"
            style="-fx-background-color: #0a0a0f;">
 
-    <VBox alignment="CENTER" spacing="0.0">
+    <VBox alignment="CENTER">
 
         <padding>
             <Insets top="50.0" right="60.0" bottom="50.0" left="60.0"/>
@@ -35,7 +35,7 @@
         <Region prefHeight="20.0"/>
 
         <!-- Title -->
-        <HBox alignment="CENTER" spacing="0.0">
+        <HBox alignment="CENTER">
             <Label text="Jam Up"
                    style="-fx-font-size: 30px; -fx-font-weight: bold;
                           -fx-text-fill: white;"/>
@@ -100,7 +100,6 @@
 
         <!-- Error label -->
         <Label fx:id="errorLabel"
-               text=""
                style="-fx-text-fill: #ef4444; -fx-font-size: 12px;"
                maxWidth="Infinity"
                visible="false"/>

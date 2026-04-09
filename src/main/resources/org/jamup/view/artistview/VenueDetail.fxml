@@ -10,7 +10,6 @@
       prefWidth="620.0"
       maxWidth="620.0"
       maxHeight="740.0"
-      spacing="0.0"
       style="-fx-background-color: #13131f; -fx-background-radius: 16;">
 
     <!-- Header con X -->
@@ -29,12 +28,12 @@
     </StackPane>
 
     <!-- Body in ScrollPane per sicurezza -->
-    <ScrollPane fitToWidth="true" vbarPolicy="AS_NEEDED" hbarPolicy="NEVER"
+    <ScrollPane fitToWidth="true" hbarPolicy="NEVER"
                 style="-fx-background: transparent; -fx-background-color: transparent;
                        -fx-border-color: transparent;"
                 VBox.vgrow="ALWAYS">
 
-        <VBox spacing="0.0">
+        <VBox>
             <padding>
                 <Insets top="24.0" right="28.0" bottom="28.0" left="28.0"/>
             </padding>
@@ -43,23 +42,21 @@
             <HBox alignment="CENTER_LEFT">
                 <VBox.margin><Insets bottom="8.0"/></VBox.margin>
                 <Label fx:id="nameLabel"
-                       text=""
                        style="-fx-font-size: 22px; -fx-font-weight: bold;
                               -fx-text-fill: white;"/>
                 <Region HBox.hgrow="ALWAYS"/>
                 <Label fx:id="genresLabel"
-                       text=""
                        style="-fx-font-size: 13px; -fx-text-fill: #888888;"/>
             </HBox>
 
             <!-- Location -->
-            <Label fx:id="locationLabel" text=""
+            <Label fx:id="locationLabel"
                    style="-fx-font-size: 13px; -fx-text-fill: #666677;">
                 <VBox.margin><Insets bottom="6.0"/></VBox.margin>
             </Label>
 
             <!-- Description -->
-            <Label fx:id="descriptionLabel" text="" wrapText="true"
+            <Label fx:id="descriptionLabel" wrapText="true"
                    style="-fx-font-size: 12px; -fx-text-fill: #555566;">
                 <VBox.margin><Insets bottom="24.0"/></VBox.margin>
             </Label>
@@ -76,8 +73,6 @@
             </Label>
 
             <ScrollPane prefHeight="90.0" minHeight="90.0"
-                        fitToHeight="false"
-                        hbarPolicy="AS_NEEDED"
                         vbarPolicy="NEVER"
                         style="-fx-background: transparent; -fx-background-color: transparent;
                                -fx-border-color: transparent;">
@@ -133,7 +128,7 @@
             </Button>
 
             <!-- Error label -->
-            <Label fx:id="errorLabel" text=""
+            <Label fx:id="errorLabel"
                    style="-fx-text-fill: #ef4444; -fx-font-size: 12px;"
                    visible="false"/>
 

@@ -20,7 +20,7 @@
 
     <!-- TOP NAVBAR -->
     <top>
-        <HBox alignment="CENTER_LEFT" spacing="0.0" style="-fx-background-color: #12121c; -fx-border-color: #1e1e2e;                      -fx-border-width: 0 0 1 0;">
+        <HBox alignment="CENTER_LEFT" style="-fx-background-color: #12121c; -fx-border-color: #1e1e2e;                      -fx-border-width: 0 0 1 0;">
             <padding>
                 <Insets bottom="14.0" left="24.0" right="24.0" top="14.0" />
             </padding>
@@ -37,12 +37,12 @@
 
             <!-- Notifications button with badge -->
             <StackPane>
-                <Button fx:id="notificationsButton" text="🔔"
+                <Button text="🔔"
                         onAction="#onNotificationsClick"
                         style="-fx-background-color: #1e1e2e; -fx-text-fill: white;
                                -fx-background-radius: 20; -fx-font-size: 16px;
                                -fx-cursor: hand; -fx-padding: 8 12 8 12;"/>
-                <Label fx:id="notificationBadge" text="" visible="false"
+                <Label fx:id="notificationBadge" visible="false"
                        style="-fx-background-color: #ef4444; -fx-text-fill: white;
                               -fx-font-size: 9px; -fx-font-weight: bold;
                               -fx-background-radius: 10; -fx-padding: 1 4 1 4;"
@@ -55,7 +55,7 @@
 
             <Region prefWidth="10.0"/>
             <!-- User menu -->
-            <MenuButton fx:id="userMenuButton" style="-fx-background-color: #1e1e2e; -fx-text-fill: white;                                -fx-background-radius: 20; -fx-font-size: 16px;                                -fx-cursor: hand;" text="👤">
+            <MenuButton style="-fx-background-color: #1e1e2e; -fx-text-fill: white;                                -fx-background-radius: 20; -fx-font-size: 16px;                                -fx-cursor: hand;" text="👤">
                 <items>
                     <MenuItem onAction="#onLogoutClick" text="Logout" />
                 </items>
@@ -65,7 +65,7 @@
 
     <!-- CENTER CONTENT -->
     <center>
-        <VBox spacing="0.0">
+        <VBox>
             <padding>
                 <Insets bottom="28.0" left="32.0" right="32.0" top="28.0" />
             </padding>
@@ -80,42 +80,42 @@
                 </VBox.margin>
 
                 <!-- Genre filter — popup con checkbox aperto dal controller -->
-                <MenuButton fx:id="genreFilterButton" style="-fx-background-color: #1a1a28; -fx-text-fill: #cccccc;                                    -fx-border-color: #2a2a3e; -fx-border-radius: 20;                                    -fx-background-radius: 20; -fx-padding: 8 16 8 16;                                    -fx-font-size: 13px; -fx-cursor: hand;" text="♫  Genere">
+                <MenuButton style="-fx-background-color: #1a1a28; -fx-text-fill: #cccccc;                                    -fx-border-color: #2a2a3e; -fx-border-radius: 20;                                    -fx-background-radius: 20; -fx-padding: 8 16 8 16;                                    -fx-font-size: 13px; -fx-cursor: hand;" text="♫  Genere">
                     <items>
-                        <CustomMenuItem fx:id="menuItemBlues" hideOnClick="false">
-                            <content><CheckBox fx:id="checkBlues" text="Blues" /></content>
+                        <CustomMenuItem hideOnClick="false">
+                            <content><CheckBox text="Blues" /></content>
                         </CustomMenuItem>
-                        <CustomMenuItem fx:id="menuItemClassical" hideOnClick="false">
+                        <CustomMenuItem hideOnClick="false">
                             <content><CheckBox fx:id="checkClassical" text="Classical" /></content>
                         </CustomMenuItem>
-                        <CustomMenuItem fx:id="menuItemElectronic" hideOnClick="false">
+                        <CustomMenuItem hideOnClick="false">
                             <content><CheckBox fx:id="checkElectronic" text="Electronic" /></content>
                         </CustomMenuItem>
-                        <CustomMenuItem fx:id="menuItemFolk" hideOnClick="false">
+                        <CustomMenuItem hideOnClick="false">
                             <content><CheckBox fx:id="checkFolk" text="Folk" /></content>
                         </CustomMenuItem>
-                        <CustomMenuItem fx:id="menuItemFunk" hideOnClick="false">
+                        <CustomMenuItem hideOnClick="false">
                             <content><CheckBox fx:id="checkFunk" text="Funk" /></content>
                         </CustomMenuItem>
-                        <CustomMenuItem fx:id="menuItemHouse" hideOnClick="false">
+                        <CustomMenuItem hideOnClick="false">
                             <content><CheckBox fx:id="checkHouse" text="House" /></content>
                         </CustomMenuItem>
-                        <CustomMenuItem fx:id="menuItemIndie" hideOnClick="false">
+                        <CustomMenuItem hideOnClick="false">
                             <content><CheckBox fx:id="checkIndie" text="Indie" /></content>
                         </CustomMenuItem>
-                        <CustomMenuItem fx:id="menuItemJazz" hideOnClick="false">
+                        <CustomMenuItem hideOnClick="false">
                             <content><CheckBox fx:id="checkJazz" text="Jazz" /></content>
                         </CustomMenuItem>
-                        <CustomMenuItem fx:id="menuItemMetal" hideOnClick="false">
+                        <CustomMenuItem hideOnClick="false">
                             <content><CheckBox fx:id="checkMetal" text="Metal" /></content>
                         </CustomMenuItem>
-                        <CustomMenuItem fx:id="menuItemPop" hideOnClick="false">
+                        <CustomMenuItem hideOnClick="false">
                             <content><CheckBox fx:id="checkPop" text="Pop" /></content>
                         </CustomMenuItem>
-                        <CustomMenuItem fx:id="menuItemReggae" hideOnClick="false">
+                        <CustomMenuItem hideOnClick="false">
                             <content><CheckBox fx:id="checkReggae" text="Reggae" /></content>
                         </CustomMenuItem>
-                        <CustomMenuItem fx:id="menuItemRock" hideOnClick="false">
+                        <CustomMenuItem hideOnClick="false">
                             <content><CheckBox fx:id="checkRock" text="Rock" /></content>
                         </CustomMenuItem>
                     </items>
