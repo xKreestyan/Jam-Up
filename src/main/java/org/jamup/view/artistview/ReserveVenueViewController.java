@@ -72,11 +72,6 @@ public class ReserveVenueViewController {
         }
     }
 
-    @FXML
-    public void onDateFilterClick() {
-        //no immediate action: the user must press the "Search" button to apply the filter
-    }
-
     private List<MusicGenre> getSelectedGenres() {
         List<MusicGenre> genres = new ArrayList<>();
         if (checkBlues.isSelected())      genres.add(MusicGenre.BLUES);

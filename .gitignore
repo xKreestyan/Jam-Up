@@ -10,6 +10,7 @@ target/
 .idea/compiler.xml
 .idea/libraries/
 .idea/dataSources.xml
+.idea/sonarlint.xml
 *.iws
 *.iml
 *.ipr

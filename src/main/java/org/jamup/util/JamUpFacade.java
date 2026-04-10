@@ -29,12 +29,12 @@ public class JamUpFacade {
         return instance;
     }
 
-    // Login
+    //login
     public void login(LoginUserBean bean) throws InvalidCredentialsException {
         loginController.login(bean);
     }
 
-    // ReserveVenue
+    //reserve venue
     public List<VenueBean> search(VenueBean bean) throws NoVenuesFoundException {
         return reserveVenueController.search(bean);
     }
@@ -43,7 +43,7 @@ public class JamUpFacade {
         reserveVenueController.confirmReservation(bean);
     }
 
-    // ManageReservations
+    //manage reservations
     public List<ReservationBean> fetchReservations(ReservationStatus status) throws NoReservationsFoundException {
         return manageReservationsController.fetchReservations(status);
     }
@@ -54,7 +54,7 @@ public class JamUpFacade {
         manageReservationsController.reject(reservationId);
     }
 
-    // Notifications
+    //notifications
     public List<NotificationBean> fetchNotifications() {
         return notificationController.fetchNotifications();
     }

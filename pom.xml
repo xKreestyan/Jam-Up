@@ -12,12 +12,6 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!-- Globally suppresses SonarQube warnings for the use of System.out and System.err (java:S106) -->
-        <sonar.organization>christian-giovannetti</sonar.organization>
-        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.issue.ignore.multicriteria>sysout</sonar.issue.ignore.multicriteria>
-        <sonar.issue.ignore.multicriteria.sysout.ruleKey>java:S106</sonar.issue.ignore.multicriteria.sysout.ruleKey>
-        <sonar.issue.ignore.multicriteria.sysout.resourceKey>**/*.java</sonar.issue.ignore.multicriteria.sysout.resourceKey>
     </properties>
 
     <dependencies>

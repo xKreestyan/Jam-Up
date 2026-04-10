@@ -83,7 +83,7 @@
                 <MenuButton style="-fx-background-color: #1a1a28; -fx-text-fill: #cccccc;                                    -fx-border-color: #2a2a3e; -fx-border-radius: 20;                                    -fx-background-radius: 20; -fx-padding: 8 16 8 16;                                    -fx-font-size: 13px; -fx-cursor: hand;" text="♫  Genere">
                     <items>
                         <CustomMenuItem hideOnClick="false">
-                            <content><CheckBox text="Blues" /></content>
+                            <content><CheckBox fx:id="checkBlues" text="Blues" /></content>
                         </CustomMenuItem>
                         <CustomMenuItem hideOnClick="false">
                             <content><CheckBox fx:id="checkClassical" text="Classical" /></content>
@@ -122,7 +122,7 @@
                 </MenuButton>
 
                 <!-- Date filter — DatePicker nativo -->
-                <DatePicker fx:id="datePicker" onAction="#onDateFilterClick" promptText="📅  Data" style="-fx-background-color: #1a1a28; -fx-text-fill: #cccccc;                                    -fx-border-color: #2a2a3e; -fx-border-radius: 20;                                    -fx-background-radius: 20; -fx-font-size: 13px;                                    -fx-cursor: hand;" />
+                <DatePicker fx:id="datePicker" promptText="📅  Data" style="-fx-background-color: #1a1a28; -fx-text-fill: #cccccc;                                    -fx-border-color: #2a2a3e; -fx-border-radius: 20;                                    -fx-background-radius: 20; -fx-font-size: 13px;                                    -fx-cursor: hand;" />
 
                 <!-- Search button -->
                 <Button text="Search"
