@@ -32,6 +32,10 @@ public class ReserveVenueController {
                 searchBean == null ? null : searchBean.getName(),
                 searchBean == null ? null : searchBean.getGenres(),
                 searchBean == null ? null : searchBean.getSearchDate());
+        return getVenueBeans(results);
+    }
+
+    private static List<VenueBean> getVenueBeans(List<Venue> results) throws NoVenuesFoundException {
         List<VenueBean> output = new ArrayList<>();
 
         //construction of the list of search result beans to return to the view
@@ -45,16 +49,6 @@ public class ReserveVenueController {
             throw new NoVenuesFoundException();
         }
         return output;
-    }
-
-    /**
-     * Retrieves all available venues in the system.
-     *
-     * @return a list of all {@link VenueBean} objects.
-     * @throws NoVenuesFoundException if no venues are present in the system.
-     */
-    public List<VenueBean> getAllVenues() throws NoVenuesFoundException {
-        return search(null);
     }
 
     /**

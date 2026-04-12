@@ -13,23 +13,18 @@ public class NotificationDAOMemory implements NotificationDAO {
     public void save(Notification newNotification) {
         String id = UUID.randomUUID().toString();
         newNotification.setId(id);
-        InMemoryStorage.getNotifications().add(newNotification);
+        InMemoryStorage.getNotifications().put(id, newNotification);
     }
 
     @Override
     public Notification findById(String id) {
-        for (Notification notification : InMemoryStorage.getNotifications()) {
-            if (notification.getId().equals(id)) {
-                return notification;
-            }
-        }
-        return null;
+        return InMemoryStorage.getNotifications().get(id);
     }
 
     @Override
     public List<Notification> findByRecipient(String recipientId) {
         List<Notification> notifications = new ArrayList<>();
-        for(Notification notification : InMemoryStorage.getNotifications()) {
+        for(Notification notification : InMemoryStorage.getNotifications().values()) {
             if(notification.getRecipientId().equals(recipientId)) {
                 notifications.add(notification);
             }
@@ -40,7 +35,7 @@ public class NotificationDAOMemory implements NotificationDAO {
     @Override
     public List<Notification> findUnreadByRecipient(String recipientId) {
         List<Notification> notifications = new ArrayList<>();
-        for(Notification notification : InMemoryStorage.getNotifications()) {
+        for(Notification notification : InMemoryStorage.getNotifications().values()) {
             if(notification.getRecipientId().equals(recipientId) && !notification.isRead()) {
                 notifications.add(notification);
             }
@@ -51,13 +46,7 @@ public class NotificationDAOMemory implements NotificationDAO {
     //update of the i-th notification following a status change (marked as read)
     @Override
     public void update(Notification updatedNotification) {
-        List<Notification> notifications = InMemoryStorage.getNotifications();
-        for (int i = 0; i < notifications.size(); i++) {
-            if (notifications.get(i).getId().equals(updatedNotification.getId())) {
-                notifications.set(i, updatedNotification);
-                return;
-            }
-        }
+        InMemoryStorage.getNotifications().put(updatedNotification.getId(), updatedNotification);
     }
 
     public NotificationDAOMemory() {

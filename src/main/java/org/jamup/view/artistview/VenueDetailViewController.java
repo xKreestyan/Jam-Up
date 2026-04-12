@@ -64,17 +64,22 @@ public class VenueDetailViewController {
                 .toList();
 
         for (LocalDate date : dates) {
-            Button btn = new Button();
-            btn.setText(date.getDayOfWeek().name().substring(0, 3) + "\n"
-                    + date.getDayOfMonth() + "\n"
-                    + date.getMonth().name().substring(0, 3));
-            btn.setStyle(/* stile non selezionato */
-                    "-fx-background-color: #1a1a28; -fx-text-fill: #cccccc;" +
-                            "-fx-background-radius: 10; -fx-padding: 10 14 10 14;" +
-                            "-fx-font-size: 12px; -fx-cursor: hand;");
-            btn.setOnAction(e -> onDateButtonClick(btn, date));
+            Button btn = getButton(date);
             dateButtonContainer.getChildren().add(btn);
         }
+    }
+
+    private Button getButton(LocalDate date) {
+        Button btn = new Button();
+        btn.setText(date.getDayOfWeek().name().substring(0, 3) + "\n"
+                + date.getDayOfMonth() + "\n"
+                + date.getMonth().name().substring(0, 3));
+        btn.setStyle(/* stile non selezionato */
+                "-fx-background-color: #1a1a28; -fx-text-fill: #cccccc;" +
+                        "-fx-background-radius: 10; -fx-padding: 10 14 10 14;" +
+                        "-fx-font-size: 12px; -fx-cursor: hand;");
+        btn.setOnAction(e -> onDateButtonClick(btn, date));
+        return btn;
     }
 
     private void onDateButtonClick(Button clickedButton, LocalDate date) {

@@ -16,7 +16,7 @@
 
     <!-- TOP NAVBAR -->
     <top>
-        <HBox alignment="CENTER_LEFT" spacing="0.0" style="-fx-background-color: #12121c; -fx-border-color: #1e1e2e;                      -fx-border-width: 0 0 1 0;">
+        <HBox alignment="CENTER_LEFT" style="-fx-background-color: #12121c; -fx-border-color: #1e1e2e;                      -fx-border-width: 0 0 1 0;">
             <padding>
                 <Insets bottom="14.0" left="24.0" right="24.0" top="14.0" />
             </padding>
@@ -32,12 +32,12 @@
 
             <!-- Notifications button with badge -->
             <StackPane>
-                <Button fx:id="notificationsButton" text="🔔"
+                <Button text="🔔"
                         onAction="#onNotificationsClick"
                         style="-fx-background-color: #1e1e2e; -fx-text-fill: white;
                                -fx-background-radius: 20; -fx-font-size: 16px;
                                -fx-cursor: hand; -fx-padding: 8 12 8 12;"/>
-                <Label fx:id="notificationBadge" text="" visible="false"
+                <Label fx:id="notificationBadge" visible="false"
                        style="-fx-background-color: #ef4444; -fx-text-fill: white;
                               -fx-font-size: 9px; -fx-font-weight: bold;
                               -fx-background-radius: 10; -fx-padding: 1 4 1 4;"
@@ -51,7 +51,7 @@
             <Region prefWidth="10.0" />
 
             <!-- User menu -->
-            <MenuButton fx:id="userMenuButton" style="-fx-background-color: #1e1e2e; -fx-text-fill: white;                                -fx-background-radius: 20; -fx-font-size: 16px;                                -fx-cursor: hand;" text="👤">
+            <MenuButton style="-fx-background-color: #1e1e2e; -fx-text-fill: white;                                -fx-background-radius: 20; -fx-font-size: 16px;                                -fx-cursor: hand;" text="👤">
                 <items>
                     <MenuItem onAction="#onLogoutClick" text="Logout" />
                 </items>
@@ -61,7 +61,7 @@
 
     <!-- CENTER CONTENT -->
     <center>
-        <VBox spacing="0.0">
+        <VBox>
             <padding>
                 <Insets bottom="28.0" left="32.0" right="32.0" top="28.0" />
             </padding>
@@ -70,7 +70,7 @@
             <Label style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: white;" text="Reservation Management" />
 
             <!-- Tabs -->
-            <HBox fx:id="tabBar" alignment="CENTER_LEFT" spacing="0.0">
+            <HBox alignment="CENTER_LEFT">
                 <VBox.margin>
                     <Insets bottom="20.0" top="20.0" />
                 </VBox.margin>

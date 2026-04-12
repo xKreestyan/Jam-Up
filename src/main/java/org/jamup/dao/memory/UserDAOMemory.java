@@ -8,7 +8,7 @@ public class UserDAOMemory implements UserDAO {
 
     @Override
     public Artist findArtistByEmail(String email) {
-        for (Artist artist : InMemoryStorage.getArtists()) {
+        for (Artist artist : InMemoryStorage.getArtists().values()) {
             if (artist.getEmail().equals(email)) {
                 return artist;
             }
@@ -18,7 +18,7 @@ public class UserDAOMemory implements UserDAO {
 
     @Override
     public VenueManager findManagerByEmail(String email) {
-        for (VenueManager manager : InMemoryStorage.getManagers()) {
+        for (VenueManager manager : InMemoryStorage.getManagers().values()) {
             if (manager.getEmail().equals(email)) {
                 return manager;
             }
@@ -28,22 +28,12 @@ public class UserDAOMemory implements UserDAO {
 
     @Override
     public Artist findArtistById(String id) {
-        for (Artist artist : InMemoryStorage.getArtists()) {
-            if (artist.getId().equals(id)) {
-                return artist;
-            }
-        }
-        return null;
+        return InMemoryStorage.getArtists().get(id);
     }
 
     @Override
     public VenueManager findManagerById(String id) {
-        for (VenueManager manager : InMemoryStorage.getManagers()) {
-            if (manager.getId().equals(id)) {
-                return manager;
-            }
-        }
-        return null;
+        return InMemoryStorage.getManagers().get(id);
     }
 
     public UserDAOMemory() {
