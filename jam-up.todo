@@ -33,6 +33,7 @@ Varie ed Eventuali
 [ ] Sistema le exception: dichiarazione e utilizzi
 [ ] Vedi se gli internal steps del caso d'uso coincidono con il flusso del codice
 [ ] COMPLETA LE JAVADOC
+[ ] risolvi le duplicazioni
 
 [ ] se voglio fare le cose precise, ovvero applicare il vero e proprio decorator,
     dovrei mettere l'attributo component astratto/interfaccia (di tipo DAO, ovvero interfaccia)

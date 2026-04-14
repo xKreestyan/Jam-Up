@@ -1,28 +1,60 @@
 package org.jamup.dao.factory;
 
 import org.jamup.dao.interfaces.*;
+import org.jamup.dao.cache.VenueDAOCache;
+import org.jamup.dao.cache.ReservationDAOCache;
+import org.jamup.dao.cache.UserDAOCache;
+import org.jamup.dao.cache.NotificationDAOCache;
 import org.jamup.dao.csv.*;
 
 public class CSVDAOFactory extends DAOFactory {
 
+    private VenueDAO venueDAOInstance;
+    private ReservationDAO reservationDAOInstance;
+    private UserDAO userDAOInstance;
+    private NotificationDAO notificationDAOInstance;
+
+    //each create method retrieves the singleton instance of the DAO with cache
+    //(this is to maintain the cache for the entire duration of the user session)
+
     @Override
     public VenueDAO createVenueDAO() {
-        return new VenueDAOCSV();
+        if (venueDAOInstance == null) {
+            venueDAOInstance = new VenueDAOCache(new VenueDAOCSV());
+        }
+        return venueDAOInstance;
     }
 
     @Override
     public ReservationDAO createReservationDAO() {
-        return new ReservationDAOCSV();
+        if (reservationDAOInstance == null) {
+            reservationDAOInstance = new ReservationDAOCache(new ReservationDAOCSV());
+        }
+        return reservationDAOInstance;
     }
 
     @Override
     public UserDAO createUserDAO() {
-        return new UserDAOCSV();
+        if (userDAOInstance == null) {
+            userDAOInstance = new UserDAOCache(new UserDAOCSV());
+        }
+        return userDAOInstance;
     }
 
     @Override
     public NotificationDAO createNotificationDAO() {
-        return new NotificationDAOCSV();
+        if (notificationDAOInstance == null) {
+            notificationDAOInstance = new NotificationDAOCache(new NotificationDAOCSV());
+        }
+        return notificationDAOInstance;
+    }
+
+    @Override
+    public void clearCache() {
+        venueDAOInstance = null;
+        reservationDAOInstance = null;
+        userDAOInstance = null;
+        notificationDAOInstance = null;
     }
 
 }

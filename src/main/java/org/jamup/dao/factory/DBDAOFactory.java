@@ -1,10 +1,11 @@
 package org.jamup.dao.factory;
 
 import org.jamup.dao.interfaces.*;
-import org.jamup.dao.cache.VenueDAODBCache;
-import org.jamup.dao.cache.ReservationDAODBCache;
-import org.jamup.dao.cache.UserDAODBCache;
-import org.jamup.dao.cache.NotificationDAODBCache;
+import org.jamup.dao.cache.VenueDAOCache;
+import org.jamup.dao.cache.ReservationDAOCache;
+import org.jamup.dao.cache.UserDAOCache;
+import org.jamup.dao.cache.NotificationDAOCache;
+import org.jamup.dao.db.*;
 
 public class DBDAOFactory extends DAOFactory {
 
@@ -13,10 +14,13 @@ public class DBDAOFactory extends DAOFactory {
     private UserDAO userDAOInstance;
     private NotificationDAO notificationDAOInstance;
 
+    //each create method retrieves the singleton instance of the DAO with cache
+    //(this is to maintain the cache for the entire duration of the user session)
+
     @Override
     public VenueDAO createVenueDAO() {
         if (venueDAOInstance == null) {
-            venueDAOInstance = new VenueDAODBCache();
+            venueDAOInstance = new VenueDAOCache(new VenueDAODB());
         }
         return venueDAOInstance;
     }
@@ -24,7 +28,7 @@ public class DBDAOFactory extends DAOFactory {
     @Override
     public ReservationDAO createReservationDAO() {
         if (reservationDAOInstance == null) {
-            reservationDAOInstance = new ReservationDAODBCache();
+            reservationDAOInstance = new ReservationDAOCache(new ReservationDAODB());
         }
         return reservationDAOInstance;
     }
@@ -32,7 +36,7 @@ public class DBDAOFactory extends DAOFactory {
     @Override
     public UserDAO createUserDAO() {
         if (userDAOInstance == null) {
-            userDAOInstance = new UserDAODBCache();
+            userDAOInstance = new UserDAOCache(new UserDAODB());
         }
         return userDAOInstance;
     }
@@ -40,7 +44,7 @@ public class DBDAOFactory extends DAOFactory {
     @Override
     public NotificationDAO createNotificationDAO() {
         if (notificationDAOInstance == null) {
-            notificationDAOInstance = new NotificationDAODBCache();
+            notificationDAOInstance = new NotificationDAOCache(new NotificationDAODB());
         }
         return notificationDAOInstance;
     }
