@@ -5,19 +5,51 @@ import org.jamup.dao.interfaces.NotificationDAO;
 import org.jamup.model.Notification;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class NotificationDAODBCache extends AbstractDAOCache<Notification> implements NotificationDAO {
 
     private final NotificationDAODB notificationDAOComponent;
 
     // A flag to keep track if we have fully loaded the notifications for a specific user
-    // This assumes one user per session, but we can store it in a set if needed.
-    // For simplicity, we'll keep a list of users whose notifications are fully cached.
     private final List<String> fullyCachedRecipients = new ArrayList<>();
+    
+    // Un indice secondario per trovare velocemente le notifiche per utente (recipientId)
+    private final Map<String, List<Notification>> recipientIndex = new HashMap<>();
 
     public NotificationDAODBCache() {
         notificationDAOComponent = new NotificationDAODB();
+    }
+    
+    @Override
+    public void putInCache(String notificationId, Notification notification) {
+        super.putInCache(notificationId, notification);
+        
+        // Aggiorniamo anche l'indice secondario
+        String recipientId = notification.getRecipientId();
+        // Se la chiave non esiste già, creiamo una nuova lista vuota e l'associamo a quella chiave
+        // Se già esiste, non facciamo nulla
+        recipientIndex.putIfAbsent(recipientId, new ArrayList<>());
+
+        // Prendo il riferimento alla lista di notifiche associata alla chiave recipientId
+        List<Notification> userNotifications = recipientIndex.get(recipientId);
+        // Evitiamo duplicati nell'indice (capitano quando aggiorniamo lo stato della notifica)
+        boolean exists = false;
+        for (int i = 0; i < userNotifications.size(); i++) {
+            if (userNotifications.get(i).getId().equals(notification.getId())) {
+                // Aggiorniamo lo stato della notifica
+                userNotifications.set(i, notification);
+                //uscita dal ciclo
+                exists = true;
+                break;
+            }
+        }
+        // Entriamo se non è stato rilevato un duplicato
+        if (!exists) {
+            userNotifications.add(notification);
+        }
     }
 
     @Override
@@ -48,17 +80,14 @@ public class NotificationDAODBCache extends AbstractDAOCache<Notification> imple
 
     @Override
     public List<Notification> findByRecipient(String recipientId) {
+        //cache hit case
         if (fullyCachedRecipients.contains(recipientId)) {
             System.out.println("Tutte le notifiche dell'utente " + recipientId + " prese dalla CACHE!");
-            List<Notification> cachedList = new ArrayList<>();
-            for (Notification n : getAllFromCache()) {
-                if (n.getRecipientId().equals(recipientId)) {
-                    cachedList.add(n);
-                }
-            }
-            return cachedList;
+            //restituisce una COPIA della lista delle notifiche associata alla chiave recipientId (se esiste, altrimenti una lista vuota)
+            return new ArrayList<>(recipientIndex.getOrDefault(recipientId, new ArrayList<>()));
         }
 
+        //cache miss case
         System.out.println("Notifiche dell'utente " + recipientId + " NON in cache, interrogo il DB...");
         List<Notification> results = notificationDAOComponent.findByRecipient(recipientId);
         for (Notification notification : results) {
@@ -74,8 +103,9 @@ public class NotificationDAODBCache extends AbstractDAOCache<Notification> imple
         if (fullyCachedRecipients.contains(recipientId)) {
             System.out.println("Notifiche NON LETTE dell'utente " + recipientId + " prese dalla CACHE (filtrate)!");
             List<Notification> cachedList = new ArrayList<>();
-            for (Notification n : getAllFromCache()) {
-                if (n.getRecipientId().equals(recipientId) && !n.isRead()) {
+            List<Notification> userNotifications = recipientIndex.getOrDefault(recipientId, new ArrayList<>());
+            for (Notification n : userNotifications) {
+                if (!n.isRead()) {
                     cachedList.add(n);
                 }
             }
