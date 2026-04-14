@@ -8,24 +8,49 @@ import org.jamup.dao.cache.NotificationDAODBCache;
 
 public class DBDAOFactory extends DAOFactory {
 
+    private VenueDAO venueDAOInstance;
+    private ReservationDAO reservationDAOInstance;
+    private UserDAO userDAOInstance;
+    private NotificationDAO notificationDAOInstance;
+
     @Override
     public VenueDAO createVenueDAO() {
-        return new VenueDAODBCache();
+        if (venueDAOInstance == null) {
+            venueDAOInstance = new VenueDAODBCache();
+        }
+        return venueDAOInstance;
     }
 
     @Override
     public ReservationDAO createReservationDAO() {
-        return new ReservationDAODBCache();
+        if (reservationDAOInstance == null) {
+            reservationDAOInstance = new ReservationDAODBCache();
+        }
+        return reservationDAOInstance;
     }
 
     @Override
     public UserDAO createUserDAO() {
-        return new UserDAODBCache();
+        if (userDAOInstance == null) {
+            userDAOInstance = new UserDAODBCache();
+        }
+        return userDAOInstance;
     }
 
     @Override
     public NotificationDAO createNotificationDAO() {
-        return new NotificationDAODBCache();
+        if (notificationDAOInstance == null) {
+            notificationDAOInstance = new NotificationDAODBCache();
+        }
+        return notificationDAOInstance;
+    }
+
+    @Override
+    public void clearCache() {
+        venueDAOInstance = null;
+        reservationDAOInstance = null;
+        userDAOInstance = null;
+        notificationDAOInstance = null;
     }
 
 }

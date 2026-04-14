@@ -1,5 +1,7 @@
 package org.jamup.util;
 
+import org.jamup.dao.factory.DAOFactory;
+
 @SuppressWarnings("java:S6548")
 public class SessionManager {
 
@@ -29,6 +31,8 @@ public class SessionManager {
     public void logout() {
         this.currentArtistId = null;
         this.currentManagerId = null;
+        // Pulisce la cache in memoria per evitare leak o permessi errati alla prossima sessione
+        DAOFactory.getInstance().clearCache();
     }
 
     public String getCurrentArtistId() {

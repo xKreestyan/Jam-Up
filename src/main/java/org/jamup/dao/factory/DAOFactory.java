@@ -41,4 +41,10 @@ public abstract class DAOFactory {
         return instance;
     }
 
+    // Metodo base per permettere alle factory concrete di resettare il proprio stato
+    public void clearCache() {
+        // Implementato di default come vuoto, in modo che chi non ne ha bisogno lo ignori.
+        // DBDAOFactory lo sovrascriverà per pulire la cache.
+    }
+
 }
