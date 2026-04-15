@@ -76,7 +76,7 @@ public class ManagerHomeViewController {
 
     @FXML
     public void onLogoutClick() {
-        LogoutHandler.handle();
+        LogoutController.handle();
     }
 
     private void showReservations(ReservationStatus status) {

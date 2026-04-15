@@ -3,9 +3,9 @@ package org.jamup.util;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
-public class LogoutHandler {
+public class LogoutController {
 
-    private LogoutHandler() {}
+    private LogoutController() {}
 
     public static void handle() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

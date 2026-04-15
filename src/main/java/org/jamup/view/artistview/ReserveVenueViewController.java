@@ -48,7 +48,7 @@ public class ReserveVenueViewController {
 
     @FXML
     public void onLogoutClick() {
-        LogoutHandler.handle();
+        LogoutController.handle();
     }
 
     @FXML
