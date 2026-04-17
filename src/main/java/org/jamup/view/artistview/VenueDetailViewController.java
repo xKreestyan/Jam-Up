@@ -170,7 +170,7 @@ public class VenueDetailViewController {
 
             SceneManager.getInstance().closePopup();
         } catch (InvalidFieldException e) {
-            errorLabel.setText(e.getMessage());
+            errorLabel.setText("Invalid notes: " + e.getMessage());
             errorLabel.setVisible(true);
         }
     }

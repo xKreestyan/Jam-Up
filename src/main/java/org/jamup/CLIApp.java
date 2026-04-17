@@ -64,10 +64,8 @@ public class CLIApp {
                 }
                 return true;
 
-            } catch (InvalidFieldException e) {
-                System.out.println("Invalid input: " + e.getMessage());
-            } catch (InvalidCredentialsException e) {
-                System.out.println("Invalid email or password.");
+            } catch (InvalidFieldException | InvalidCredentialsException e) {
+                System.out.println(e.getMessage());
             }
         }
     }
@@ -129,12 +127,10 @@ public class CLIApp {
             if (idx > 0 && idx <= results.size()) {
                 showVenueDetail(results.get(idx - 1));
             }
-        } catch (NoVenuesFoundException e) {
-            System.out.println("No venues found.");
+        } catch (NoVenuesFoundException | InvalidFieldException e) {
+            System.out.println(e.getMessage());
         } catch (NumberFormatException e) {
             System.out.println(INVALID_INPUT);
-        } catch (InvalidFieldException e) {
-            System.out.println("Invalid venue name: " + e.getMessage());
         }
     }
 
@@ -201,7 +197,7 @@ public class CLIApp {
             facade.confirmReservation(bean);
             System.out.println("Reservation request sent successfully.");
         } catch (InvalidFieldException e) {
-            System.out.println("Invalid notes: " + e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
@@ -254,7 +250,7 @@ public class CLIApp {
                 selectAndManageReservation(reservations);
             }
         } catch (NoReservationsFoundException e) {
-            System.out.println("No reservations found.");
+            System.out.println(e.getMessage());
         }
     }
 

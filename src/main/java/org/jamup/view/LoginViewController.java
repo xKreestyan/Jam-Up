@@ -30,11 +30,8 @@ public class LoginViewController {
             } else if (SessionManager.getInstance().isManagerLoggedIn()) {
                 SceneManager.getInstance().navigateTo(SceneManager.SceneName.MANAGER_HOME);
             }
-        } catch (InvalidFieldException e) {
-            errorLabel.setText("Please enter a valid email and password");
-            errorLabel.setVisible(true);
-        } catch (InvalidCredentialsException e) {
-            errorLabel.setText("Invalid email or password");
+        } catch (InvalidFieldException | InvalidCredentialsException e) {
+            errorLabel.setText(e.getMessage());
             errorLabel.setVisible(true);
         }
     }
