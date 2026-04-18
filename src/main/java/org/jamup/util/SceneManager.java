@@ -31,7 +31,11 @@ public class SceneManager {
         }
     }
 
-    private static SceneManager instance;
+    //thread-safe initialization
+    private static class InstanceHolder {
+        private static final SceneManager instance = new SceneManager();
+    }
+
     private Stage stage;
     private final StackPane rootPane = new StackPane();
     private Object transferData;
@@ -39,10 +43,7 @@ public class SceneManager {
     private SceneManager() {}
 
     public static SceneManager getInstance() {
-        if (instance == null) {
-            instance = new SceneManager();
-        }
-        return instance;
+        return InstanceHolder.instance;
     }
 
     public void setStage(Stage stage) {

@@ -5,19 +5,19 @@ import org.jamup.dao.factory.DAOFactory;
 @SuppressWarnings("java:S6548")
 public class SessionManager {
 
-    private static SessionManager instance;
+    //thread-safe initialization
+    private static class InstanceHolder {
+        private static final SessionManager instance = new SessionManager();
+    }
 
     private String currentArtistId;
     private String currentManagerId;
 
-    //private constructor (singleton pattern)
+    //private constructor
     private SessionManager() {}
 
     public static SessionManager getInstance() {
-        if (instance == null) {
-            instance = new SessionManager();
-        }
-        return instance;
+        return InstanceHolder.instance;
     }
 
     public void setCurrentArtistId(String artistId) {

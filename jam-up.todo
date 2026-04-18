@@ -29,17 +29,13 @@ Varie ed Eventuali
 [ ] Implementa la chiamata a GMaps con un dummy stub
 [ ] Implementare il riepilogo della richiesta di prenotazione prima dell'invio
 [ ] Cerca di usare TUTTI i dati di ogni entità presente nel livello di persistenza / inMemoryStorage
-[ ] Crea il livello cache tra DAO e controller "decorando" i DAODB e DAOCSV con la loro versione Cached:
-        Per quello dei Venue memorizzare tutto, ma quando si prenota uno slot la modifica va subito apportata in persistenza
-[ ] Code inspection e risoluzione warning
 [ ] Cerca di avvicinarti alle 4k LOC
 [ ] Traduci in inglese tutti gli eventuali commenti in italiano
-[ ] Sistema le exception: dichiarazione e utilizzi
 [ ] Vedi se gli internal steps del caso d'uso coincidono con il flusso del codice
 [ ] COMPLETA LE JAVADOC
 [ ] risolvi le duplicazioni
 
-[ ] se voglio fare le cose precise, ovvero applicare il vero e proprio decorator,
+[ ] Per la questione DAO con cache, se voglio fare le cose precise, ovvero applicare il vero e proprio decorator,
     dovrei mettere l'attributo component astratto/interfaccia (di tipo DAO, ovvero interfaccia)
     dentro alla classe decorator astratta (di tipo AbstractDAOCache<T>), solo che come faccio?
     non ho un tipo generico di DAO ma ho 4 interfacce diverse (src/main/java/org/jamup/dao/interfaces).

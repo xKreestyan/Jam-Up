@@ -12,8 +12,10 @@ import java.util.List;
 @SuppressWarnings("java:S6548")
 public class JamUpFacade {
 
-    //singleton pattern
-    private static JamUpFacade instance;
+    //thread-safe initialization
+    private static class InstanceHolder {
+        private static final JamUpFacade instance = new JamUpFacade();
+    }
 
     private final LoginController loginController = new LoginController();
     private final ReserveVenueController reserveVenueController = new ReserveVenueController();
@@ -23,10 +25,7 @@ public class JamUpFacade {
     private JamUpFacade() {}
 
     public static JamUpFacade getInstance() {
-        if (instance == null) {
-            instance = new JamUpFacade();
-        }
-        return instance;
+        return InstanceHolder.instance;
     }
 
     //login

@@ -18,7 +18,7 @@ public class CSVDAOFactory extends DAOFactory {
     //(this is to maintain the cache for the entire duration of the user session)
 
     @Override
-    public VenueDAO createVenueDAO() {
+    public synchronized VenueDAO createVenueDAO() {
         if (venueDAOInstance == null) {
             venueDAOInstance = new VenueDAOCache(new VenueDAOCSV());
         }
@@ -26,7 +26,7 @@ public class CSVDAOFactory extends DAOFactory {
     }
 
     @Override
-    public ReservationDAO createReservationDAO() {
+    public synchronized ReservationDAO createReservationDAO() {
         if (reservationDAOInstance == null) {
             reservationDAOInstance = new ReservationDAOCache(new ReservationDAOCSV());
         }
@@ -34,7 +34,7 @@ public class CSVDAOFactory extends DAOFactory {
     }
 
     @Override
-    public UserDAO createUserDAO() {
+    public synchronized UserDAO createUserDAO() {
         if (userDAOInstance == null) {
             userDAOInstance = new UserDAOCache(new UserDAOCSV());
         }
@@ -42,7 +42,7 @@ public class CSVDAOFactory extends DAOFactory {
     }
 
     @Override
-    public NotificationDAO createNotificationDAO() {
+    public synchronized NotificationDAO createNotificationDAO() {
         if (notificationDAOInstance == null) {
             notificationDAOInstance = new NotificationDAOCache(new NotificationDAOCSV());
         }
@@ -50,7 +50,7 @@ public class CSVDAOFactory extends DAOFactory {
     }
 
     @Override
-    public void clearCache() {
+    public synchronized void clearCache() {
         venueDAOInstance = null;
         reservationDAOInstance = null;
         userDAOInstance = null;

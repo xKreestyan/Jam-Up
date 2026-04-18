@@ -10,29 +10,32 @@ import org.jamup.exception.DAOException;
 
 public class DBConnectionFactory {
 
-    private static final Connection connection;
+    //thread-safe initialization
+    private static class ConnectionHolder {
+        private static final Connection connection;
 
-    private DBConnectionFactory() {}
+        static {
+            try (InputStream input = DBConnectionFactory.class.getClassLoader()
+                    .getResourceAsStream("org/jamup/dao/db/db.properties")) {
+                Properties properties = new Properties();
+                properties.load(input);
 
-    static {
-        try (InputStream input = DBConnectionFactory.class.getClassLoader()
-                .getResourceAsStream("org/jamup/dao/db/db.properties")) {
-            Properties properties = new Properties();
-            properties.load(input);
+                String url  = properties.getProperty("CONNECTION_URL");
+                String user = properties.getProperty("LOGIN_USER");
+                String pass = properties.getProperty("LOGIN_PASS");
 
-            String url  = properties.getProperty("CONNECTION_URL");
-            String user = properties.getProperty("LOGIN_USER");
-            String pass = properties.getProperty("LOGIN_PASS");
-
-            connection = DriverManager.getConnection(url, user, pass);
-            System.out.println("Database connection established");
-        } catch (IOException | SQLException e) {
-            throw new DAOException("Failed to initialize DB connection", e);
+                connection = DriverManager.getConnection(url, user, pass);
+                System.out.println("Database connection established");
+            } catch (IOException | SQLException e) {
+                throw new DAOException("Failed to initialize DB connection", e);
+            }
         }
     }
 
+    private DBConnectionFactory() {}
+
     public static Connection getConnection() {
-        return connection;
+        return ConnectionHolder.connection;
     }
 
 }
