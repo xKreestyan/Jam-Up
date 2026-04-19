@@ -2,7 +2,6 @@ package org.jamup.controller;
 
 import org.jamup.bean.ReservationBean;
 import org.jamup.dao.interfaces.ReservationDAO;
-import org.jamup.dao.interfaces.UserDAO;
 import org.jamup.dao.interfaces.VenueDAO;
 import org.jamup.exception.NoReservationsFoundException;
 import org.jamup.dao.factory.DAOFactory;
@@ -18,8 +17,6 @@ import java.util.List;
 
 public class ManageReservationsController {
 
-    private final ReservationDAO reservationDAO = DAOFactory.getInstance().createReservationDAO();
-
     /**
      * Fetches all reservations associated with the venues managed by the current manager,
      * filtered by their status. If the status is null, all reservations for all venues
@@ -30,10 +27,10 @@ public class ManageReservationsController {
      * @throws NoReservationsFoundException if no reservations match the criteria.
      */
     public List<ReservationBean> fetchReservations(ReservationStatus status) throws NoReservationsFoundException {
-        UserDAO userDAO = DAOFactory.getInstance().createUserDAO();
-        String managerId = SessionManager.getInstance().getCurrentManagerId();
-        VenueManager manager = userDAO.findManagerById(managerId);
+        // Use the manager instance directly from the session
+        VenueManager manager = (VenueManager) SessionManager.getInstance().getCurrentSession().getCurrentUser();
 
+        ReservationDAO reservationDAO = DAOFactory.getInstance().createReservationDAO();
         List<Reservation> reservations = reservationDAO.findByVenues(manager.getVenueIds(), status);
 
         List<ReservationBean> reservationBeans = new ArrayList<>();
@@ -57,6 +54,7 @@ public class ManageReservationsController {
      * @param reservationID the unique identifier of the reservation to accept.
      */
     public void accept(String reservationID) {
+        ReservationDAO reservationDAO = DAOFactory.getInstance().createReservationDAO();
         Reservation res = reservationDAO.findById(reservationID);
         res.attach(new NotificationObserver(res));
         res.updateStatus(ReservationStatus.ACCEPTED);
@@ -72,6 +70,7 @@ public class ManageReservationsController {
      */
     public void reject(String reservationID) {
         VenueDAO venueDAO = DAOFactory.getInstance().createVenueDAO();
+        ReservationDAO reservationDAO = DAOFactory.getInstance().createReservationDAO();
         Reservation res = reservationDAO.findById(reservationID);
         res.attach(new NotificationObserver(res));
         res.updateStatus(ReservationStatus.REJECTED);

@@ -5,6 +5,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.jamup.bean.VenueBean;
+import org.jamup.controller.LogoutController;
 import org.jamup.exception.InvalidFieldException;
 import org.jamup.exception.NoVenuesFoundException;
 import org.jamup.model.enums.MusicGenre;

@@ -3,7 +3,6 @@ package org.jamup.controller;
 import org.jamup.bean.ReservationBean;
 import org.jamup.bean.VenueBean;
 import org.jamup.dao.interfaces.ReservationDAO;
-import org.jamup.dao.interfaces.UserDAO;
 import org.jamup.dao.interfaces.VenueDAO;
 import org.jamup.exception.NoVenuesFoundException;
 import org.jamup.dao.factory.DAOFactory;
@@ -59,11 +58,9 @@ public class ReserveVenueController {
      * @param bean a {@link ReservationBean} containing the venue ID, selected time slot, and optional notes.
      */
     public void confirmReservation(ReservationBean bean) {
-        //retrieval of the id of the artist who booked
-        String reservationArtist = SessionManager.getInstance().getCurrentArtistId();
-        UserDAO artistDAO = DAOFactory.getInstance().createUserDAO();
-        //retrieval of the artist with the previously retrieved id
-        Artist artist = artistDAO.findArtistById(reservationArtist);
+        // Use the artist instance directly from the session
+        Artist artist = (Artist) SessionManager.getInstance().getCurrentSession().getCurrentUser();
+        
         VenueDAO venueDAO = DAOFactory.getInstance().createVenueDAO();
         //retrieval of the venue with the id contained in the bean
         Venue venue = venueDAO.findById(bean.getVenueId());

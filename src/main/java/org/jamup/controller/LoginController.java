@@ -24,14 +24,14 @@ public class LoginController {
         //search among artists
         Artist artist = userDAO.findArtistByEmail(bean.getEmail());
         if (artist != null && artist.getPassword().equals(hashedPassword)) {
-            SessionManager.getInstance().setCurrentArtistId(artist.getId());
+            SessionManager.getInstance().login(artist);
             return;
         }
 
         //search among managers
         VenueManager manager = userDAO.findManagerByEmail(bean.getEmail());
         if (manager != null && manager.getPassword().equals(hashedPassword)) {
-            SessionManager.getInstance().setCurrentManagerId(manager.getId());
+            SessionManager.getInstance().login(manager);
             return;
         }
 

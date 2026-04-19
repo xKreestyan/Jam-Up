@@ -11,14 +11,13 @@ import java.util.List;
 
 public class NotificationController {
 
-    private final NotificationDAO notificationDAO = DAOFactory.getInstance().createNotificationDAO();
-
     /**
      * Fetches all notifications for the currently logged-in user.
      *
      * @return a list of NotificationBean objects containing notification details.
      */
     public List<NotificationBean> fetchNotifications() {
+        NotificationDAO notificationDAO = DAOFactory.getInstance().createNotificationDAO();
         String recipientId = SessionManager.getInstance().getCurrentUserId();
         List<Notification> fetchedNotifications = notificationDAO.findByRecipient(recipientId);
 
@@ -38,6 +37,7 @@ public class NotificationController {
      * @param bean the NotificationBean representing the notification to be updated.
      */
     public void markAsRead(NotificationBean bean) {
+        NotificationDAO notificationDAO = DAOFactory.getInstance().createNotificationDAO();
         Notification notification = notificationDAO.findById(bean.id());
 
         notification.markAsRead();
@@ -51,6 +51,7 @@ public class NotificationController {
      * @param message     the content of the notification message.
      */
     public void createNotification(String recipientId, String message) {
+        NotificationDAO notificationDAO = DAOFactory.getInstance().createNotificationDAO();
         notificationDAO.save(new Notification(recipientId, message));
     }
 
@@ -60,6 +61,7 @@ public class NotificationController {
      * @return the total count of unread notifications.
      */
     public int countUnreadNotifications() {
+        NotificationDAO notificationDAO = DAOFactory.getInstance().createNotificationDAO();
         String recipientId = SessionManager.getInstance().getCurrentUserId();
         return notificationDAO.findUnreadByRecipient(recipientId).size();
     }

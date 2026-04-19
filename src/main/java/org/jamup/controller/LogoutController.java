@@ -1,7 +1,9 @@
-package org.jamup.util;
+package org.jamup.controller;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import org.jamup.util.SceneManager;
+import org.jamup.util.SessionManager;
 
 public class LogoutController {
 

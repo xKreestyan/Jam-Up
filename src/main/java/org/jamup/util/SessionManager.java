@@ -1,6 +1,7 @@
 package org.jamup.util;
 
 import org.jamup.dao.factory.DAOFactory;
+import org.jamup.model.User;
 
 @SuppressWarnings("java:S6548")
 public class SessionManager {
@@ -10,51 +11,41 @@ public class SessionManager {
         private static final SessionManager instance = new SessionManager();
     }
 
-    private String currentArtistId;
-    private String currentManagerId;
-
-    //private constructor
     private SessionManager() {}
 
     public static SessionManager getInstance() {
         return InstanceHolder.instance;
     }
 
-    public void setCurrentArtistId(String artistId) {
-        this.currentArtistId = artistId;
+    private Session currentSession;
+
+    public Session getCurrentSession() {
+        return currentSession;
     }
 
-    public void setCurrentManagerId(String managerId) {
-        this.currentManagerId = managerId;
+    public void login(User user) {
+        if (currentSession != null) {
+            throw new IllegalStateException("A user is already logged in.");
+        }
+        this.currentSession = new Session(user);
     }
 
     public void logout() {
-        this.currentArtistId = null;
-        this.currentManagerId = null;
+        this.currentSession = null;
         // Pulisce la cache in memoria per evitare leak o permessi errati alla prossima sessione
         DAOFactory.getInstance().clearCache();
     }
 
-    public String getCurrentArtistId() {
-        return currentArtistId;
-    }
-
-    public String getCurrentManagerId() {
-        return currentManagerId;
-    }
-
     public String getCurrentUserId() {
-        if (currentArtistId != null) return currentArtistId;
-        if (currentManagerId != null) return currentManagerId;
-        return null;
+        return currentSession != null ? currentSession.getCurrentUserId() : null;
     }
 
     public boolean isArtistLoggedIn() {
-        return currentArtistId != null;
+        return currentSession != null && currentSession.isArtist();
     }
 
     public boolean isManagerLoggedIn() {
-        return currentManagerId != null;
+        return currentSession != null && currentSession.isManager();
     }
 
 }

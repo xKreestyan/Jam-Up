@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import org.jamup.bean.ReservationBean;
+import org.jamup.controller.LogoutController;
 import org.jamup.exception.NoReservationsFoundException;
 import org.jamup.model.enums.ReservationStatus;
 import org.jamup.util.*;

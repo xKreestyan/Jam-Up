@@ -8,7 +8,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import org.jamup.bean.NotificationBean;
 import org.jamup.util.JamUpFacade;
-import org.jamup.util.LogoutController;
+import org.jamup.controller.LogoutController;
 import org.jamup.util.SceneManager;
 import org.jamup.util.SessionManager;
 
