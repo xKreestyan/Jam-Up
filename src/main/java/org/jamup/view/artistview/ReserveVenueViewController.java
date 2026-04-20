@@ -62,6 +62,10 @@ public class ReserveVenueViewController {
             String venueName= searchField.getText().trim().isEmpty() ? null : searchField.getText().trim();
             VenueBean bean = new VenueBean(venueName, datePicker.getValue(), getSelectedGenres());
             List<VenueBean> results = facade.search(bean);
+
+            //dummy map service call
+            MapService.renderMap();
+            
             noResultsLabel.setVisible(false);
             venueListContainer.getChildren().clear(); // pulisci i risultati precedenti
             for (VenueBean venue : results) {

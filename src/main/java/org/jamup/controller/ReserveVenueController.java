@@ -59,7 +59,7 @@ public class ReserveVenueController {
      */
     public void confirmReservation(ReservationBean bean) {
         // Use the artist instance directly from the session
-        Artist artist = (Artist) SessionManager.getInstance().getCurrentSession().getCurrentUser();
+        Artist artist = (Artist) SessionManager.getInstance().getCurrentSession().currentUser();
         
         VenueDAO venueDAO = DAOFactory.getInstance().createVenueDAO();
         //retrieval of the venue with the id contained in the bean

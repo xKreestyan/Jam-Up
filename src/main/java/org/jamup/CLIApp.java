@@ -9,6 +9,7 @@ import org.jamup.model.TimeSlot;
 import org.jamup.model.enums.MusicGenre;
 import org.jamup.model.enums.ReservationStatus;
 import org.jamup.util.JamUpFacade;
+import org.jamup.util.MapService;
 import org.jamup.util.SessionManager;
 
 import java.time.LocalDate;
@@ -46,6 +47,7 @@ public class CLIApp {
         if (readChoice(2).equals("2")) {
             return false;
         }
+        
         while (true) {
             System.out.println("\n--- Login ---");
             System.out.print("Email: ");
@@ -116,15 +118,20 @@ public class CLIApp {
         try {
             VenueBean searchBean = new VenueBean(name, date, genres);
             List<VenueBean> results = facade.search(searchBean);
-            System.out.println("\n--- Results ---");
+            
+            //dummy map service call
+            MapService.renderMap();
+            
+            System.out.println("--- Results ---");
             for (int j = 0; j < results.size(); j++) {
                 VenueBean v = results.get(j);
                 System.out.println((j + 1) + ". " + v.getName() + " - " + v.getLocation());
             }
+            
             System.out.print("Select venue (0 to go back): ");
-            String choice = scanner.nextLine().trim();
+            String choice = readChoice(results.size(), true);
             int idx = Integer.parseInt(choice);
-            if (idx > 0 && idx <= results.size()) {
+            if (idx > 0) {
                 showVenueDetail(results.get(idx - 1));
             }
         } catch (NoVenuesFoundException | InvalidFieldException e) {
@@ -177,10 +184,10 @@ public class CLIApp {
         }
 
         System.out.print("Select slot (0 to go back): ");
-        String choice = scanner.nextLine().trim();
+        String choice = readChoice(slots.size(), true);
         try {
             int idx = Integer.parseInt(choice);
-            if (idx > 0 && idx <= slots.size()) {
+            if (idx > 0) {
                 TimeSlot selected = slots.get(idx - 1);
                 confirmReservation(venue, selected);
             }
@@ -192,6 +199,20 @@ public class CLIApp {
     private void confirmReservation(VenueBean venue, TimeSlot selected) {
         System.out.print("Notes (leave empty for none): ");
         String notes = scanner.nextLine().trim();
+        
+        System.out.println("\n--- Reservation Summary ---");
+        System.out.println("Venue: " + venue.getName());
+        System.out.println("Date: " + selected.getDate() + " at " + selected.getTime());
+        System.out.println("Notes: " + (notes.isEmpty() ? "None" : notes));
+        System.out.println("1. Confirm");
+        System.out.println("2. Cancel");
+        
+        String choice = readChoice(2);
+        if (choice.equals("2")) {
+            System.out.println("Reservation cancelled.");
+            return;
+        }
+
         try {
             ReservationBean bean = new ReservationBean(venue.getId(), selected, notes);
             facade.confirmReservation(bean);
@@ -256,10 +277,10 @@ public class CLIApp {
 
     private void selectAndManageReservation(List<ReservationBean> reservations) {
         System.out.print("Select reservation to manage (0 to go back): ");
-        String choice = scanner.nextLine().trim();
+        String choice = readChoice(reservations.size(), true);
         try {
             int idx = Integer.parseInt(choice);
-            if (idx > 0 && idx <= reservations.size()) {
+            if (idx > 0) {
                 manageReservation(reservations.get(idx - 1));
             }
         } catch (NumberFormatException e) {
@@ -310,10 +331,10 @@ public class CLIApp {
             System.out.println((i + 1) + ". " + readStatus + " " + n.message());
         }
         System.out.print("Select notification to mark as read (0 to go back): ");
-        String choice = scanner.nextLine().trim();
+        String choice = readChoice(notifications.size(), true);
         try {
             int idx = Integer.parseInt(choice);
-            if (idx > 0 && idx <= notifications.size()) {
+            if (idx > 0) {
                 facade.markAsRead(notifications.get(idx - 1));
                 System.out.println("Notification marked as read.");
             }
@@ -327,11 +348,34 @@ public class CLIApp {
     // ============================================================
 
     private String readChoice(int max) {
+        return readChoice(max, false);
+    }
+    
+    private String readChoice(int max, boolean allowZero) {
         String input;
+        String regex = allowZero ? "[0-" + max + "]" : "[1-" + max + "]";
+        
+        // Se max > 9, la regex semplice [0-max] non funziona correttamente (es. [0-12] matcherebbe solo 0, 1 o 2).
+        // Quindi se max è > 9 e usiamo readChoice, è meglio fare un controllo numerico
+        if (max > 9) {
+            do {
+                System.out.print("> ");
+                input = scanner.nextLine().trim();
+                try {
+                    int val = Integer.parseInt(input);
+                    if ((allowZero && val >= 0 && val <= max) || (!allowZero && val >= 1 && val <= max)) {
+                        return input;
+                    }
+                } catch (NumberFormatException e) {
+                    // fallthrough
+                }
+            } while (true);
+        }
+
         do {
             System.out.print("> ");
             input = scanner.nextLine().trim();
-        } while (!input.matches("[1-" + max + "]"));
+        } while (!input.matches(regex));
         return input;
     }
 }

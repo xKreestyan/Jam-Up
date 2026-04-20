@@ -23,13 +23,8 @@ Varie ed Eventuali
 [ ] Aggiungere documentazione JavaDoc ai metodi pubblici più importanti.
 [ ] Controllare che i DTO (Bean) validino correttamente i dati prima di passarli al Controller.
 
-
-[ ] SESSION != SESSIONMANAGER : il SessionManager (singleton) gestisce le sessioni (non singleton) => passare a ogni costruttore di ogni controller applicativo la sessione
 [ ] FOREIGN KEY NO, MA RIFERIMENTI AGLI OGGETTI
-[ ] Implementa la chiamata a GMaps con un dummy stub
-[ ] Implementare il riepilogo della richiesta di prenotazione prima dell'invio
 [ ] Cerca di usare TUTTI i dati di ogni entità presente nel livello di persistenza / inMemoryStorage
-[ ] Cerca di avvicinarti alle 4k LOC
 [ ] Traduci in inglese tutti gli eventuali commenti in italiano
 [ ] Vedi se gli internal steps del caso d'uso coincidono con il flusso del codice
 [ ] COMPLETA LE JAVADOC

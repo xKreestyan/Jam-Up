@@ -7,17 +7,7 @@ import org.jamup.model.VenueManager;
 /**
  * Rappresenta lo stato della sessione dell'utente corrente.
  */
-public class Session {
-
-    private final User currentUser;
-
-    public Session(User user) {
-        this.currentUser = user;
-    }
-
-    public User getCurrentUser() {
-        return currentUser;
-    }
+public record Session(User currentUser) {
 
     public String getCurrentUserId() {
         return currentUser != null ? currentUser.getId() : null;

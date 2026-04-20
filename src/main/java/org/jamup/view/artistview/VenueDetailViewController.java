@@ -3,6 +3,7 @@ package org.jamup.view.artistview;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.FlowPane;
@@ -17,6 +18,7 @@ import org.jamup.util.SceneManager;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 public class VenueDetailViewController {
 
@@ -154,24 +156,39 @@ public class VenueDetailViewController {
             return;
         }
 
-        try {
-            TimeSlot slot = new TimeSlot(selectedDate, selectedTime);
-            ReservationBean bean = new ReservationBean(currentVenue.getId(), slot, notesArea.getText());
-            facade.confirmReservation(bean);
+        String notes = notesArea.getText().trim();
+        String summary = String.format("Venue: %s%nDate: %s at %s%nNotes: %s",
+                currentVenue.getName(),
+                selectedDate,
+                selectedTime,
+                notes.isEmpty() ? "None" : notes);
 
-            //force reload
-            SceneManager.getInstance().navigateTo(SceneManager.SceneName.RESERVE_VENUE);
+        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmAlert.setTitle("Confirm Reservation");
+        confirmAlert.setHeaderText("Reservation Summary");
+        confirmAlert.setContentText(summary);
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Booking Confirmed");
-            alert.setHeaderText(null);
-            alert.setContentText("Your reservation request has been sent to the venue manager.");
-            alert.showAndWait();
+        Optional<ButtonType> result = confirmAlert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            try {
+                TimeSlot slot = new TimeSlot(selectedDate, selectedTime);
+                ReservationBean bean = new ReservationBean(currentVenue.getId(), slot, notesArea.getText());
+                facade.confirmReservation(bean);
 
-            SceneManager.getInstance().closePopup();
-        } catch (InvalidFieldException e) {
-            errorLabel.setText("Invalid notes: " + e.getMessage());
-            errorLabel.setVisible(true);
+                //force reload
+                SceneManager.getInstance().navigateTo(SceneManager.SceneName.RESERVE_VENUE);
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Booking Confirmed");
+                alert.setHeaderText(null);
+                alert.setContentText("Your reservation request has been sent to the venue manager.");
+                alert.showAndWait();
+
+                SceneManager.getInstance().closePopup();
+            } catch (InvalidFieldException e) {
+                errorLabel.setText("Invalid notes: " + e.getMessage());
+                errorLabel.setVisible(true);
+            }
         }
     }
 
