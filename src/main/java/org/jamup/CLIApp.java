@@ -10,7 +10,6 @@ import org.jamup.model.enums.MusicGenre;
 import org.jamup.model.enums.ReservationStatus;
 import org.jamup.util.JamUpFacade;
 import org.jamup.util.MapService;
-import org.jamup.util.SessionManager;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -59,7 +58,7 @@ public class CLIApp {
                 LoginUserBean bean = new LoginUserBean(email, password);
                 facade.login(bean);
 
-                if (SessionManager.getInstance().isArtistLoggedIn()) {
+                if (facade.isArtistLoggedIn()) {
                     showArtistMenu();
                 } else {
                     showManagerMenu();
@@ -91,7 +90,7 @@ public class CLIApp {
                     showNotifications();
                     break;
                 case "3":
-                    SessionManager.getInstance().logout();
+                    facade.logout();
                     return;
                 default:
                     throw new IllegalStateException("Unexpected choice");
@@ -249,7 +248,7 @@ public class CLIApp {
                     showNotifications();
                     break;
                 case "5":
-                    SessionManager.getInstance().logout();
+                    facade.logout();
                     return;
                 default:
                     throw new IllegalStateException("Unexpected choice");

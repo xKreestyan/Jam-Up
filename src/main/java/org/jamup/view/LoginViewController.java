@@ -9,7 +9,6 @@ import org.jamup.util.JamUpFacade;
 import org.jamup.exception.InvalidCredentialsException;
 import org.jamup.exception.InvalidFieldException;
 import org.jamup.util.SceneManager;
-import org.jamup.util.SessionManager;
 
 public class LoginViewController {
 
@@ -25,9 +24,9 @@ public class LoginViewController {
             LoginUserBean bean = new LoginUserBean(emailField.getText(), passwordField.getText());
             facade.login(bean);
 
-            if (SessionManager.getInstance().isArtistLoggedIn()) {
+            if (facade.isArtistLoggedIn()) {
                 SceneManager.getInstance().navigateTo(SceneManager.SceneName.RESERVE_VENUE);
-            } else if (SessionManager.getInstance().isManagerLoggedIn()) {
+            } else if (facade.isManagerLoggedIn()) {
                 SceneManager.getInstance().navigateTo(SceneManager.SceneName.MANAGER_HOME);
             }
         } catch (InvalidFieldException | InvalidCredentialsException e) {

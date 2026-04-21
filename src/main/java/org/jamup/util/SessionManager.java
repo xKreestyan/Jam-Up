@@ -3,6 +3,10 @@ package org.jamup.util;
 import org.jamup.dao.factory.DAOFactory;
 import org.jamup.model.User;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 @SuppressWarnings("java:S6548")
 public class SessionManager {
 
@@ -17,35 +21,40 @@ public class SessionManager {
         return InstanceHolder.instance;
     }
 
-    private Session currentSession;
+    private final Map<String, Session> sessions = new HashMap<>();
 
-    public Session getCurrentSession() {
-        return currentSession;
+    public Session getSession(String sessionId) {
+        if (sessionId == null) return null;
+        return sessions.get(sessionId);
     }
 
-    public void login(User user) {
-        if (currentSession != null) {
-            throw new IllegalStateException("A user is already logged in.");
+    public String login(User user) {
+        String sessionId = UUID.randomUUID().toString();
+        sessions.put(sessionId, new Session(user));
+        return sessionId;
+    }
+
+    public void logout(String sessionId) {
+        if (sessionId != null) {
+            sessions.remove(sessionId);
+            // Pulisce la cache in memoria per evitare leak o permessi errati alla prossima sessione
+            DAOFactory.getInstance().clearCache();
         }
-        this.currentSession = new Session(user);
     }
 
-    public void logout() {
-        this.currentSession = null;
-        // Pulisce la cache in memoria per evitare leak o permessi errati alla prossima sessione
-        DAOFactory.getInstance().clearCache();
+    public String getCurrentUserId(String sessionId) {
+        Session session = getSession(sessionId);
+        return session != null ? session.getCurrentUserId() : null;
     }
 
-    public String getCurrentUserId() {
-        return currentSession != null ? currentSession.getCurrentUserId() : null;
+    public boolean isArtistLoggedIn(String sessionId) {
+        Session session = getSession(sessionId);
+        return session != null && session.isArtist();
     }
 
-    public boolean isArtistLoggedIn() {
-        return currentSession != null && currentSession.isArtist();
-    }
-
-    public boolean isManagerLoggedIn() {
-        return currentSession != null && currentSession.isManager();
+    public boolean isManagerLoggedIn(String sessionId) {
+        Session session = getSession(sessionId);
+        return session != null && session.isManager();
     }
 
 }

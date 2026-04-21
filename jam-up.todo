@@ -1,34 +1,9 @@
-Jam-Up Project - TO-DO List
-========================================
-
-Database & Persistenza
-----------------------------------------
-[ ] Controllare tutti i file DAO (es. UserDAODB, ReservationDAODB) e assicurarsi che usino il try-with-resources.
-[ ] Verificare che ResultSet, CallableStatement e Connection siano chiusi correttamente.
-[ ] Valutare l'implementazione del pattern Decorator per la Cache (VenueDAOCache) solo per i dati anagrafici (escludendo le disponibilità degli slot temporali per evitare overbooking).
-
-Gestione Eccezioni (SonarQube Warnings)
-----------------------------------------
-[ ] Eliminare le RuntimeException generiche in tutto il progetto.
-[ ] Usare DAOException per gli errori del livello di persistenza e DB.
-[ ] Usare SceneLoadException per gli errori di caricamento di JavaFX (FXML).
-[ ] Usare IllegalStateException per gli algoritmi mancanti (es. in Encryptor) o stati irreversibili.
-
-Interfaccia Grafica (UI/UX)
-----------------------------------------
-[ ] ReserveVenueViewController: implementare l'auto-ricerca nel metodo onDateFilterClick() oppure aggiungere un commento per silenziare il linter.
-
-Varie ed Eventuali
-----------------------------------------
-[ ] Aggiungere documentazione JavaDoc ai metodi pubblici più importanti.
-[ ] Controllare che i DTO (Bean) validino correttamente i dati prima di passarli al Controller.
-
+[ ] USARE SINGLETON INDIRETTO TRA DAOFACTORY E DAO
 [ ] FOREIGN KEY NO, MA RIFERIMENTI AGLI OGGETTI
 [ ] Cerca di usare TUTTI i dati di ogni entità presente nel livello di persistenza / inMemoryStorage
 [ ] Traduci in inglese tutti gli eventuali commenti in italiano
 [ ] Vedi se gli internal steps del caso d'uso coincidono con il flusso del codice
 [ ] COMPLETA LE JAVADOC
-[ ] risolvi le duplicazioni
 
 [ ] Per la questione DAO con cache, se voglio fare le cose precise, ovvero applicare il vero e proprio decorator,
     dovrei mettere l'attributo component astratto/interfaccia (di tipo DAO, ovvero interfaccia)

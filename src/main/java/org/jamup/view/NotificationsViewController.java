@@ -10,7 +10,6 @@ import org.jamup.bean.NotificationBean;
 import org.jamup.util.JamUpFacade;
 import org.jamup.controller.LogoutController;
 import org.jamup.util.SceneManager;
-import org.jamup.util.SessionManager;
 
 import java.util.List;
 
@@ -28,7 +27,7 @@ public class NotificationsViewController {
 
     @FXML
     public void onBackClick() {
-        if (SessionManager.getInstance().isArtistLoggedIn()) {
+        if (facade.isArtistLoggedIn()) {
             SceneManager.getInstance().navigateTo(SceneManager.SceneName.RESERVE_VENUE);
         } else {
             SceneManager.getInstance().navigateTo(SceneManager.SceneName.MANAGER_HOME);
@@ -42,12 +41,7 @@ public class NotificationsViewController {
 
     @FXML
     public void onMarkAllReadClick() {
-        List<NotificationBean> notifications = facade.fetchNotifications();
-        for (NotificationBean notification : notifications) {
-            if (!notification.isRead()) {
-                facade.markAsRead(notification);
-            }
-        }
+        facade.markAllNotificationsAsRead();
         loadNotifications();
     }
 

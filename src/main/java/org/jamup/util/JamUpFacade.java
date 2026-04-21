@@ -23,10 +23,25 @@ public class JamUpFacade {
         return InstanceHolder.instance;
     }
 
+    private String sessionId;
+
     //login
     public void login(LoginUserBean bean) throws InvalidCredentialsException {
         LoginController loginController = new LoginController();
-        loginController.login(bean);
+        this.sessionId = loginController.login(bean);
+    }
+
+    public void logout() {
+        SessionManager.getInstance().logout(sessionId);
+        this.sessionId = null;
+    }
+
+    public boolean isArtistLoggedIn() {
+        return SessionManager.getInstance().isArtistLoggedIn(sessionId);
+    }
+
+    public boolean isManagerLoggedIn() {
+        return SessionManager.getInstance().isManagerLoggedIn(sessionId);
     }
 
     //reserve venue
@@ -37,13 +52,13 @@ public class JamUpFacade {
 
     public void confirmReservation(ReservationBean bean) {
         ReserveVenueController reserveVenueController = new ReserveVenueController();
-        reserveVenueController.confirmReservation(bean);
+        reserveVenueController.confirmReservation(bean, this.sessionId);
     }
 
     //manage reservations
     public List<ReservationBean> fetchReservations(ReservationStatus status) throws NoReservationsFoundException {
         ManageReservationsController manageReservationsController = new ManageReservationsController();
-        return manageReservationsController.fetchReservations(status);
+        return manageReservationsController.fetchReservations(status, this.sessionId);
     }
     public void accept(String reservationId) {
         ManageReservationsController manageReservationsController = new ManageReservationsController();
@@ -57,7 +72,7 @@ public class JamUpFacade {
     //notifications
     public List<NotificationBean> fetchNotifications() {
         NotificationController notificationController = new NotificationController();
-        return notificationController.fetchNotifications();
+        return notificationController.fetchNotifications(this.sessionId);
     }
     public void markAsRead(NotificationBean bean) {
         NotificationController notificationController = new NotificationController();
@@ -65,7 +80,12 @@ public class JamUpFacade {
     }
     public int countUnreadNotifications() {
         NotificationController notificationController = new NotificationController();
-        return notificationController.countUnreadNotifications();
+        return notificationController.countUnreadNotifications(this.sessionId);
+    }
+
+    public void markAllNotificationsAsRead() {
+        NotificationController notificationController = new NotificationController();
+        notificationController.markAllNotificationsAsRead(this.sessionId);
     }
 
 }

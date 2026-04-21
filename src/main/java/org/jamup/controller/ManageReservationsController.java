@@ -10,6 +10,7 @@ import org.jamup.model.Venue;
 import org.jamup.model.VenueManager;
 import org.jamup.model.enums.ReservationStatus;
 import org.jamup.observer.NotificationObserver;
+import org.jamup.util.Session;
 import org.jamup.util.SessionManager;
 
 import java.util.ArrayList;
@@ -23,12 +24,17 @@ public class ManageReservationsController {
      * managed by the current manager will be retrieved.
      *
      * @param status the status of the reservations to retrieve, or null to retrieve all.
+     * @param sessionId the ID of the current user's session
      * @return a list of ReservationBean objects containing reservation details.
      * @throws NoReservationsFoundException if no reservations match the criteria.
      */
-    public List<ReservationBean> fetchReservations(ReservationStatus status) throws NoReservationsFoundException {
+    public List<ReservationBean> fetchReservations(ReservationStatus status, String sessionId) throws NoReservationsFoundException {
+        Session session = SessionManager.getInstance().getSession(sessionId);
+        if (session == null) {
+            throw new NoReservationsFoundException();
+        }
         // Use the manager instance directly from the session
-        VenueManager manager = (VenueManager) SessionManager.getInstance().getCurrentSession().currentUser();
+        VenueManager manager = (VenueManager) session.currentUser();
 
         ReservationDAO reservationDAO = DAOFactory.getInstance().createReservationDAO();
         List<Reservation> reservations = reservationDAO.findByVenues(manager.getVenueIds(), status);

@@ -14,11 +14,12 @@ public class NotificationController {
     /**
      * Fetches all notifications for the currently logged-in user.
      *
+     * @param sessionId the ID of the current user's session
      * @return a list of NotificationBean objects containing notification details.
      */
-    public List<NotificationBean> fetchNotifications() {
+    public List<NotificationBean> fetchNotifications(String sessionId) {
         NotificationDAO notificationDAO = DAOFactory.getInstance().createNotificationDAO();
-        String recipientId = SessionManager.getInstance().getCurrentUserId();
+        String recipientId = SessionManager.getInstance().getCurrentUserId(sessionId);
         List<Notification> fetchedNotifications = notificationDAO.findByRecipient(recipientId);
 
         List<NotificationBean> notificationBeans = new ArrayList<>();
@@ -58,12 +59,28 @@ public class NotificationController {
     /**
      * Counts the number of unread notifications for the currently logged-in user.
      *
+     * @param sessionId the ID of the current user's session
      * @return the total count of unread notifications.
      */
-    public int countUnreadNotifications() {
+    public int countUnreadNotifications(String sessionId) {
         NotificationDAO notificationDAO = DAOFactory.getInstance().createNotificationDAO();
-        String recipientId = SessionManager.getInstance().getCurrentUserId();
+        String recipientId = SessionManager.getInstance().getCurrentUserId(sessionId);
         return notificationDAO.findUnreadByRecipient(recipientId).size();
+    }
+
+    /**
+     * Marks all unread notifications for the current user as read.
+     *
+     * @param sessionId the ID of the current user's session
+     */
+    public void markAllNotificationsAsRead(String sessionId) {
+        NotificationDAO notificationDAO = DAOFactory.getInstance().createNotificationDAO();
+        String recipientId = SessionManager.getInstance().getCurrentUserId(sessionId);
+        List<Notification> unread = notificationDAO.findUnreadByRecipient(recipientId);
+        for (Notification notification : unread) {
+            notification.markAsRead();
+            notificationDAO.update(notification);
+        }
     }
 
 }
