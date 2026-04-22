@@ -11,7 +11,7 @@ public class Venue {
     private List<MusicGenre> genres;
     private String location;
     private final AvailabilityCalendar calendar;
-    private final String managerId;
+    private final VenueManager manager;
 
     public String getId() {
         return id;
@@ -53,18 +53,18 @@ public class Venue {
         return calendar;
     }
 
-    public String getManagerId() {
-        return managerId;
+    public VenueManager getManager() {
+        return manager;
     }
 
-    public Venue(String id, String name, String description, List<MusicGenre> genres, String location, String managerId) {
+    public Venue(String id, String name, String description, List<MusicGenre> genres, String location, VenueManager manager) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.genres = genres;
         this.location = location;
-        calendar = new AvailabilityCalendar();
-        this.managerId = managerId;
+        this.calendar = new AvailabilityCalendar();
+        this.manager = manager;
     }
 
 }

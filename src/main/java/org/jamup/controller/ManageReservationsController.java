@@ -33,11 +33,11 @@ public class ManageReservationsController {
         if (session == null) {
             throw new NoReservationsFoundException();
         }
-        // Use the manager instance directly from the session
+        //use the manager instance directly from the session
         VenueManager manager = (VenueManager) session.currentUser();
 
         ReservationDAO reservationDAO = DAOFactory.getInstance().createReservationDAO();
-        List<Reservation> reservations = reservationDAO.findByVenues(manager.getVenueIds(), status);
+        List<Reservation> reservations = reservationDAO.findByVenues(manager.getVenues().stream().map(Venue::getId).toList(), status);
 
         List<ReservationBean> reservationBeans = new ArrayList<>();
         for (Reservation reservation : reservations) {

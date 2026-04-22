@@ -1,10 +1,12 @@
 package org.jamup.dao.db;
 
 import org.jamup.dao.VenueFilter;
+import org.jamup.dao.factory.DAOFactory;
 import org.jamup.dao.factory.DBConnectionFactory;
 import org.jamup.dao.interfaces.VenueDAO;
 import org.jamup.exception.DAOException;
 import org.jamup.model.Venue;
+import org.jamup.model.VenueManager;
 import org.jamup.model.enums.MusicGenre;
 
 import java.sql.CallableStatement;
@@ -34,16 +36,19 @@ public class VenueDAODB implements VenueDAO {
 
         List<MusicGenre> genres = new ArrayList<>();
         String genreStr = rs.getString("genres");
-        if (genreStr != null) {
+        if (genreStr != null && !genreStr.isEmpty()) {
             for (String g : genreStr.split("\\|")) {
                 genres.add(MusicGenre.valueOf(g));
             }
         }
 
-        Venue venue = new Venue(id, name, description, genres, location, managerId);
+        //this triggers UserDAO which uses a temporary map to resolve circular dependencies between Venue and VenueManager
+        VenueManager manager = DAOFactory.getInstance().createUserDAO().findManagerById(managerId);
+
+        Venue venue = new Venue(id, name, description, genres, location, manager);
 
         String slotsStr = rs.getString("slots");
-        if (slotsStr != null) {
+        if (slotsStr != null && !slotsStr.isEmpty()) {
             for (String slot : slotsStr.split("\\|")) {
                 String[] parts = slot.split("T");
                 LocalDate date = LocalDate.parse(parts[0]);

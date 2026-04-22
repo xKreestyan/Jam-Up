@@ -9,6 +9,11 @@ public class LogoutController {
 
     private LogoutController() {}
 
+    /**
+     * Handles the logout process by displaying a confirmation alert to the user.
+     * If the user confirms, it clears the session via {@link JamUpFacade}
+     * and redirects to the login scene.
+     */
     public static void handle() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Logout");

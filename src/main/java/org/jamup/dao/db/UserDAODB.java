@@ -1,9 +1,12 @@
 package org.jamup.dao.db;
 
+import org.jamup.dao.factory.DAOFactory;
 import org.jamup.dao.factory.DBConnectionFactory;
 import org.jamup.dao.interfaces.UserDAO;
+import org.jamup.dao.interfaces.VenueDAO;
 import org.jamup.exception.DAOException;
 import org.jamup.model.Artist;
+import org.jamup.model.Venue;
 import org.jamup.model.VenueManager;
 import org.jamup.model.enums.Instrument;
 import org.jamup.model.enums.MusicGenre;
@@ -13,10 +16,17 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class UserDAODB implements UserDAO {
+
+    //map to prevent infinite recursion during manager and venue construction.
+    //when building a VenueManager, VenueDAO is invoked to build its Venues.
+    //VenueDAO in turn asks UserDAO for the manager, triggering a loop.
+    //this map holds the partial manager being built to break the cycle.
+    private final Map<String, VenueManager> managersInProgress = new HashMap<>();
 
     /**
      * Maps a row from a ResultSet to an Artist object.
@@ -62,13 +72,31 @@ public class UserDAODB implements UserDAO {
         String email    = rs.getString("email");
         String password = rs.getString("password");
 
-        List<String> venueIds = new ArrayList<>();
-        String venueStr = rs.getString("venue_ids");
-        if (venueStr != null && !venueStr.isEmpty()) {
-            Collections.addAll(venueIds, venueStr.split("\\|"));
+        //check if we are already building this manager
+        if (managersInProgress.containsKey(id)) {
+            return managersInProgress.get(id);
         }
 
-        return new VenueManager(id, email, password, venueIds);
+        VenueManager manager = new VenueManager(id, email, password, new ArrayList<>());
+        managersInProgress.put(id, manager);
+
+        List<Venue> venues = new ArrayList<>();
+        String venueStr = rs.getString("venue_ids");
+        if (venueStr != null && !venueStr.isEmpty()) {
+            String[] venueIds = venueStr.split("\\|");
+            VenueDAO venueDAO = DAOFactory.getInstance().createVenueDAO();
+            for (String venueId : venueIds) {
+                Venue venue = venueDAO.findById(venueId);
+                if (venue != null) {
+                    venues.add(venue);
+                }
+            }
+        }
+
+        manager.setVenues(venues);
+        managersInProgress.remove(id);
+
+        return manager;
     }
 
     @Override

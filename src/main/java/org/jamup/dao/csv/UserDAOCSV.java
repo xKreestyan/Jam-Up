@@ -1,19 +1,29 @@
 package org.jamup.dao.csv;
 
 import org.jamup.dao.interfaces.UserDAO;
+import org.jamup.dao.interfaces.VenueDAO;
+import org.jamup.dao.factory.DAOFactory;
 import org.jamup.model.Artist;
+import org.jamup.model.Venue;
 import org.jamup.model.VenueManager;
 import org.jamup.model.enums.Instrument;
 import org.jamup.model.enums.MusicGenre;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class UserDAOCSV implements UserDAO {
 
     private static final String ARTISTS_FILE = "artists.csv";
     private static final String MANAGERS_FILE = "managers.csv";
+
+    // Map to prevent infinite recursion during manager and venue construction.
+    // When building a VenueManager, VenueDAO is invoked to build its Venues.
+    // VenueDAO in turn asks UserDAO for the manager, triggering a loop.
+    // This map holds the partial manager being built to break the cycle.
+    private final Map<String, VenueManager> managersInProgress = new HashMap<>();
 
     //artists.csv: id, email, password, name, instruments, genres
     /**
@@ -53,10 +63,30 @@ public class UserDAOCSV implements UserDAO {
         String email    = row[2];
         String password = row[3];
 
-        List<String> venueIds = new ArrayList<>();
-        Collections.addAll(venueIds, row[4].split("\\|"));
+        // Check if we are already building this manager
+        if (managersInProgress.containsKey(id)) {
+            return managersInProgress.get(id);
+        }
 
-        return new VenueManager(id, email, password, venueIds);
+        VenueManager manager = new VenueManager(id, email, password, new ArrayList<>());
+        managersInProgress.put(id, manager);
+
+        List<Venue> venues = new ArrayList<>();
+        if (!row[4].isEmpty()) {
+            String[] venueIds = row[4].split("\\|");
+            VenueDAO venueDAO = DAOFactory.getInstance().createVenueDAO();
+            for (String venueId : venueIds) {
+                Venue venue = venueDAO.findById(venueId);
+                if (venue != null) {
+                    venues.add(venue);
+                }
+            }
+        }
+
+        manager.setVenues(venues);
+        managersInProgress.remove(id);
+
+        return manager;
     }
 
     @Override
@@ -97,10 +127,6 @@ public class UserDAOCSV implements UserDAO {
             }
         }
         return null;
-    }
-
-    public UserDAOCSV() {
-        System.out.println("Creato UserDAO versione CSV");
     }
 
 }

@@ -42,8 +42,4 @@ public class ReservationDAOMemory implements ReservationDAO {
         InMemoryStorage.getReservations().put(updatedReservation.getId(), updatedReservation);
     }
 
-    public ReservationDAOMemory() {
-        System.out.println("Creato ReservationDAO versione DEMO");
-    }
-
 }

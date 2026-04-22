@@ -1,9 +1,8 @@
-[ ] USARE SINGLETON INDIRETTO TRA DAOFACTORY E DAO
-[ ] FOREIGN KEY NO, MA RIFERIMENTI AGLI OGGETTI
-[ ] Cerca di usare TUTTI i dati di ogni entità presente nel livello di persistenza / inMemoryStorage
 [ ] Traduci in inglese tutti gli eventuali commenti in italiano
 [ ] Vedi se gli internal steps del caso d'uso coincidono con il flusso del codice
 [ ] COMPLETA LE JAVADOC
+[ ] FAI I TEST
+[ ] Studia generics, funzionamento del singleton con classe annidata, .stream(), .map(), .filter() + ricordati della dipendenza circolare tra venue e venuemanager
 
 [ ] Per la questione DAO con cache, se voglio fare le cose precise, ovvero applicare il vero e proprio decorator,
     dovrei mettere l'attributo component astratto/interfaccia (di tipo DAO, ovvero interfaccia)

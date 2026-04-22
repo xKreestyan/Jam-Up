@@ -37,8 +37,4 @@ public class VenueDAOMemory implements VenueDAO {
         InMemoryStorage.getVenues().put(updatedVenue.getId(), updatedVenue);
     }
 
-    public VenueDAOMemory() {
-        System.out.println("Creato VenueDAO versione DEMO");
-    }
-
 }

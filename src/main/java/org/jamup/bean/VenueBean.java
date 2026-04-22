@@ -85,4 +85,5 @@ public class VenueBean {
         this.genres = genres;
         this.availableSlots = availableSlots;
     }
+
 }

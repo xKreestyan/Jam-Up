@@ -55,4 +55,5 @@ public class Main extends Application {
         SceneManager.getInstance().navigateTo(SceneManager.SceneName.LOGIN);
         primaryStage.show();
     }
+
 }

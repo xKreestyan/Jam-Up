@@ -80,12 +80,10 @@ public class NotificationDAOCache extends AbstractDAOCache<Notification> impleme
     public Notification findById(String id) {
         //cache hit case
         if (isInCache(id)) {
-            System.out.println("Data fetched from CACHE!");
             return fetchFromCache(id);
         }
 
         //cache miss case
-        System.out.println("Data NOT in cache, querying storage...");
         Notification notificationFromStorage = notificationDAOComponent.findById(id);
         if (notificationFromStorage != null) {
             putInCache(notificationFromStorage.getId(), notificationFromStorage);

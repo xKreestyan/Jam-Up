@@ -2,7 +2,9 @@ package org.jamup.dao.csv;
 
 import org.jamup.dao.VenueFilter;
 import org.jamup.dao.interfaces.VenueDAO;
+import org.jamup.dao.factory.DAOFactory;
 import org.jamup.model.Venue;
+import org.jamup.model.VenueManager;
 import org.jamup.model.enums.MusicGenre;
 
 import java.time.LocalDate;
@@ -15,7 +17,7 @@ public class VenueDAOCSV implements VenueDAO {
     private static final String VENUES_FILE = "venues.csv";
     private static final String[] HEADER = {"id", "name", "description", "genres", "location", "managerId", "slots"};
 
-    // venues.csv: id, name, description, genres, location, managerId, slots
+    //venues.csv: id, name, description, genres, location, managerId, slots
     /**
      * Converts a CSV row represented as a String array into a Venue object.
      *
@@ -33,14 +35,19 @@ public class VenueDAOCSV implements VenueDAO {
         for (String g : row[3].split("\\|")) {
             genres.add(MusicGenre.valueOf(g));
         }
+        
+        //this triggers UserDAO which uses a temporary map to resolve circular dependencies between Venue and VenueManager
+        VenueManager manager = DAOFactory.getInstance().createUserDAO().findManagerById(managerId);
 
-        Venue venue = new Venue(id, name, description, genres, location, managerId);
+        Venue venue = new Venue(id, name, description, genres, location, manager);
 
         for (String slot : row[6].split("\\|")) {
-            String[] parts = slot.split("T");
-            LocalDate date = LocalDate.parse(parts[0]);
-            LocalTime time = LocalTime.parse(parts[1]);
-            venue.getCalendar().addSlot(date, time);
+            if (!slot.isEmpty()) {
+                String[] parts = slot.split("T");
+                LocalDate date = LocalDate.parse(parts[0]);
+                LocalTime time = LocalTime.parse(parts[1]);
+                venue.getCalendar().addSlot(date, time);
+            }
         }
 
         return venue;
@@ -65,7 +72,7 @@ public class VenueDAOCSV implements VenueDAO {
 
         return new String[]{
                 venue.getId(), venue.getName(), venue.getDescription(),
-                genres, venue.getLocation(), venue.getManagerId(), slots
+                genres, venue.getLocation(), venue.getManager().getId(), slots
         };
     }
 
@@ -107,10 +114,6 @@ public class VenueDAOCSV implements VenueDAO {
             }
         }
         CSVStorage.rewrite(VENUES_FILE, HEADER, rows);
-    }
-
-    public VenueDAOCSV() {
-        System.out.println("Creato VenueDAO versione CSV");
     }
 
 }

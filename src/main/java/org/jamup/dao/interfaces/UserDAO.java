@@ -42,4 +42,5 @@ public interface UserDAO {
      * @return the VenueManager object if found, null otherwise
      */
     VenueManager findManagerById(String id);
+
 }

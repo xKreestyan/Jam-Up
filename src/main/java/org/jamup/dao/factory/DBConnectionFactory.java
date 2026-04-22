@@ -25,7 +25,6 @@ public class DBConnectionFactory {
                 String pass = properties.getProperty("LOGIN_PASS");
 
                 connection = DriverManager.getConnection(url, user, pass);
-                System.out.println("Database connection established");
             } catch (IOException | SQLException e) {
                 throw new DAOException("Failed to initialize DB connection", e);
             }

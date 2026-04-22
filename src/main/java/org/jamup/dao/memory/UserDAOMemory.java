@@ -36,8 +36,4 @@ public class UserDAOMemory implements UserDAO {
         return InMemoryStorage.getManagers().get(id);
     }
 
-    public UserDAOMemory() {
-        System.out.println("Creato UserDAO versione DEMO");
-    }
-
 }

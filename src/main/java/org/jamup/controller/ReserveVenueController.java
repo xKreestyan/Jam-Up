@@ -65,7 +65,7 @@ public class ReserveVenueController {
             // Or handle error appropriately
             return;
         }
-        // Use the artist instance directly from the session
+        //use the artist instance directly from the session
         Artist artist = (Artist) session.currentUser();
         
         VenueDAO venueDAO = DAOFactory.getInstance().createVenueDAO();
@@ -89,7 +89,7 @@ public class ReserveVenueController {
                 " at " + bean.getReservedSlot().getTime();
 
         NotificationController notificationController = new NotificationController();
-        notificationController.createNotification(venue.getManagerId(), message);
+        notificationController.createNotification(venue.getManager().getId(), message);
     }
 
 }

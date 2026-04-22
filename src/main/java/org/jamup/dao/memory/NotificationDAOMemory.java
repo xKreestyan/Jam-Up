@@ -49,8 +49,4 @@ public class NotificationDAOMemory implements NotificationDAO {
         InMemoryStorage.getNotifications().put(updatedNotification.getId(), updatedNotification);
     }
 
-    public NotificationDAOMemory() {
-        System.out.println("Creato NotificationDAO versione DEMO");
-    }
-
 }
