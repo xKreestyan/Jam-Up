@@ -1,20 +1,20 @@
 package org.jamup.util;
 
 /**
- * Stub per un servizio di mappe esterno (es. Google Maps API).
- * Questa classe simula il comportamento di un componente che si occupa
- * di geolocalizzare e visualizzare una lista di locali su una mappa.
+ * Stub for an external map service (e.g., Google Maps API).
+ * This class simulates the behavior of a component responsible for
+ * geolocating and displaying a list of venues on a map.
  */
 public class MapService {
 
     private MapService() {}
 
     /**
-     * Simula la renderizzazione di una mappa contenente i locali forniti.
-     * Da implementare in futuro con una vera API (es. Google Maps).
+     * Simulates the rendering of a map containing the provided venues.
+     * To be implemented in the future with a real API (e.g., Google Maps).
      */
     public static void renderMap() {
-        // Implementare la chiamata all'API esterna per visualizzare la mappa
+        // Implement the call to the external API to display the map
     }
 
 }

@@ -8,6 +8,13 @@ public class Encryptor {
     //non-instantiable class
     private Encryptor() {}
 
+    /**
+     * Hashes a string using the SHA-256 algorithm and returns the result as a hexadecimal string.
+     *
+     * @param password the string to be hashed
+     * @return the hexadecimal representation of the SHA-256 hash
+     * @throws IllegalStateException if the SHA-256 algorithm is not available
+     */
     public static String hash(String password) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");

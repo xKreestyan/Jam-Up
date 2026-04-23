@@ -102,23 +102,23 @@ public class ManagerHomeViewController {
         VBox card = new VBox(6);
         card.setStyle("-fx-background-color: #1a1a28; -fx-background-radius: 12; -fx-padding: 16;");
 
-        // nome artista + venue
+        //artist name + venue
         Label artistLabel = new Label(reservation.getArtistName() + " → " + reservation.getVenueName());
         artistLabel.setStyle("-fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold;");
 
-        // data e ora
+        //date and time
         Label slotLabel = new Label("📅 " + reservation.getReservedSlot().getDate()
                 + "  🕐 " + reservation.getReservedSlot().getTime());
         slotLabel.setStyle("-fx-text-fill: #888888; -fx-font-size: 13px;");
 
-        // strumenti e generi
+        //instruments and genres
         String instruments = reservation.getArtistInstruments().stream()
                 .map(i -> i.name().charAt(0) + i.name().substring(1).toLowerCase())
                 .reduce((a, b) -> a + ", " + b).orElse("");
         Label instrumentsLabel = new Label("🎸 " + instruments);
         instrumentsLabel.setStyle("-fx-text-fill: #666677; -fx-font-size: 12px;");
 
-        // note
+        //notes
         Label notesLabel = new Label(reservation.getNotes().isEmpty() ? "" : "📝 " + reservation.getNotes());
         notesLabel.setStyle("-fx-text-fill: #555566; -fx-font-size: 12px;");
         notesLabel.setWrapText(true);
@@ -128,7 +128,7 @@ public class ManagerHomeViewController {
             card.getChildren().add(notesLabel);
         }
 
-        // bottoni accept/reject solo se PENDING
+        //accept/reject buttons only if PENDING
         if (reservation.getStatus() == ReservationStatus.PENDING) {
             HBox buttons = new HBox(10);
             buttons.setStyle("-fx-padding: 8 0 0 0;");

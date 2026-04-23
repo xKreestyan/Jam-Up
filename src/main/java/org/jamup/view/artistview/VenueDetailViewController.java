@@ -41,13 +41,13 @@ public class VenueDetailViewController {
 
     @FXML
     public void initialize() {
-        currentVenue = (VenueBean) SceneManager.getInstance().getTransferData();
-        // popoli la schermata con i dati del locale
+        currentVenue = SceneManager.getInstance().getTransferData();
+        //populate the screen with venue data
         nameLabel.setText(currentVenue.getName());
         locationLabel.setText("📍 " + currentVenue.getLocation());
         descriptionLabel.setText(currentVenue.getDescription());
 
-        // generi separati da "•"
+        //genres separated by "•"
         String genres = currentVenue.getGenres().stream()
                 .map(g -> g.name().charAt(0) + g.name().substring(1).toLowerCase())
                 .reduce((a, b) -> a + " • " + b)
@@ -58,7 +58,7 @@ public class VenueDetailViewController {
     }
 
     private void createDateButtons() {
-        // estrai le date distinte dagli slot disponibili
+        //extract distinct dates from available slots
         List<LocalDate> dates = currentVenue.getAvailableSlots().stream()
                 .map(TimeSlot::getDate)
                 .distinct()
@@ -76,7 +76,7 @@ public class VenueDetailViewController {
         btn.setText(date.getDayOfWeek().name().substring(0, 3) + "\n"
                 + date.getDayOfMonth() + "\n"
                 + date.getMonth().name().substring(0, 3));
-        btn.setStyle(/* stile non selezionato */
+        btn.setStyle(/* unselected style */
                 "-fx-background-color: #1a1a28; -fx-text-fill: #cccccc;" +
                         "-fx-background-radius: 10; -fx-padding: 10 14 10 14;" +
                         "-fx-font-size: 12px; -fx-cursor: hand;");
@@ -85,7 +85,7 @@ public class VenueDetailViewController {
     }
 
     private void onDateButtonClick(Button clickedButton, LocalDate date) {
-        // deseleziona il bottone precedente
+        //deselect the previous button
         if (selectedDateButton != null) {
             selectedDateButton.setStyle(
                     "-fx-background-color: #1a1a28; -fx-text-fill: #cccccc;" +
@@ -93,7 +93,7 @@ public class VenueDetailViewController {
                             "-fx-font-size: 12px; -fx-cursor: hand;");
         }
 
-        // seleziona il nuovo bottone
+        //select the new button
         selectedDateButton = clickedButton;
         selectedDateButton.setStyle(
                 "-fx-background-color: #a855f7; -fx-text-fill: white;" +
@@ -101,7 +101,7 @@ public class VenueDetailViewController {
                         "-fx-font-size: 12px; -fx-cursor: hand;");
 
         selectedDate = date;
-        selectedTime = null; // resetta l'orario selezionato
+        selectedTime = null; //reset the selected time
 
         updateTimeButtons(date);
     }

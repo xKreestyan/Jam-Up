@@ -70,7 +70,7 @@ public class NotificationsViewController {
             card.setStyle("-fx-background-color: #1a1a28; -fx-background-radius: 12; -fx-padding: 16;");
         }
 
-        // riga superiore: pallino (se non letta) + timestamp
+        //top row: dot (if unread) + timestamp
         HBox topRow = new HBox(8);
         topRow.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
 
@@ -89,7 +89,7 @@ public class NotificationsViewController {
 
         topRow.getChildren().addAll(spacer, timestampLabel);
 
-        // messaggio
+        //message
         Label messageLabel = new Label(notification.message());
         messageLabel.setWrapText(true);
         
@@ -101,7 +101,7 @@ public class NotificationsViewController {
 
         card.getChildren().addAll(topRow, messageLabel);
 
-        // click → segna come letta
+        //click -> mark as read
         if (!notification.isRead()) {
             card.setOnMouseClicked(e -> {
                 facade.markAsRead(notification);

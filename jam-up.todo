@@ -1,8 +1,6 @@
-[ ] Traduci in inglese tutti gli eventuali commenti in italiano
 [ ] Vedi se gli internal steps del caso d'uso coincidono con il flusso del codice
-[ ] COMPLETA LE JAVADOC
 [ ] FAI I TEST
-[ ] Studia generics, funzionamento del singleton con classe annidata, .stream(), .map(), .filter() + ricordati della dipendenza circolare tra venue e venuemanager
+[ ] Studia generics, funzionamento del singleton con classe annidata, .stream(), .map(), .filter() + studia la dipendenza circolare tra venue e venuemanager e il suo fix
 
 [ ] Per la questione DAO con cache, se voglio fare le cose precise, ovvero applicare il vero e proprio decorator,
     dovrei mettere l'attributo component astratto/interfaccia (di tipo DAO, ovvero interfaccia)

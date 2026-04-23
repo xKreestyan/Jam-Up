@@ -8,6 +8,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import org.jamup.bean.VenueBean;
 import org.jamup.exception.SceneLoadException;
 
 @SuppressWarnings("java:S6548")
@@ -38,7 +39,7 @@ public class SceneManager {
 
     private Stage stage;
     private final StackPane rootPane = new StackPane();
-    private Object transferData;
+    private VenueBean transferData;
 
     private SceneManager() {}
 
@@ -46,20 +47,41 @@ public class SceneManager {
         return InstanceHolder.instance;
     }
 
+    /**
+     * Configures the primary stage for the application.
+     *
+     * @param stage The primary Stage object provided by the JavaFX platform.
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
         stage.setTitle("Jam Up!");
         stage.setScene(new Scene(rootPane, 960, 780));
     }
 
-    public void setTransferData(Object data) {
+    /**
+     * Stores data to be transferred between different scenes.
+     *
+     * @param data The VenueBean containing data to pass to the next scene.
+     */
+    public void setTransferData(VenueBean data) {
         this.transferData = data;
     }
 
-    public Object getTransferData() {
+    /**
+     * Retrieves the data transferred from the previous scene.
+     *
+     * @return The transferred VenueBean object.
+     */
+    public VenueBean getTransferData() {
         return transferData;
     }
 
+    /**
+     * Navigates to a specific scene by loading the FXML file and updating the root pane.
+     *
+     * @param sceneName The enum value representing the target scene.
+     * @throws SceneLoadException if the FXML file cannot be loaded.
+     */
     public void navigateTo(SceneName sceneName) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(sceneName.getPath()));
@@ -82,6 +104,12 @@ public class SceneManager {
         }
     }
 
+    /**
+     * Opens a scene as a modal-like popup with a semi-transparent dark overlay.
+     *
+     * @param sceneName The enum value representing the scene to be shown as a popup.
+     * @throws SceneLoadException if the FXML file cannot be loaded.
+     */
     public void openPopup(SceneName sceneName) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(sceneName.getPath()));
@@ -99,6 +127,9 @@ public class SceneManager {
         }
     }
 
+    /**
+     * Closes the currently active popup by removing the top-most overlay from the root pane.
+     */
     public void closePopup() {
         if (rootPane.getChildren().size() > 1) {
             rootPane.getChildren().remove(rootPane.getChildren().size() - 1);

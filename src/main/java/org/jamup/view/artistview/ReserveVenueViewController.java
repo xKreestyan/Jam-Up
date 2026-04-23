@@ -67,7 +67,7 @@ public class ReserveVenueViewController {
             MapService.renderMap();
             
             noResultsLabel.setVisible(false);
-            venueListContainer.getChildren().clear(); // pulisci i risultati precedenti
+            venueListContainer.getChildren().clear(); //clear previous results
             for (VenueBean venue : results) {
                 venueListContainer.getChildren().add(createVenueCard(venue));
             }
@@ -112,7 +112,7 @@ public class ReserveVenueViewController {
 
         card.getChildren().add(info);
 
-        // click sulla card → apre il dettaglio
+        //click on the card -> opens the detail
         card.setOnMouseClicked(e -> onVenueCardClick(venue));
         card.setStyle(card.getStyle() + "-fx-cursor: hand;");
 
