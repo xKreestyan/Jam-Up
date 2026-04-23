@@ -120,8 +120,7 @@ public class ReserveVenueViewController {
     }
 
     private void onVenueCardClick(VenueBean venue) {
-        SceneManager.getInstance().setTransferData(venue);
-        SceneManager.getInstance().openPopup(SceneManager.SceneName.VENUE_DETAIL);
+        SceneManager.getInstance().openPopup(SceneManager.SceneName.VENUE_DETAIL, venue);
     }
 
 }

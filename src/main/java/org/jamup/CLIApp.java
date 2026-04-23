@@ -5,6 +5,7 @@ import org.jamup.exception.InvalidCredentialsException;
 import org.jamup.exception.InvalidFieldException;
 import org.jamup.exception.NoReservationsFoundException;
 import org.jamup.exception.NoVenuesFoundException;
+import org.jamup.exception.ReservationFailedException;
 import org.jamup.model.TimeSlot;
 import org.jamup.model.enums.MusicGenre;
 import org.jamup.model.enums.ReservationStatus;
@@ -216,7 +217,7 @@ public class CLIApp {
             ReservationBean bean = new ReservationBean(venue.getId(), selected, notes);
             facade.confirmReservation(bean);
             System.out.println("Reservation request sent successfully.");
-        } catch (InvalidFieldException e) {
+        } catch (InvalidFieldException | ReservationFailedException e) {
             System.out.println(e.getMessage());
         }
     }

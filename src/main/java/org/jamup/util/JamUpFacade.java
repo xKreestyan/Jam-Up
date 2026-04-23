@@ -5,6 +5,7 @@ import org.jamup.controller.*;
 import org.jamup.exception.InvalidCredentialsException;
 import org.jamup.exception.NoReservationsFoundException;
 import org.jamup.exception.NoVenuesFoundException;
+import org.jamup.exception.ReservationFailedException;
 import org.jamup.model.enums.ReservationStatus;
 
 import java.util.List;
@@ -73,8 +74,9 @@ public class JamUpFacade {
     /**
      * Confirms a reservation for the current user.
      * @param bean the reservation details
+     * @throws ReservationFailedException if the reservation fails
      */
-    public void confirmReservation(ReservationBean bean) {
+    public void confirmReservation(ReservationBean bean) throws ReservationFailedException {
         ReserveVenueController reserveVenueController = new ReserveVenueController();
         reserveVenueController.confirmReservation(bean, this.sessionId);
     }

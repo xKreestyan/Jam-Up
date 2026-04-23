@@ -5,6 +5,7 @@ import org.jamup.bean.VenueBean;
 import org.jamup.dao.interfaces.ReservationDAO;
 import org.jamup.dao.interfaces.VenueDAO;
 import org.jamup.exception.NoVenuesFoundException;
+import org.jamup.exception.ReservationFailedException;
 import org.jamup.dao.factory.DAOFactory;
 import org.jamup.model.Artist;
 import org.jamup.model.Reservation;
@@ -58,38 +59,48 @@ public class ReserveVenueController {
      *
      * @param bean a {@link ReservationBean} containing the venue ID, selected time slot, and optional notes.
      * @param sessionId the ID of the current user's session
+     * @throws ReservationFailedException if the reservation process fails
      */
-    public void confirmReservation(ReservationBean bean, String sessionId) {
-        Session session = SessionManager.getInstance().getSession(sessionId);
-        if (session == null) {
-            // Or handle error appropriately
-            return;
+    public void confirmReservation(ReservationBean bean, String sessionId) throws ReservationFailedException {
+        try {
+            Session session = SessionManager.getInstance().getSession(sessionId);
+            if (session == null) {
+                throw new ReservationFailedException("Session expired or invalid.");
+            }
+            //use the artist instance directly from the session
+            Artist artist = (Artist) session.currentUser();
+            
+            VenueDAO venueDAO = DAOFactory.getInstance().createVenueDAO();
+            //retrieval of the venue with the id contained in the bean
+            Venue venue = venueDAO.findById(bean.getVenueId());
+
+            if (venue == null) {
+                throw new ReservationFailedException("Venue not found.");
+            }
+
+            //for now with null id, it will be set by the DAO
+            Reservation newReservation = new Reservation(bean.getNotes(), artist, venue, bean.getReservedSlot());
+
+            ReservationDAO reservationDAO = DAOFactory.getInstance().createReservationDAO();
+            reservationDAO.save(newReservation);
+
+            //removal of the booked time slot from the venue calendar, and update in persistence
+            venue.getCalendar().removeSlot(bean.getReservedSlot());
+            venueDAO.update(venue);
+
+            //creation of the notification for the venue manager
+            String message = "New reservation request from " + artist.getName() +
+                    " at " + venue.getName() +
+                    " on " + bean.getReservedSlot().getDate() +
+                    " at " + bean.getReservedSlot().getTime();
+
+            NotificationController notificationController = new NotificationController();
+            notificationController.createNotification(venue.getManager().getId(), message);
+        } catch (ReservationFailedException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new ReservationFailedException(e.getMessage());
         }
-        //use the artist instance directly from the session
-        Artist artist = (Artist) session.currentUser();
-        
-        VenueDAO venueDAO = DAOFactory.getInstance().createVenueDAO();
-        //retrieval of the venue with the id contained in the bean
-        Venue venue = venueDAO.findById(bean.getVenueId());
-
-        //for now with null id, it will be set by the DAO
-        Reservation newReservation = new Reservation(bean.getNotes(), artist, venue, bean.getReservedSlot());
-
-        ReservationDAO reservationDAO = DAOFactory.getInstance().createReservationDAO();
-        reservationDAO.save(newReservation);
-
-        //removal of the booked time slot from the venue calendar, and update in persistence
-        venue.getCalendar().removeSlot(bean.getReservedSlot());
-        venueDAO.update(venue);
-
-        //creation of the notification for the venue manager
-        String message = "New reservation request from " + artist.getName() +
-                " at " + venue.getName() +
-                " on " + bean.getReservedSlot().getDate() +
-                " at " + bean.getReservedSlot().getTime();
-
-        NotificationController notificationController = new NotificationController();
-        notificationController.createNotification(venue.getManager().getId(), message);
     }
 
 }

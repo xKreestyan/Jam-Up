@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import org.jamup.bean.VenueBean;
 import org.jamup.exception.SceneLoadException;
+import org.jamup.view.artistview.VenueDetailViewController;
 
 @SuppressWarnings("java:S6548")
 public class SceneManager {
@@ -39,7 +40,6 @@ public class SceneManager {
 
     private Stage stage;
     private final StackPane rootPane = new StackPane();
-    private VenueBean transferData;
 
     private SceneManager() {}
 
@@ -56,24 +56,6 @@ public class SceneManager {
         this.stage = stage;
         stage.setTitle("Jam Up!");
         stage.setScene(new Scene(rootPane, 960, 780));
-    }
-
-    /**
-     * Stores data to be transferred between different scenes.
-     *
-     * @param data The VenueBean containing data to pass to the next scene.
-     */
-    public void setTransferData(VenueBean data) {
-        this.transferData = data;
-    }
-
-    /**
-     * Retrieves the data transferred from the previous scene.
-     *
-     * @return The transferred VenueBean object.
-     */
-    public VenueBean getTransferData() {
-        return transferData;
     }
 
     /**
@@ -105,15 +87,21 @@ public class SceneManager {
     }
 
     /**
-     * Opens a scene as a modal-like popup with a semi-transparent dark overlay.
+     * Opens a popup overlay on top of the current scene and passes data to its controller.
      *
-     * @param sceneName The enum value representing the scene to be shown as a popup.
+     * @param sceneName The enum value representing the target popup scene.
+     * @param venue     The VenueBean data object to be passed to the controller.
      * @throws SceneLoadException if the FXML file cannot be loaded.
      */
-    public void openPopup(SceneName sceneName) {
+    public void openPopup(SceneName sceneName, VenueBean venue) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(sceneName.getPath()));
             Parent popupContent = loader.load();
+
+            if (venue != null && sceneName == SceneName.VENUE_DETAIL) {
+                VenueDetailViewController controller = loader.getController();
+                controller.setVenue(venue);
+            }
 
             // overlay scuro semitrasparente
             StackPane overlay = new StackPane();

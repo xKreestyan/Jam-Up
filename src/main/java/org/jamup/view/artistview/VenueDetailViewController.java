@@ -11,6 +11,7 @@ import javafx.scene.layout.HBox;
 import org.jamup.bean.ReservationBean;
 import org.jamup.bean.VenueBean;
 import org.jamup.exception.InvalidFieldException;
+import org.jamup.exception.ReservationFailedException;
 import org.jamup.model.TimeSlot;
 import org.jamup.util.JamUpFacade;
 import org.jamup.util.SceneManager;
@@ -39,9 +40,14 @@ public class VenueDetailViewController {
 
     private final JamUpFacade facade = JamUpFacade.getInstance();
 
-    @FXML
-    public void initialize() {
-        currentVenue = SceneManager.getInstance().getTransferData();
+    public void setVenue(VenueBean venue) {
+        this.currentVenue = venue;
+        populateUI();
+    }
+
+    private void populateUI() {
+        if (currentVenue == null) return;
+
         //populate the screen with venue data
         nameLabel.setText(currentVenue.getName());
         locationLabel.setText("📍 " + currentVenue.getLocation());
@@ -185,8 +191,8 @@ public class VenueDetailViewController {
                 alert.showAndWait();
 
                 SceneManager.getInstance().closePopup();
-            } catch (InvalidFieldException e) {
-                errorLabel.setText("Invalid notes: " + e.getMessage());
+            } catch (InvalidFieldException | ReservationFailedException e) {
+                errorLabel.setText(e.getMessage());
                 errorLabel.setVisible(true);
             }
         }
