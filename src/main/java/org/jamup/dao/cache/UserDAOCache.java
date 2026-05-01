@@ -55,12 +55,10 @@ public class UserDAOCache extends AbstractDAOCache<User> implements UserDAO {
     public Artist findArtistById(String id) {
         //cache hit case
         if (isInCache(id)) {
-            System.out.println("Artist fetched from CACHE!");
             return (Artist) fetchFromCache(id);
         }
 
         //cache miss case
-        System.out.println("Artist NOT in cache, querying storage...");
         Artist artistFromStorage = userDAOComponent.findArtistById(id);
         if (artistFromStorage != null) {
             putInCache(artistFromStorage.getId(), artistFromStorage);
@@ -78,12 +76,10 @@ public class UserDAOCache extends AbstractDAOCache<User> implements UserDAO {
     public VenueManager findManagerById(String id) {
         //cache hit case
         if (isInCache(id)) {
-            System.out.println("Manager fetched from CACHE!");
             return (VenueManager) fetchFromCache(id);
         }
 
         //cache miss case
-        System.out.println("Manager NOT in cache, querying storage...");
         VenueManager managerFromStorage = userDAOComponent.findManagerById(id);
         if (managerFromStorage != null) {
             putInCache(managerFromStorage.getId(), managerFromStorage);

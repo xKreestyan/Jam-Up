@@ -110,8 +110,4 @@ public class ReservationDAOCSV implements ReservationDAO {
         CSVStorage.rewrite(RESERVATIONS_FILE, HEADER, rows);
     }
 
-    public ReservationDAOCSV() {
-        System.out.println("Creato ReservationDAO versione CSV");
-    }
-
 }

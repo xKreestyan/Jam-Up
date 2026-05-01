@@ -103,13 +103,11 @@ public class NotificationDAOCache extends AbstractDAOCache<Notification> impleme
     public List<Notification> findByRecipient(String recipientId) {
         //cache hit case
         if (fullyCachedRecipients.contains(recipientId)) {
-            System.out.println("All notifications for user " + recipientId + " fetched from CACHE!");
             //returns a COPY of the list of notifications associated with the recipientId key (if it exists, otherwise an empty list)
             return new ArrayList<>(notificationsForUser.getOrDefault(recipientId, new ArrayList<>()));
         }
 
         //cache miss case
-        System.out.println("Notifications for user " + recipientId + " NOT in cache, querying storage...");
         List<Notification> results = notificationDAOComponent.findByRecipient(recipientId);
         for (Notification notification : results) {
             putInCache(notification.getId(), notification);
@@ -129,7 +127,6 @@ public class NotificationDAOCache extends AbstractDAOCache<Notification> impleme
     public List<Notification> findUnreadByRecipient(String recipientId) {
         //if we have fully loaded this user's notifications, we can filter them from cache
         if (fullyCachedRecipients.contains(recipientId)) {
-            System.out.println("UNREAD notifications for user " + recipientId + " fetched from CACHE (filtered)!");
             List<Notification> cachedList = new ArrayList<>();
             List<Notification> userNotifications = notificationsForUser.getOrDefault(recipientId, new ArrayList<>());
             for (Notification n : userNotifications) {
@@ -140,7 +137,6 @@ public class NotificationDAOCache extends AbstractDAOCache<Notification> impleme
             return cachedList;
         }
 
-        System.out.println("UNREAD notifications for user " + recipientId + " NOT in cache, querying storage...");
         List<Notification> results = notificationDAOComponent.findUnreadByRecipient(recipientId);
         for (Notification notification : results) {
             putInCache(notification.getId(), notification);

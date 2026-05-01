@@ -25,12 +25,10 @@ public class VenueDAOCache extends AbstractDAOCache<Venue> implements VenueDAO {
     public Venue findById(String id) {
         //cache hit case
         if (isInCache(id)) {
-            System.out.println("Venue fetched from CACHE!");
             return fetchFromCache(id);
         }
 
         //cache miss case
-        System.out.println("Venue NOT in cache, querying storage...");
         Venue venueFromStorage = venueDAOComponent.findById(id);
         if (venueFromStorage != null) {
             putInCache(venueFromStorage.getId(), venueFromStorage);

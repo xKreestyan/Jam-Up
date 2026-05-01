@@ -44,7 +44,7 @@ public abstract class DAOFactory {
     //base method to allow concrete factories to reset their state
     public void clearCache() {
         //implemented as empty by default, so those who don't need it can ignore it.
-        //DBDAOFactory will override it to clear the cache.
+        //DBDAOFactory and CSVDAOFactory will override it to clear the cache.
     }
 
 }

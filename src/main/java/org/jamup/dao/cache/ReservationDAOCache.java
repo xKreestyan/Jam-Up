@@ -77,12 +77,10 @@ public class ReservationDAOCache extends AbstractDAOCache<Reservation> implement
     public Reservation findById(String id) {
         //cache hit case
         if (isInCache(id)) {
-            System.out.println("Reservation fetched from CACHE!");
             return fetchFromCache(id);
         }
 
         //cache miss case
-        System.out.println("Reservation NOT in cache, querying storage...");
         Reservation reservationFromStorage = reservationDAOComponent.findById(id);
         if (reservationFromStorage != null) {
             putInCache(reservationFromStorage.getId(), reservationFromStorage);
@@ -129,7 +127,6 @@ public class ReservationDAOCache extends AbstractDAOCache<Reservation> implement
         //we check which venues are in cache and which are missing
         for (String venueId : venueIds) {
             if (fullyCachedVenues.contains(venueId)) {
-                System.out.println("Reservations for venue " + venueId + " fetched from CACHE!");
                 List<Reservation> cachedReservations = reservationsForVenue.getOrDefault(venueId, new ArrayList<>());
                 //we filter by status (if specified) and add to the final results
                 finalResults.addAll(filterByStatus(cachedReservations, status));
@@ -151,8 +148,6 @@ public class ReservationDAOCache extends AbstractDAOCache<Reservation> implement
         if (missingVenueIds.isEmpty()) {
             return;
         }
-
-        System.out.println("Reservations for " + missingVenueIds.size() + " venues NOT in cache, querying storage...");
         
         //attention: we ask the storage for ALL reservations (status null) to be able to save them entirely in cache
         List<Reservation> storageResults = reservationDAOComponent.findByVenues(missingVenueIds, null);

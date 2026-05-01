@@ -98,8 +98,4 @@ public class NotificationDAOCSV implements NotificationDAO {
         CSVStorage.rewrite(NOTIFICATIONS_FILE, HEADER, rows);
     }
 
-    public NotificationDAOCSV() {
-        System.out.println("Creato NotificationDAO versione CSV");
-    }
-
 }
